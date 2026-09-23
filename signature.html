@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Generator ❄️ | Liquid Glass</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
+    <!-- Google Fonts for UI and Signatures -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&family=Caveat:wght@600&family=Dancing+Script:wght@600&family=Itim&family=Mali:wght@600&family=Pacifico&family=Sriracha&family=Alex+Brush&family=Allura&family=Arizonia&family=Bad+Script&family=Calligraffitti&family=Clicker+Script&family=Cookie&family=Courgette&family=Damion&family=Great+Vibes&family=Handlee&family=Homemade+Apple&family=Just+Another+Hand&family=Kaushan+Script&family=La+Belle+Aurore&family=Leckerli+One&family=Marck+Script&family=Meie+Script&family=Mr+Dafoe&family=Nanum+Pen+Script&family=Nothing+You+Could+Do&family=Over+the+Rainbow&family=Parisienne&family=Patrick+Hand&family=Petit+Formal+Script&family=Pinyon+Script&family=Playball&family=Rancho&family=Rochester&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Tangerine:wght@700&family=Vibur&family=Yellowtail&family=Zeyada&family=Charm:wght@400;700&family=Charmonman:wght@400;700&family=Pattaya&family=Srisakdi:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. BASE STYLES & LIQUID BACKGROUND (โทนขาว-ฟ้า)
+           ========================================================================== */
+        body {
+            margin: 0; padding: 2rem 1rem; min-height: 100vh;
+            font-family: 'Krub', sans-serif; color: #334155;
+            display: flex; justify-content: center; align-items: center;
+            background-color: #f0f8ff; position: relative; overflow-x: hidden;
+        }
+
+        .liquid-bg {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0; overflow: hidden; pointer-events: none;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e0f2fe 50%, #bae6fd 100%);
+        }
+
+        .liquid-blob {
+            position: absolute; filter: blur(60px); opacity: 0.65;
+            animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite;
+        }
+
+        /* โทนสี Blob: ขาว, ฟ้าอ่อน, ฟ้าไซอัน */
+        .blob-blue {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            width: 500px; height: 500px; top: -10%; left: -5%;
+        }
+        .blob-white {
+            background: linear-gradient(120deg, #ffffff 0%, #f0f8ff 100%);
+            width: 600px; height: 600px; bottom: -15%; right: -10%; animation-delay: -5s;
+        }
+        .blob-cyan {
+            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+            width: 350px; height: 350px; top: 40%; left: 50%; opacity: 0.4; animation-delay: -10s;
+        }
+
+        @keyframes morphLiquid {
+            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+        }
+        @keyframes floatLiquid {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.3); }
+        ::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+
+        /* ==========================================================================
+           2. FOREGROUND PARTICLES
+           ========================================================================== */
+        .snow-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .snowflake {
+            position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(125, 211, 252, 0.5); user-select: none;
+            animation-name: fall, sway; animation-iteration-count: infinite;
+            animation-timing-function: linear, ease-in-out;
+        }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } }
+        @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
+
+        /* ==========================================================================
+           3. GLASS PANEL & FORMS
+           ========================================================================== */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 2px solid rgba(255, 255, 255, 1);
+            border-left: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 25px 45px rgba(2, 136, 209, 0.08), inset 0 0 30px rgba(255, 255, 255, 0.6);
+            border-radius: 35px; padding: 2.5rem; width: 100%; max-width: 480px;
+            position: relative; z-index: 2;
+        }
+        
+        h2 { color: #0288d1; text-align: center; margin-top: 0; font-weight: 700; text-shadow: 0 2px 5px rgba(255,255,255,0.9); margin-bottom: 5px;}
+        .sub-heading { text-align: center; color: #0277bd; font-weight: 600; font-size: 0.9rem; margin-bottom: 20px; }
+
+        .btn-back-home {
+            display: block; width: max-content; margin: 0 auto 20px auto;
+            background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px; color: #0288d1; font-weight: 600; padding: 6px 20px; font-size: 0.9rem;
+            transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .btn-back-home:hover { background: #e0f2fe; transform: translateY(-2px); color: #0277bd; text-decoration: none; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #01579b; font-weight: 700; margin-bottom: 6px; }
+
+        /* Form Inputs Style */
+        input[type="text"], select, input[type="range"] {
+            width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.9);
+            background-color: rgba(255,255,255,0.7); color: #0277bd; box-sizing: border-box;
+            font-family: 'Krub', sans-serif; font-weight: 600; font-size: 14px; height: 42px;
+            transition: all 0.3s ease; outline: none; box-shadow: inset 0 0 8px rgba(129, 212, 250, 0.2);
+        }
+        input[type="text"]:focus, select:focus { 
+            background-color: rgba(255,255,255,0.9); border-color: #81d4fa; box-shadow: 0 0 10px rgba(129, 212, 250, 0.4); 
+        }
+
+        /* Color Picker */
+        .color-picker-wrap { display: flex; align-items: center; gap: 10px; }
+        input[type="color"] {
+            border: none; width: 45px; height: 42px; border-radius: 12px; cursor: pointer;
+            background: rgba(255,255,255,0.7); padding: 5px; border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 0 8px rgba(129, 212, 250, 0.2);
+        }
+        
+        optgroup { font-family: 'Krub', sans-serif; font-style: normal; font-weight: 700; color: #0288d1; background: #e0f2fe; }
+
+        /* Preview Box */
+        .preview-box {
+            margin-top: 20px; 
+            background-color: rgba(255, 255, 255, 0.85);
+            /* ลายตารางให้รู้ว่าเป็นพื้นใส */
+            background-image: radial-gradient(rgba(147, 197, 253, 0.4) 1px, transparent 1px);
+            background-size: 15px 15px;
+            border: 2px dashed rgba(129, 212, 250, 0.8);
+            border-radius: 15px; padding: 10px; text-align: center; overflow: hidden;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        canvas { max-width: 100%; height: auto; }
+
+        /* Buttons */
+        .btn-glass-solid {
+            background: linear-gradient(135deg, #81d4fa, #0288d1);
+            color: white; border: none; border-radius: 15px; font-weight: 700; font-size: 1rem;
+            padding: 12px 20px; cursor: pointer; transition: all 0.3s ease; width: 100%; margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(2, 136, 209, 0.25); font-family: 'Krub', sans-serif; letter-spacing: 0.5px;
+        }
+        .btn-glass-solid:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(2, 136, 209, 0.4); color: white;}
+
+        @media (max-width: 768px) {
+            .glass-panel { padding: 2rem 1.5rem; border-radius: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Liquid Background -->
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-blue"></div>
+        <div class="liquid-blob blob-white"></div>
+        <div class="liquid-blob blob-cyan"></div>
+    </div>
+
+    <!-- Snow Particles -->
+    <div class="snow-container" id="snow-container"></div>
+
+    <div class="glass-panel">
+        
+        <a href="index.html" class="btn-back-home"><i class="fas fa-arrow-left"></i> กลับหน้าหลัก</a>
+
+        <h2><i class="fas fa-feather-alt"></i> Signature Gen</h2>
+        <div class="sub-heading">สร้างลายเซ็นโปร่งใส สำหรับตกแต่งโปรไฟล์</div>
+        
+        <div class="form-group">
+            <label>Adoptable Name</label>
+            <input type="text" id="sigText" placeholder="Name..." oninput="drawSignature()">
+        </div>
+
+        <div class="form-group">
+            <label>Font Style</label>
+            <select id="sigFont" style="font-family: 'Caveat', cursive; font-size: 18px;" onchange="drawSignature()">
+                <optgroup label="Thai Supported">
+                    <option value="Charm" style="font-family: 'Charm', cursive; font-size: 20px; color: #334155;">Charm</option>
+                    <option value="Charmonman" style="font-family: 'Charmonman', cursive; font-size: 20px; color: #334155;">Charmonman</option>
+                    <option value="Itim" style="font-family: 'Itim', cursive; font-size: 18px; color: #334155;">Itim</option>
+                    <option value="Mali" style="font-family: 'Mali', cursive; font-size: 16px; color: #334155;">Mali</option>
+                    <option value="Pattaya" style="font-family: 'Pattaya', sans-serif; font-size: 18px; color: #334155;">Pattaya</option>
+                    <option value="Sriracha" style="font-family: 'Sriracha', cursive; font-size: 16px; color: #334155;">Sriracha</option>
+                    <option value="Srisakdi" style="font-family: 'Srisakdi', cursive; font-size: 20px; color: #334155;">Srisakdi</option>
+                </optgroup>
+                <optgroup label="Elegant Script">
+                    <option value="Alex Brush" style="font-family: 'Alex Brush', cursive; font-size: 20px; color: #334155;">Alex Brush</option>
+                    <option value="Allura" style="font-family: 'Allura', cursive; font-size: 20px; color: #334155;">Allura</option>
+                    <option value="Arizonia" style="font-family: 'Arizonia', cursive; font-size: 20px; color: #334155;">Arizonia</option>
+                    <option value="Dancing Script" style="font-family: 'Dancing Script', cursive; font-size: 20px; color: #334155;">Dancing Script</option>
+                    <option value="Great Vibes" style="font-family: 'Great Vibes', cursive; font-size: 20px; color: #334155;">Great Vibes</option>
+                    <option value="Parisienne" style="font-family: 'Parisienne', cursive; font-size: 20px; color: #334155;">Parisienne</option>
+                    <option value="Petit Formal Script" style="font-family: 'Petit Formal Script', cursive; font-size: 20px; color: #334155;">Petit Formal Script</option>
+                    <option value="Pinyon Script" style="font-family: 'Pinyon Script', cursive; font-size: 20px; color: #334155;">Pinyon Script</option>
+                    <option value="Rochester" style="font-family: 'Rochester', cursive; font-size: 20px; color: #334155;">Rochester</option>
+                    <option value="Sacramento" style="font-family: 'Sacramento', cursive; font-size: 20px; color: #334155;">Sacramento</option>
+                    <option value="Tangerine" style="font-family: 'Tangerine', cursive; font-size: 24px; color: #334155;">Tangerine</option>
+                </optgroup>
+                <optgroup label="Casual Handwritten">
+                    <option value="Bad Script" style="font-family: 'Bad Script', cursive; font-size: 18px; color: #334155;">Bad Script</option>
+                    <option value="Calligraffitti" style="font-family: 'Calligraffitti', cursive; font-size: 18px; color: #334155;">Calligraffitti</option>
+                    <option value="Caveat" style="font-family: 'Caveat', cursive; font-size: 20px; color: #334155;" selected>Caveat</option>
+                    <option value="Clicker Script" style="font-family: 'Clicker Script', cursive; font-size: 20px; color: #334155;">Clicker Script</option>
+                    <option value="Handlee" style="font-family: 'Handlee', cursive; font-size: 18px; color: #334155;">Handlee</option>
+                    <option value="Homemade Apple" style="font-family: 'Homemade Apple', cursive; font-size: 16px; color: #334155;">Homemade Apple</option>
+                    <option value="Just Another Hand" style="font-family: 'Just Another Hand', cursive; font-size: 22px; color: #334155;">Just Another Hand</option>
+                    <option value="Marck Script" style="font-family: 'Marck Script', cursive; font-size: 18px; color: #334155;">Marck Script</option>
+                    <option value="Meie Script" style="font-family: 'Meie Script', cursive; font-size: 18px; color: #334155;">Meie Script</option>
+                    <option value="Mr Dafoe" style="font-family: 'Mr Dafoe', cursive; font-size: 18px; color: #334155;">Mr Dafoe</option>
+                    <option value="Nothing You Could Do" style="font-family: 'Nothing You Could Do', cursive; font-size: 16px; color: #334155;">Nothing You Could Do</option>
+                    <option value="Over the Rainbow" style="font-family: 'Over the Rainbow', cursive; font-size: 16px; color: #334155;">Over the Rainbow</option>
+                    <option value="Shadows Into Light" style="font-family: 'Shadows Into Light', cursive; font-size: 18px; color: #334155;">Shadows Into Light</option>
+                    <option value="Zeyada" style="font-family: 'Zeyada', cursive; font-size: 18px; color: #334155;">Zeyada</option>
+                </optgroup>
+                <optgroup label="Playful & Quirky">
+                    <option value="Cookie" style="font-family: 'Cookie', cursive; font-size: 20px; color: #334155;">Cookie</option>
+                    <option value="Courgette" style="font-family: 'Courgette', cursive; font-size: 18px; color: #334155;">Courgette</option>
+                    <option value="Damion" style="font-family: 'Damion', cursive; font-size: 20px; color: #334155;">Damion</option>
+                    <option value="Kaushan Script" style="font-family: 'Kaushan Script', cursive; font-size: 18px; color: #334155;">Kaushan Script</option>
+                    <option value="La Belle Aurore" style="font-family: 'La Belle Aurore', cursive; font-size: 18px; color: #334155;">La Belle Aurore</option>
+                    <option value="Leckerli One" style="font-family: 'Leckerli One', cursive; font-size: 18px; color: #334155;">Leckerli One</option>
+                    <option value="Nanum Pen Script" style="font-family: 'Nanum Pen Script', cursive; font-size: 20px; color: #334155;">Nanum Pen Script</option>
+                    <option value="Pacifico" style="font-family: 'Pacifico', cursive; font-size: 16px; color: #334155;">Pacifico</option>
+                    <option value="Patrick Hand" style="font-family: 'Patrick Hand', cursive; font-size: 18px; color: #334155;">Patrick Hand</option>
+                    <option value="Playball" style="font-family: 'Playball', cursive; font-size: 18px; color: #334155;">Playball</option>
+                    <option value="Rancho" style="font-family: 'Rancho', cursive; font-size: 20px; color: #334155;">Rancho</option>
+                    <option value="Satisfy" style="font-family: 'Satisfy', cursive; font-size: 18px; color: #334155;">Satisfy</option>
+                    <option value="Vibur" style="font-family: 'Vibur', cursive; font-size: 20px; color: #334155;">Vibur</option>
+                    <option value="Yellowtail" style="font-family: 'Yellowtail', cursive; font-size: 18px; color: #334155;">Yellowtail</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Size</label>
+            <input type="range" id="sigSize" min="30" max="150" value="80" oninput="drawSignature()">
+        </div>
+
+        <div class="form-group">
+            <label>Text Color</label>
+            <div class="color-picker-wrap">
+                <input type="color" id="sigColor" value="#0277bd" onchange="drawSignature()">
+                <span id="colorHex" style="font-size: 13px; color: #0288d1; font-weight: 600;">#0277bd</span>
+            </div>
+        </div>
+
+        <div class="preview-box">
+            <canvas id="sigCanvas" width="400" height="150"></canvas>
+        </div>
+
+        <button class="btn-glass-solid" onclick="downloadSignature()">
+            <i class="fas fa-download mr-1"></i> Download Signature (PNG)
+        </button>
+    </div>
+
+    <script>
+        // เอฟเฟกต์หิมะและขนนก โทนขาว-ฟ้า
+        function createParticles() {
+            const container = document.getElementById('snow-container');
+            const symbols = ['❄️', '☁️', '🤍', '✨', '🖋️', '✒️']; 
+            const numFlakes = 25; 
+
+            for (let i = 0; i < numFlakes; i++) {
+                let flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                flake.style.left = Math.random() * 100 + 'vw';
+                
+                let size = Math.random() * 1.5 + 0.8;
+                flake.style.fontSize = size + 'rem'; 
+                
+                let fallDuration = (Math.random() * 5 + 8) / (size * 0.8); 
+                flake.style.animationDuration = fallDuration + 's, ' + (fallDuration/1.5) + 's';
+                flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's';
+                flake.style.opacity = Math.random() * 0.4 + 0.3; 
+                
+                let colors = ['rgba(129, 212, 250, 0.8)', 'rgba(2, 136, 209, 0.6)', 'rgba(255, 255, 255, 0.9)'];
+                flake.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+                container.appendChild(flake);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            createParticles();
+            
+            // ขยับ Blob พื้นหลัง
+            const glassPanel = document.querySelector('.glass-panel');
+            const blobs = document.querySelectorAll('.liquid-blob');
+            
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                blobs.forEach((blob, index) => {
+                    const speed = (index + 1) * 12;
+                    const xOffset = (0.5 - x) * speed;
+                    const yOffset = (0.5 - y) * speed;
+                    blob.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                });
+            });
+        });
+
+        // ระบบ Canvas สำหรับลายเซ็น
+        document.fonts.ready.then(function() {
+            drawSignature();
+        });
+
+        function drawSignature() {
+            const canvas = document.getElementById('sigCanvas');
+            const ctx = canvas.getContext('2d');
+            const text = document.getElementById('sigText').value;
+            const fontSelect = document.getElementById('sigFont');
+            const font = fontSelect.value;
+            const size = document.getElementById('sigSize').value;
+            const color = document.getElementById('sigColor').value;
+
+            fontSelect.style.fontFamily = `"${font}", cursive`;
+            document.getElementById('colorHex').innerText = color;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if(text) {
+                ctx.font = `${size}px "${font}"`;
+                ctx.fillStyle = color;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+            }
+        }
+
+        function downloadSignature() {
+            const text = document.getElementById('sigText').value.trim();
+            if (text === '') {
+                alert('Please enter a name before downloading!');
+                return;
+            }
+            
+            const canvas = document.getElementById('sigCanvas');
+            const dataURL = canvas.toDataURL('image/png');
+            
+            const link = document.createElement('a');
+            link.download = `${text}-signature.png`; 
+            link.href = dataURL;
+            link.click();
+        }
+    </script>
+
+</body>
+</html>
