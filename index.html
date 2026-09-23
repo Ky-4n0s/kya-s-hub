@@ -3,45 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Space 💖</title>
+    <title>My Toyhouse Hub ✨ | Liquid Glass Edition</title>
     
-    <!-- โหลด Font Awesome สำหรับไอคอน -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- โหลด Bootstrap 4 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    
-    <!-- โหลดฟอนต์ คชสาร (Krub) จาก Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- เพิ่มฟอนต์ Dancing Script สำหรับหน้า Intro -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            /* พื้นหลังไล่สีโทนชมพู-ขาว นุ่มฟู */
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
-            background-attachment: fixed;
-            font-family: 'Krub', sans-serif;
-            color: #5c4b51;
-            margin: 0;
-            height: 100vh;
+        /* ==========================================================================
+           0. INTRO SPLASH SCREEN
+           ========================================================================== */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #f8fbfd 0%, #e1effa 100%); /* พื้นหลังขาว-ฟ้า */
+            z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
             overflow: hidden;
-            position: relative;
         }
 
-        /* เอฟเฟกต์ของร่วงหล่น */
-        .snow-container {
+        /* Blob สีฟ้า-ขาว เฉพาะหน้า Intro */
+        .intro-blob {
             position: absolute;
+            filter: blur(60px);
+            opacity: 0.8;
+            animation: morphLiquid 10s ease-in-out infinite alternate;
+        }
+        .intro-blob-1 {
+            background: linear-gradient(120deg, #c2e9fb 0%, #a1c4fd 100%);
+            width: 400px; height: 400px; top: 10%; left: -5%;
+        }
+        .intro-blob-2 {
+            background: linear-gradient(120deg, #ffffff 0%, #d4e8fc 100%);
+            width: 500px; height: 500px; bottom: 0%; right: -10%;
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 10000;
+            text-align: center;
+            /* กรอบกระจกของหน้า Intro */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 3rem 4rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 2px solid rgba(255, 255, 255, 1);
+            border-left: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 15px 35px rgba(161, 196, 253, 0.25);
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        .intro-icon {
+            font-size: 4.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite alternate;
+        }
+
+        .intro-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #5b8fb9; /* สีฟ้าละมุน */
+            font-weight: 700;
+            text-shadow: 2px 2px 5px rgba(255,255,255,0.9);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        /* คลาสสำหรับเฟดหน้า Intro ออก */
+        .intro-fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(40px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes floatIcon {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* ==========================================================================
+           1. BASE STYLES & LIQUID BACKGROUND ENVIRONMENT
+           ========================================================================== */
+        body {
+            margin: 0;
+            padding: 3rem 1rem;
+            min-height: 100vh;
+            font-family: 'Krub', sans-serif;
+            color: #5c4b51;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            background-color: #f7f9fc;
+        }
+
+        .liquid-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            background: linear-gradient(135deg, #fdfbfb 0%, #f3e7e9 50%, #e3eeff 100%);
+        }
+
+        .liquid-blob {
+            position: absolute;
+            filter: blur(60px);
+            opacity: 0.7;
+            animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite;
+        }
+
+        .blob-pink {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            width: 450px; height: 450px;
+            top: -10%; left: -10%;
+            animation-delay: 0s;
+        }
+
+        .blob-blue {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            width: 500px; height: 500px;
+            bottom: -20%; right: -10%;
+            animation-delay: -5s;
+        }
+
+        .blob-green {
+            background: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+            width: 350px; height: 350px;
+            top: 40%; left: 60%;
+            animation-delay: -10s;
+        }
+
+        .blob-purple {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            width: 300px; height: 300px;
+            top: 20%; right: 20%;
+            animation-delay: -15s;
+        }
+
+        @keyframes morphLiquid {
+            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+        }
+
+        @keyframes floatLiquid {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(200, 195, 220, 0.8); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(160, 155, 180, 0.9); }
+
+        /* ==========================================================================
+           2. FOREGROUND PARTICLES (Falling symbols)
+           ========================================================================== */
+        .snow-container {
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
+            pointer-events: none; z-index: 1;
         }
         .snowflake {
             position: absolute; top: -10%;
-            color: rgba(244, 143, 177, 0.6);
-            font-size: 1.2rem; user-select: none;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            user-select: none;
             animation-name: fall, sway;
             animation-iteration-count: infinite;
             animation-timing-function: linear, ease-in-out;
@@ -52,139 +196,514 @@
         }
         @keyframes sway {
             0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(20px); }
+            50% { transform: translateX(25px); }
         }
 
-        /* กล่องหลักสไตล์ Glassmorphism */
-        .home-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 10px 30px rgba(244, 143, 177, 0.2);
-            border-radius: 25px;
-            padding: 3rem 2.5rem;
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
+        /* ==========================================================================
+           3. MAIN LIQUID GLASS CONTAINER
+           ========================================================================== */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-top: 2px solid rgba(255, 255, 255, 0.8);
+            border-left: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 25px 45px rgba(0, 0, 0, 0.05),
+                inset 0 0 30px rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            padding: 3.5rem 2.5rem;
+            max-width: 700px;
+            width: 100%;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            transition: all 0.5s ease;
         }
 
-        .avatar-box {
-            width: 90px; height: 90px;
-            background-color: #fce4ec;
+        /* ==========================================================================
+           4. PROFILE SECTION
+           ========================================================================== */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.25rem;
+        }
+        .avatar-ring {
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+            z-index: -1;
+            animation: morphLiquid 8s ease-in-out infinite alternate;
+        }
+        .profile-avatar {
+            width: 130px; height: 130px;
             border-radius: 50%;
-            margin: 0 auto 1.5rem auto;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .profile-avatar:hover {
+            transform: scale(1.08) rotate(5deg);
+        }
+        
+        .profile-name {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #3d3136;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+        }
+        .profile-bio {
+            color: #6a5a61;
+            font-size: 1rem;
+            margin-bottom: 0;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* ==========================================================================
+           5. MAIN MENU (PRIMARY SERVICES)
+           ========================================================================== */
+        .main-services {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .glass-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 25px;
+            text-decoration: none !important;
+            color: #5c4b51;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.9), transparent);
+            transform: skewX(-25deg);
+            transition: all 0.6s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08), inset 0 0 15px rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.7);
+            color: #5c4b51;
+        }
+        .glass-card:hover::before {
+            left: 150%;
+        }
+
+        .icon-liquid-wrap {
+            width: 65px; height: 65px;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.8rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.8), 0 5px 15px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover .icon-liquid-wrap {
+            border-radius: 50%;
+            transform: scale(1.05);
+        }
+
+        .card-content { flex-grow: 1; }
+        .card-content h4 {
+            margin: 0 0 0.4rem 0;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .card-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #726369;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .action-arrow {
+            font-size: 1.3rem;
+            color: #c9bbc2;
+            transition: all 0.4s ease;
+            margin-left: 10px;
+        }
+        .glass-card:hover .action-arrow {
+            transform: translateX(8px);
+            color: #5c4b51;
+        }
+
+        .theme-commission .icon-liquid-wrap { color: #5a8c42; background: linear-gradient(135deg, #e3f2dc, #cbe3b5); }
+        .theme-commission h4 { color: #4e7a3a; }
+        
+        .theme-codes .icon-liquid-wrap { color: #d81b60; background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+        .theme-codes h4 { color: #b8144f; }
+
+        /* ==========================================================================
+           6. ADD-ONS / TOOLS SECTION 
+           ========================================================================== */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0 2rem 0;
+            color: #887a80;
+        }
+        .section-divider::before, .section-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 2px dashed rgba(255,255,255,0.8);
+        }
+        .section-divider span {
+            padding: 0 1rem;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            color: #76636c;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            margin: 0 15px;
+            padding: 5px 15px;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .addons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .addon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 1.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .addon-card::before {
+            content: '';
+            position: absolute;
+            top: -100%; left: -100%;
+            width: 300%; height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .addon-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .addon-card:hover::before { opacity: 0.5; }
+        
+        .addon-card * { position: relative; z-index: 1; }
+
+        .addon-icon {
+            width: 55px; height: 55px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.9);
+            transition: all 0.4s ease;
+        }
+        .addon-card:hover .addon-icon {
+            border-radius: 50%;
+            transform: rotate(360deg);
+        }
+
+        .addon-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+            color: #4a4046;
+        }
+        .addon-desc {
+            font-size: 0.8rem;
+            color: #7a6b71;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        .theme-passport .addon-icon { background: linear-gradient(135deg, #fff3e0, #ffe082); color: #e65100; }
+        .theme-signature .addon-icon { background: linear-gradient(135deg, #e1f5fe, #81d4fa); color: #01579b; }
+
+        /* ==========================================================================
+           7. SOCIAL MEDIA FOOTER
+           ========================================================================== */
+        .social-wrapper {
+            margin-top: 3.5rem;
             display: flex;
             justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
+            gap: 1.25rem;
+        }
+        .social-btn {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: #76636c;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.3rem;
+            text-decoration: none !important;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
             color: #d81b60;
-            box-shadow: 0 4px 15px rgba(244, 143, 177, 0.3);
-            border: 2px solid #fff;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 20px rgba(216, 27, 96, 0.15);
         }
 
-        h1 {
-            color: #d81b60;
-            font-weight: 700;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        p {
-            color: #880e4f;
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        /* สไตล์ปุ่มกดเลือกเมนู */
-        .btn-menu {
-            background-color: #ffffff;
-            color: #d81b60;
-            border: 2px solid #f8bbd0;
-            border-radius: 15px;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 12px 20px;
-            margin-bottom: 12px;
-            width: 100%;
-            display: block;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(244, 143, 177, 0.1);
-        }
-
-        .btn-menu:hover {
-            background-color: #f48fb1;
-            color: white;
-            border-color: #f48fb1;
-            text-decoration: none;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(244, 143, 177, 0.3);
-        }
-
-        .btn-menu i {
-            margin-right: 8px;
+        /* ==========================================================================
+           8. RESPONSIVE DESIGN
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .intro-text { font-size: 2.5rem; }
+            .intro-content { padding: 2rem 2rem; }
+            .glass-panel { padding: 2.5rem 1.5rem; border-radius: 30px; }
+            .addons-grid { grid-template-columns: 1fr; } 
+            .profile-avatar { width: 110px; height: 110px; }
+            .profile-name { font-size: 1.6rem; }
+            .icon-liquid-wrap { width: 55px; height: 55px; font-size: 1.4rem; }
+            .card-content h4 { font-size: 1.1rem; }
+            .blob-pink, .blob-blue, .blob-green { transform: scale(0.7); }
         }
     </style>
 </head>
 <body>
 
-    <!-- เอฟเฟกต์ของร่วงหล่นพื้นหลัง -->
-    <div class="snow-container" id="snow-container"></div>
-
-    <div class="home-card">
-        <!-- ไอคอนโปรไฟล์กลมๆ (หรือจะเปลี่ยนเป็นรูปภาพตัวเองก็ได้ค่ะ) -->
-        <div class="avatar-box">
-            <i class="fas fa-heart"></i>
+    <!-- ==========================================
+         INTRO SPLASH SCREEN
+    =========================================== -->
+    <div id="intro-screen">
+        <!-- ลูกเล่น Blob พื้นหลังสำหรับ Intro -->
+        <div class="intro-blob intro-blob-1"></div>
+        <div class="intro-blob intro-blob-2"></div>
+        
+        <!-- กล่องกระจกข้อความ -->
+        <div class="intro-content">
+            <div class="intro-icon">🦢</div>
+            <h1 class="intro-text">Kyaneos Parádeisos</h1>
         </div>
-
-        <h1>Welcome to My Space 🌸</h1>
-        <p>
-            พื้นที่สำหรับรับจัดระเบียบ Toyhouse (คอมมิชชัน)<br>
-            และคลังแจกโค้ด HTML/CSS ส่วนตัวค่ะ ☁️✨
-        </p>
-
-        <!-- ปุ่มไปหน้าสั่งงานคอมมิชชัน (เปลี่ยนชื่อไฟล์คอมมิชชันของคุณตรง href ได้เลยค่ะ เช่น commission.html) -->
-        <a href="commission.html" class="btn-menu">
-            <i class="fas fa-store"></i> Toyhouse Services (Commission)
-        </a>
-
-        <!-- ปุ่มไปหน้าแจกโค้ด -->
-        <a href="codes.html" class="btn-menu">
-            <i class="fas fa-code"></i> My Toyhouse Codes (Locked)
-        </a>
     </div>
 
-    <!-- โหลด Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
-    
+    <!-- LIQUID BACKGROUND ENVIRONMENT -->
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-pink"></div>
+        <div class="liquid-blob blob-blue"></div>
+        <div class="liquid-blob blob-green"></div>
+        <div class="liquid-blob blob-purple"></div>
+    </div>
+
+    <!-- FOREGROUND PARTICLES -->
+    <div class="snow-container" id="snow-container"></div>
+
+    <!-- MAIN GLASSMORPHISM INTERFACE -->
+    <div class="glass-panel">
+        
+        <!-- Profile Header -->
+        <div class="profile-section">
+            <div class="avatar-wrapper">
+                <div class="avatar-ring"></div>
+                <!-- ใส่ลิงก์รูปภาพโปรไฟล์ของคุณที่นี่ค่ะ -->
+                <img src="https://f2.toyhou.se/file/f2-toyhou-se/users/primaxgurl?21" alt="Profile Avatar" class="profile-avatar">
+            </div>
+            <h1 class="profile-name">Welcome to My Hub ☁️</h1>
+            <p class="profile-bio">หากมีอะไรสงสัยเพิ่มเติมสามารถติดต่อเค้าได้ตามช่องทางที่แนบไว้ด้านล่างเลยนะคะ ✨</p>
+        </div>
+
+        <!-- Primary Services (Main Navigation) -->
+        <div class="main-services">
+            
+            <!-- Service 1: Commissions -->
+            <a href="commission.html" class="glass-card theme-commission">
+                <div class="icon-liquid-wrap">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="card-content">
+                    <h4>Toyhouse Services (Commission)</h4>
+                    <p>รับจัดระเบียบบ้าน ลงข้อมูลตัวละคร และตกแต่งโปรไฟล์ด้วย HTML/CSS ในราคาน่ารัก 🌿</p>
+                </div>
+                <div class="action-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+            <!-- Service 2: Code Gallery -->
+            <a href="codes.html" class="glass-card theme-codes">
+                <div class="icon-liquid-wrap">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="card-content">
+                    <h4>My Toyhouse Codes</h4>
+                    <p>แกลเลอรี่รวมโค้ดตกแต่งหน้าโปรไฟล์ (แจกฟรี & จำหน่าย) 🎀</p>
+                </div>
+                <div class="action-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+        </div>
+
+        <!-- Divider for Add-ons -->
+        <div class="section-divider">
+            <span>ส่วนเสริมสำหรับโค้ด (Tools & Add-ons)</span>
+        </div>
+
+        <!-- Secondary Services (Tools Grid) -->
+        <div class="addons-grid">
+            
+            <!-- Add-on 1: Passport Gen -->
+            <a href="generator.html" class="addon-card theme-passport">
+                <div class="addon-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h5 class="addon-title">Passport ID Gen</h5>
+                <p class="addon-desc">ระบบสุ่มรหัสประจำตัว สร้าง ID พาสปอร์ต ให้ลูกๆ สำหรับใช้คู่กับโค้ดพาสปอร์ต 🌟</p>
+            </a>
+
+            <!-- Add-on 2: Signature Gen -->
+            <a href="signature.html" class="addon-card theme-signature">
+                <div class="addon-icon">
+                    <i class="fas fa-feather-alt"></i>
+                </div>
+                <h5 class="addon-title">Signature Gen</h5>
+                <p class="addon-desc">เครื่องมือสร้างลายเซ็นสำหรับอดอป  สำหรับใช้คู่กับโค้ดพาสปอร์ต ❄️</p>
+            </a>
+
+        </div>
+
+        <!-- Social Media Footer -->
+        <div class="social-wrapper">
+            <a href="https://toyhou.se/primaxgurl" target="_blank" class="social-btn" title="Toyhouse Profile"><i class="fas fa-home"></i></a>
+            <a href="https://www.facebook.com/sweetgirliegurl" target="_blank" class="social-btn" title="Facebook Page"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://discord.gg/ZnnYHvAT" target="_blank" class="social-btn" title="Discord Community"><i class="fab fa-discord"></i></a>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
     <script>
-        // ฟังก์ชันสร้างของร่วงหล่น
-        function createSnowflakes() {
+        // ควบคุมระบบหน้า Intro
+        window.addEventListener('load', () => {
+            // ตั้งเวลาให้หน้า Intro ค้างไว้ 1.2 วินาที
+            setTimeout(() => {
+                const introScreen = document.getElementById('intro-screen');
+                introScreen.classList.add('intro-fade-out');
+                
+                // รอให้จังหวะเฟดเสร็จ (0.8 วินาทีตามที่ตั้งใน CSS) แล้วซ่อนถาวร
+                setTimeout(() => {
+                    introScreen.style.display = 'none';
+                }, 800);
+            }, 1200);
+        });
+
+        // สร้างลูกเล่นของตกแต่งพื้นหลัง
+        function createParticles() {
             const container = document.getElementById('snow-container');
-            const symbols = ['🌸', '🎀', '💖', '✨', '☁️', '🤍']; 
-            const numFlakes = 25; 
+            const symbols = ['☁️', '✨', '🌸', '🎀', '🌿', '❄️', '🤍', '⭐', '🦋']; 
+            const numFlakes = 35; 
 
             for (let i = 0; i < numFlakes; i++) {
                 let flake = document.createElement('div');
                 flake.className = 'snowflake';
                 flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                
                 flake.style.left = Math.random() * 100 + 'vw';
                 
-                let fallDuration = Math.random() * 5 + 7; 
-                flake.style.animationDuration = fallDuration + 's, ' + (fallDuration/2) + 's';
+                let size = Math.random() * 1.5 + 0.8;
+                flake.style.fontSize = size + 'rem'; 
+                
+                let fallDuration = (Math.random() * 6 + 10) / (size * 0.8); 
+                flake.style.animationDuration = fallDuration + 's, ' + (fallDuration/1.5) + 's';
                 flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's';
-                flake.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem'; 
                 flake.style.opacity = Math.random() * 0.4 + 0.3; 
+                
+                let colors = [
+                    'rgba(244, 143, 177, 0.7)',
+                    'rgba(140, 179, 120, 0.7)', 
+                    'rgba(148, 186, 233, 0.7)', 
+                    'rgba(251, 192, 45, 0.7)',  
+                    'rgba(255, 255, 255, 0.9)'  
+                ];
+                flake.style.color = colors[Math.floor(Math.random() * colors.length)];
 
                 container.appendChild(flake);
             }
         }
-        createSnowflakes();
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            createParticles();
+            
+            // ขยับ Blob พื้นหลังตามเมาส์เบาๆ
+            const glassPanel = document.querySelector('.glass-panel');
+            const blobs = document.querySelectorAll('.liquid-bg .liquid-blob');
+            
+            glassPanel.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                blobs.forEach((blob, index) => {
+                    const speed = (index + 1) * 15;
+                    const xOffset = (0.5 - x) * speed;
+                    const yOffset = (0.5 - y) * speed;
+                    blob.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                });
+            });
+            
+            glassPanel.addEventListener('mouseleave', () => {
+                blobs.forEach(blob => {
+                    blob.style.transform = 'translate(0px, 0px)';
+                });
+            });
+        });
     </script>
 
 </body>
