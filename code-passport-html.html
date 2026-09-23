@@ -3,127 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Code 💖</title>
+    <title>Get Code 💖 | Liquid Glass</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body {
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
-            font-family: 'Krub', sans-serif;
-            color: #5c4b51;
-            margin: 0; padding: 2rem 1rem;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            margin: 0; padding: 2rem 1rem; min-height: 100vh;
+            font-family: 'Krub', sans-serif; color: #5c4b51;
+            display: flex; justify-content: center; align-items: center;
+            background-color: #fffafb; position: relative; overflow-x: hidden;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid #fce4ec;
-            box-shadow: 0 10px 30px rgba(244, 143, 177, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            width: 100%; max-width: 800px;
-        }
-        h2 { color: #d81b60; text-align: center; margin-top: 0; }
-        
-        /* กล่องใส่โค้ด */
-        textarea {
-            width: 100%; height: 400px;
-            background-color: #fdfafb;
-            border: 2px dashed #f8bbd0;
-            border-radius: 12px;
-            padding: 15px;
-            font-family: monospace;
-            font-size: 14px; color: #880e4f;
-            resize: vertical;
-            box-sizing: border-box;
-            outline: none;
-        }
-        textarea:focus { border-color: #f48fb1; }
 
-        .btn-pink {
-            background-color: #f48fb1; color: white; border: none;
-            border-radius: 12px; font-weight: 600; font-size: 1rem;
-            padding: 12px 20px; cursor: pointer; transition: 0.2s;
-            width: 100%; margin-top: 15px;
+        /* Liquid Background */
+        .liquid-bg {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0; overflow: hidden; pointer-events: none;
+            background: linear-gradient(135deg, #fff0f5 0%, #fdfbfb 50%, #ffe4e1 100%);
         }
-        .btn-pink:hover { background-color: #d81b60; transform: translateY(-2px); }
+        .liquid-blob {
+            position: absolute; filter: blur(60px); opacity: 0.6;
+            animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite;
+        }
+        .blob-pink {
+            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
+            width: 500px; height: 500px; top: -10%; left: -5%;
+        }
+        .blob-white {
+            background: linear-gradient(120deg, #ffffff 0%, #fff1eb 100%);
+            width: 600px; height: 600px; bottom: -20%; right: -10%; animation-delay: -5s;
+        }
+        .blob-peach {
+            background: linear-gradient(120deg, #ffd194 0%, #70e1f5 100%);
+            width: 350px; height: 350px; top: 40%; left: 50%; opacity: 0.4; animation-delay: -10s;
+        }
+
+        @keyframes morphLiquid {
+            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+        }
+        @keyframes floatLiquid {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Snow Particles */
+        .snow-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .snowflake {
+            position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); user-select: none;
+            animation-name: fall, sway; animation-iteration-count: infinite;
+            animation-timing-function: linear, ease-in-out;
+        }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } }
+        @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
+
+        /* Glass Panel */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 2px solid rgba(255, 255, 255, 1);
+            border-left: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.5);
+            border-radius: 30px; padding: 2.5rem; width: 100%; max-width: 800px;
+            position: relative; z-index: 2;
+        }
+        
+        h2 { color: #d81b60; text-align: center; margin-top: 0; font-weight: 700; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
+
+        /* Textarea (กล่องโค้ดแบบกระจก) */
+        textarea {
+            width: 100%; height: 350px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 15px; padding: 15px;
+            font-family: monospace; font-size: 14px; color: #880e4f;
+            resize: vertical; outline: none; box-sizing: border-box;
+            box-shadow: inset 0 0 10px rgba(244, 143, 177, 0.1);
+            transition: 0.3s;
+        }
+        textarea:focus { border-color: #f48fb1; background: rgba(255, 255, 255, 0.8); }
+
+        /* Buttons */
+        .btn-glass-solid {
+            background: linear-gradient(135deg, #f48fb1, #d81b60);
+            color: white; border: none; border-radius: 15px; font-weight: 600; font-size: 1rem;
+            padding: 12px 20px; cursor: pointer; transition: all 0.3s ease; width: 100%; margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2);
+        }
+        .btn-glass-solid:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3); }
+
+        .btn-back-home {
+            display: inline-block; text-align: center; margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px; color: #d81b60; font-weight: 600; padding: 8px 20px;
+            transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .btn-back-home:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); color: #c2185b; }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- เปลี่ยนชื่อโค้ดตรงนี้ -->
-        <h2>🎫 Adoptable Passport (HTML Only)</h2>
-        <p style="text-align: center; color: #880e4f;">กดปุ่ม Copy ด้านล่าง แล้วนำไปวางในช่อง Profile ได้เลยค่ะ 🎀</p>
+    <!-- Liquid Background -->
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-pink"></div>
+        <div class="liquid-blob blob-white"></div>
+        <div class="liquid-blob blob-peach"></div>
+    </div>
+
+    <!-- Snow Particles -->
+    <div class="snow-container" id="snow-container"></div>
+
+    <div class="glass-panel">
         
-        <!-- ==============================================
-             เอาโค้ดพาสปอร์ตของคุณ มาวางระหว่างแท็บ <textarea> นี้นะคะ
-        =============================================== -->
+        <div style="text-align: center;">
+            <a href="codes.html" class="btn-back-home"><i class="fas fa-arrow-left"></i> กลับไปหน้ารวมโค้ด</a>
+        </div>
+
+        <h2>🎫 Adoptable Passport (HTML Only)</h2>
+        <p style="text-align: center; color: #880e4f; font-weight: 500;">กดปุ่ม Copy ด้านล่าง แล้วนำไปวางในช่อง Profile ได้เลยค่ะ 🎀</p>
+        
+        <!-- เอาโค้ดพาสปอร์ตของคุณ มาวางระหว่าง <textarea> ตรงนี้นะคะ -->
         <textarea id="myCodeBox" readonly>
-
 <!-- ==========================================
-     ANIMAL CROSSING PASSPORT (INLINE CSS - NO EXTRA CSS NEEDED)
+     PASSPORT BY KYANOS/PRIMAXGURL(NO EXTRA CSS NEEDED)
 =========================================== -->
-
 <div style="background-color: #f5f0f3; padding: 15px; border-radius: 10px; max-width: 650px; margin: 2rem auto;">
   
   <div style="background-color: #ffffff; border: 2px dashed #dcb8c6; border-radius: 15px; padding: 25px; position: relative;">
     
-    <!-- ส่วนหัว (Header) -->
+    <!-- Header -->
     <div style="display: flex; align-items: center; justify-content: center; color: #c49eb0; font-weight: bold; font-size: 22px; letter-spacing: 2px; margin-bottom: 25px; text-align: center;">
       <span style="flex: 1; border-bottom: 2px solid #c49eb0; margin: 0 20px; max-width: 60px;"></span>
       PASSPORT
       <span style="flex: 1; border-bottom: 2px solid #c49eb0; margin: 0 20px; max-width: 60px;"></span>
     </div>
     
-    <!-- ส่วนเนื้อหา (แถบสี) -->
+    <!-- Info -->
     <div style="background-color: #ead3db; border-radius: 12px; display: flex; flex-wrap: wrap; padding: 25px; margin-bottom: 25px;">
       
-      <!-- คอลัมน์ซ้าย: รูปโปรไฟล์ & ลายเซ็น -->
+      <!-- ID Pic & Signature -->
       <div style="flex: 0 0 160px; margin-right: 30px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
         
-        <!-- รูปโปรไฟล์ -->
+        <!-- ID Pic -->
         <div style="width: 160px; height: 160px; background-color: #ffffff; border-radius: 25px; padding: 8px; box-sizing: border-box; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
-          <!-- เปลี่ยนรูปลิงก์ตรง background-image -->
-          <div style="width: 100%; height: 100%; border-radius: 18px; background-image: url("Link"'); background-size: cover; background-position: center;"></div>
+          <div style="width: 100%; height: 100%; border-radius: 18px; background-image: url('Img_Link'); background-size: cover; background-position: center;"></div>
         </div>
         
-        <!-- ลายเซ็น -->
+        <!-- Signature -->
         <div style="margin-top: 15px; width: 140px; height: 50px; border-bottom: 1px solid rgba(196, 158, 176, 0.5); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 2px;">
-          <!-- เปลี่ยนรูปลายเซ็นที่ src -->
-          <img src="Link" alt="Signature" style="max-width: 100%; max-height: 45px; object-fit: contain; position: -5px 0px; ">
+          <!-- Signature src -->
+          <img src="https://f2.toyhou.se/file/f2-toyhou-se/images/128271503_FU5cePu3q92tMrQ.png" alt="Signature" style="max-width: 100%; max-height: 45px; object-fit: contain; position: -5px 0px; ">
         </div>
         <div style="font-size: 10px; color: #c49eb0; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;">Signature</div>
       
       </div>
       
-      <!-- คอลัมน์ขวา: ข้อมูลตัวละคร -->
+      <!-- Char Info -->
       <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column; justify-content: center;">
         
-        <!-- บรรทัดที่ 1: ฉายา -->
+        <!-- Part 1: Title -->
         <div style="border-bottom: 2px solid rgba(255,255,255,0.7); padding-bottom: 10px; margin-bottom: 10px; color: #6a5e62; font-weight: bold; font-size: 15px;">
           Title
         </div>
         
-        <!-- บรรทัดที่ 2: ชื่อ -->
+        <!-- Part 2: Name -->
         <div style="border-bottom: 2px solid rgba(255,255,255,0.7); padding-bottom: 10px; margin-bottom: 10px; color: #6a5e62; font-size: 22px; font-weight: bold;">
-          FULL NAME
+          Full Name
         </div>
         
-        <!-- บรรทัดที่ 3: เพศ & ส่วนสูง -->
+        <!-- Part 3: Gender & Height -->
         <div style="border-bottom: 2px solid rgba(255,255,255,0.7); padding-bottom: 10px; margin-bottom: 10px; color: #6a5e62; display: flex; font-size: 13.5px;">
-          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Gender:</strong> F/M</div>
-          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Height:</strong> XXX cm</div>
+          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Gender:</strong> M/F</div>
+          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Height:</strong> 1XX cm</div>
         </div>
         
-        <!-- บรรทัดที่ 4: AU & เมืองเกิด -->
+        <!-- Part 4: Race & Hometown -->
         <div style="border-bottom: 2px solid rgba(255,255,255,0.7); padding-bottom: 10px; margin-bottom: 10px; color: #6a5e62; display: flex; font-size: 13.5px;">
-          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Race:</strong> n/a</div>
-          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Hometown:</strong> n/a</div>
+          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Race:</strong> N/A</div>
+          <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Hometown:</strong> N/A</div>
         </div>
         
-        <!-- บรรทัดที่ 5: วันเกิด & วันออกบัตร -->
+        <!-- Part 5: D.O.B & Issued -->
         <div style="color: #6a5e62; display: flex; font-size: 13.5px;">
           <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">D.O.B:</strong> DD/MM</div>
           <div style="flex: 1;"><strong style="color: #b3889b; margin-right: 6px;">Issued:</strong> DD/MM/YYYY</div>
@@ -132,42 +204,64 @@
       </div>
     </div>
     
-    <!-- ส่วนท้าย (รหัส SW) -->
+    <!-- ID Passport -->
     <div style="display: flex; justify-content: space-between; color: #b5a0a9; font-weight: bold; font-size: 14px; letter-spacing: 2px; padding: 0 10px;">
-      <!-- ใส่รหัสที่ได้จากเว็บเจนตรงนี้เลยค่ะ -->
-      <span>SW-0000-0000-0000</span>
+      <!-- Add ID Passport -->
+      <span>AD-XX-XXXX-XXXX-XXXX</span>
       <span style="letter-spacing: 6px;">< < < < < < < < < <</span>
     </div>
     
   </div>
 </div>
-
+<!-- Credit: Please do not remove -->
+<div style="text-align: center; margin-top: 20px; font-size: 12px;">
+    <a href="/primaxgurl" style="color: #880e4f; text-decoration: none; font-weight: 600; letter-spacing: 1px;">
+        <i class="fas fa-feather-alt"></i> By Kyanos/primaxgurl
+    </a>
+</div>
         </textarea>
-        <!-- ============================================== -->
-
-        <button class="btn-pink" onclick="copyCode()">
+        
+        <button class="btn-glass-solid" onclick="copyCode()">
             <i class="fas fa-copy"></i> ก๊อปปี้โค้ดทั้งหมด (Copy All)
         </button>
-        <p id="alert-msg" style="color: #4caf50; text-align: center; font-weight: 600; display: none; margin-top: 10px;">
-            <i class="fas fa-check-circle"></i> ก๊อปปี้เรียบร้อยแล้วค่ะ!
+        <p id="alert-msg" style="color: #d81b60; text-align: center; font-weight: 700; display: none; margin-top: 15px; background: rgba(255,255,255,0.8); padding: 10px; border-radius: 10px;">
+            <i class="fas fa-check-circle"></i> ก๊อปปี้เรียบร้อยแล้วค่ะ! ✨
         </p>
+
     </div>
 
     <script>
         function copyCode() {
-            // เลือกข้อความในกล่อง
             const codeBox = document.getElementById("myCodeBox");
             codeBox.select();
-            codeBox.setSelectionRange(0, 99999); // สำหรับมือถือ
+            codeBox.setSelectionRange(0, 99999); 
             
-            // ก๊อปปี้ลง Clipboard
             navigator.clipboard.writeText(codeBox.value).then(() => {
-                // โชว์ข้อความว่าก๊อปปี้สำเร็จ
                 const alertMsg = document.getElementById("alert-msg");
                 alertMsg.style.display = "block";
                 setTimeout(() => { alertMsg.style.display = "none"; }, 3000);
             });
         }
+
+        // เอฟเฟกต์หิมะ
+        function createParticles() {
+            const container = document.getElementById('snow-container');
+            const symbols = ['🌸', '🎀', '💖', '✨', '☁️', '🤍']; 
+            for (let i = 0; i < 25; i++) {
+                let flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                flake.style.left = Math.random() * 100 + 'vw';
+                let size = Math.random() * 1.5 + 0.8;
+                flake.style.fontSize = size + 'rem'; 
+                let fallDuration = (Math.random() * 5 + 8) / (size * 0.8); 
+                flake.style.animationDuration = fallDuration + 's, ' + (fallDuration/1.5) + 's';
+                flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's';
+                flake.style.opacity = Math.random() * 0.4 + 0.3; 
+                container.appendChild(flake);
+            }
+        }
+        createParticles();
     </script>
 </body>
 </html>
