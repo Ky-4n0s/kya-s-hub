@@ -3,44 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Preview 💖</title>
-    <!-- โหลด Font Awesome และ Bootstrap แบบเดียวกับ Toyhouse -->
+    <title>Live Preview 💖 | Liquid Glass</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            /* พื้นหลังสีชมพูอ่อนๆ แยกจากตัวอย่างงาน */
-            background-color: #fff0f5; 
-            margin: 0; padding: 2rem 0;
+            margin: 0; padding: 2rem 1rem; min-height: 100vh;
+            font-family: 'Krub', sans-serif; color: #5c4b51;
+            background-color: #fffafb; position: relative; overflow-x: hidden;
         }
-        .preview-wrapper {
-            /* กล่องจำลองหน้าเว็บ Toyhouse */
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #fdfafb; /* สีพื้นหลังเหมือนเว็บ Toyhouse ปกติ */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+        /* Liquid Background */
+        .liquid-bg {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0; overflow: hidden; pointer-events: none;
+            background: linear-gradient(135deg, #fff0f5 0%, #fdfbfb 50%, #ffe4e1 100%);
         }
-        .top-bar {
-            text-align: center; margin-bottom: 20px;
+        .liquid-blob {
+            position: absolute; filter: blur(60px); opacity: 0.6;
+            animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite;
         }
-        .btn-back {
-            background-color: #f48fb1; color: white; padding: 8px 15px;
-            border-radius: 20px; text-decoration: none; font-weight: bold;
+        .blob-pink {
+            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
+            width: 500px; height: 500px; top: -10%; left: -5%;
         }
-        .btn-back:hover { background-color: #d81b60; color: white; text-decoration: none; }
+        .blob-white {
+            background: linear-gradient(120deg, #ffffff 0%, #fff1eb 100%);
+            width: 600px; height: 600px; bottom: -20%; right: -10%; animation-delay: -5s;
+        }
+
+        @keyframes morphLiquid {
+            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
+        }
+        @keyframes floatLiquid {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Snow Particles */
+        .snow-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .snowflake {
+            position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); user-select: none;
+            animation-name: fall, sway; animation-iteration-count: infinite;
+            animation-timing-function: linear, ease-in-out;
+        }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } }
+        @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
+
+        /* Top Bar (Glass) */
+        .top-glass-bar {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 25px rgba(244, 143, 177, 0.15);
+            border-radius: 20px; padding: 1.5rem; max-width: 900px;
+            margin: 0 auto 2rem auto; text-align: center;
+            position: relative; z-index: 2;
+        }
+
+        .btn-back-home {
+            display: inline-block; background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 20px;
+            color: #d81b60; font-weight: 600; padding: 8px 20px; margin-bottom: 10px;
+            transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .btn-back-home:hover { background: #fce4ec; transform: translateY(-2px); color: #c2185b; text-decoration: none; }
+
+        /* Preview Canvas */
+        .preview-canvas {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: 2px solid rgba(255, 255, 255, 0.9);
+            border-left: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 
+                0 25px 45px rgba(0, 0, 0, 0.05),
+                inset 0 0 30px rgba(255, 255, 255, 0.5);
+            max-width: 900px; margin: 0 auto; padding: 40px;
+            border-radius: 30px;
+            position: relative; z-index: 2;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <a href="codes.html" class="btn-back"><i class="fas fa-arrow-left"></i> กลับหน้ารวมโค้ด</a>
-        <p style="color: #d81b60; margin-top: 10px; font-weight: bold;">Preview: Adoptable Passport (HTML Only)</p>
+    <!-- Liquid Background -->
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-pink"></div>
+        <div class="liquid-blob blob-white"></div>
     </div>
 
-    <div class="preview-wrapper">
+    <!-- Snow Particles -->
+    <div class="snow-container" id="snow-container"></div>
+
+    <!-- แถบด้านบน กระจกใส -->
+    <div class="top-glass-bar">
+        <a href="codes.html" class="btn-back-home"><i class="fas fa-arrow-left"></i> กลับหน้ารวมโค้ด</a>
+        <h4 style="color: #d81b60; font-weight: 700; margin: 0;">Live Preview: Adoptable Passport (HTML)</h4>
+    </div>
+
+    <!-- พื้นที่แสดงผล -->
+    <div class="preview-canvas">
+        
         <!-- ==============================================
+             เอาโค้ดพาสปอร์ตของคุณ มาวางทับข้อความนี้ได้เลยค่ะ!
+        =============================================== -->
 <!-- ==========================================
      ANIMAL CROSSING PASSPORT (INLINE CSS - NO EXTRA CSS NEEDED)
      โทนสี: ชมพูหม่นอมม่วง (Muted Pink Theme)
@@ -120,9 +201,35 @@
     
   </div>
 </div>
-        
-        <!-- ============================================== -->
+<!-- Credit: Please do not remove -->
+<div style="text-align: center; margin-top: 20px; font-size: 12px;">
+    <a href="/primaxgurl" style="color: #880e4f; text-decoration: none; font-weight: 600; letter-spacing: 1px;">
+        <i class="fas fa-feather-alt"></i> By Kyanos/primaxgurl
+    </a>
+</div>        <!-- ============================================== -->
+
     </div>
+
+    <script>
+        function createParticles() {
+            const container = document.getElementById('snow-container');
+            const symbols = ['🌸', '🎀', '💖', '✨', '☁️', '🤍']; 
+            for (let i = 0; i < 25; i++) {
+                let flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                flake.style.left = Math.random() * 100 + 'vw';
+                let size = Math.random() * 1.5 + 0.8;
+                flake.style.fontSize = size + 'rem'; 
+                let fallDuration = (Math.random() * 5 + 8) / (size * 0.8); 
+                flake.style.animationDuration = fallDuration + 's, ' + (fallDuration/1.5) + 's';
+                flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's';
+                flake.style.opacity = Math.random() * 0.4 + 0.3; 
+                container.appendChild(flake);
+            }
+        }
+        createParticles();
+    </script>
 
 </body>
 </html>
