@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toyhouse Services & Commission</title>
+    
+    <!-- โหลด Font Awesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- โหลด Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
+    <!-- โหลดฟอนต์ คชสาร (Krub) จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            /* พื้นหลังไล่สีโทนเขียว-เหลือง พาสเทล */
+            background: linear-gradient(135deg, #f4f9eb 0%, #fdf8e2 100%);
+            background-attachment: fixed;
+            font-family: 'Krub', sans-serif;
+            color: #5c5332;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            position: relative;
+        }
+
+        /* เอฟเฟกต์ของร่วงหล่น (ใช้ fixed เพื่อให้ตกตลอดจอแม้จะเลื่อนลง) */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10%;
+            color: rgba(140, 179, 120, 0.45); /* สีเขียวอ่อนๆ ให้กลืนกับพื้นหลัง */
+            font-size: 1.2rem;
+            user-select: none;
+            animation-name: fall, sway;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear, ease-in-out;
+        }
+        @keyframes fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
+        }
+
+        /* ปรับแต่ง Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.5); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbe3b5; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3c493; 
+        }
+
+        /* เพิ่มเอฟเฟกต์ให้ปุ่ม Contact */
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08) !important;
+        }
+
+        /* ปรับเงากล่องหลักให้นุ่มขึ้น และยกให้อยู่เหนือเอฟเฟกต์ */
+        .main-card {
+            box-shadow: 0 10px 30px rgba(140, 179, 120, 0.1);
+            border-radius: 20px !important;
+            position: relative;
+            z-index: 1;
+            background-color: rgba(248, 251, 245, 0.95) !important; /* โปร่งแสงนิดๆ */
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- พื้นที่สำหรับของร่วงหล่น -->
+    <div class="snow-container" id="snow-container"></div>
+
+    <!-- ==========================================
+         COMMISSION INFO AREA
+    =========================================== -->
+    <div class="container card main-card p-4 mb-5" style="border: 1px solid #e7f0e1; max-width: 900px;">
+        
+        <!-- หัวข้อกล่อง -->
+        <h3 class="text-center text-uppercase mb-3 mt-2" style="color: #8cb378; font-weight: 700; letter-spacing: 2px;">
+            <i class="fas fa-store" style="font-size: 0.9em; margin-right: 5px;"></i> Toyhouse Services
+        </h3>
+        <p class="text-center small mb-3" style="color: #8fa886; font-size: 15px;">
+            รับจัดระเบียบบ้าน ลงข้อมูลตัวละคร และตกแต่งโปรไฟล์ด้วย HTML/CSS ในราคาน่ารัก ☁️
+        </p>
+        <hr style="border-top: 1px solid #dce8d3; margin-top: 0; margin-bottom: 25px;">
+
+        <!-- 1. A LA CARTE -->
+        <div class="mb-4">
+            <h5 style="color: #6a8f5d; font-weight: 700; border-bottom: 2px dashed #dce8d3; padding-bottom: 8px; margin-bottom: 15px;">
+                <i class="fas fa-list-ul mr-2"></i> บริการรายตัว (A la carte)
+            </h5>
+            <div class="row">
+                <!-- ซ้าย: จัดการข้อมูลพื้นฐาน -->
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 rounded h-100" style="background-color: #ffffff; border: 1px solid #cbe3b5; box-shadow: 0 2px 5px rgba(203,227,181,0.2);">
+                        <strong style="color: #6a8f5d; font-size: 16px;"><i class="fas fa-folder-open mr-1" style="color: #8cb378;"></i> จัดการข้อมูล & อัปโหลด</strong>
+                        <hr style="border-top: 1px solid #e7f0e1; margin: 10px 0;">
+                        <ul class="mb-0 pl-3" style="color: #729662; font-size: 14px; line-height: 1.8;">
+                            <li><strong style="color: #5a7d4e;">5฿</strong> : สร้างหน้าตัวละคร (ตั้งชื่อ + ใส่เครดิต)</li>
+                            <li>
+                                <strong style="color: #5a7d4e;">1฿</strong> : อัปโหลดรูปภาพ (ได้ 2 รูป)<br>
+                                <span style="font-size: 12px; color: #8fa886;">*(ภาพเดียวกันแต่มีเวอร์ชันพื้นขาว/พื้นใส นับเป็น 1 รูปค่ะ แฟร์ๆ เลย!)</span>
+                            </li>
+                            <li>
+                                <strong style="color: #5a7d4e;">+2฿</strong> : บริการรีไซส์ภาพ / 1 รูป<br>
+                                <span style="font-size: 12px; color: #8fa886;">*(กรณีไฟล์ภาพใหญ่เกิน 4MB หรือ 4000px)</span>
+                            </li>
+                            <li>
+                                <strong style="color: #5a7d4e;">10฿</strong> : ใส่ลายน้ำ (Watermark) เหมาต่อครั้ง<br>
+                                <span style="font-size: 12px; color: #8fa886;">*(รวมอัปโหลดและตั้งค่าลายน้ำในระบบเป็นค่าเริ่มต้นสำหรับครั้งถัดไป)</span>
+                            </li>
+                            <li><strong style="color: #5a7d4e;">3฿</strong> : สร้าง 1 โฟลเดอร์ (พร้อมใส่คำอธิบาย)</li>
+                            <li><strong style="color: #5a7d4e;">1฿</strong> : สร้าง 1 Tab / 1 Tag</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- ขวา: ตกแต่งโค้ด -->
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 rounded h-100" style="background-color: #ffffff; border: 1px solid #f7e6a1; box-shadow: 0 2px 5px rgba(247,230,161,0.2);">
+                        <strong style="color: #d19a22; font-size: 16px;"><i class="fas fa-code mr-1" style="color: #e8d382;"></i> ตกแต่งโปรไฟล์ (HTML/CSS)</strong>
+                        <hr style="border-top: 1px solid #fdf8e2; margin: 10px 0;">
+                        <ul class="mb-0 pl-3" style="color: #a68a32; font-size: 14px; line-height: 1.8;">
+                            <li><strong style="color: #d19a22;">20฿</strong> : ลงโค้ด HTML เริ่มต้น / 1 ตัวละคร</li>
+                            <li>
+                                <strong style="color: #d19a22;">10฿</strong> : ลงโค้ด CSS รายตัว <br>
+                                <span style="font-size: 12px; color: #b59f5b;">*(ปรับแต่งสีให้เข้ากับธีมของคาแรคเตอร์นั้นๆ ฟรี)</span>
+                            </li>
+                            <li>
+                                <strong style="color: #d19a22;">5฿</strong> : ลงโค้ด CSS เหมาทุกหน้า (Global)<br>
+                                <span style="font-size: 12px; color: #b59f5b;">*(เป็นการคลุมธีมสีเดียวกันทั้งหมด ไม่สามารถแยกสีรายตัวได้)</span>
+                            </li>
+                            <hr style="border-top: 1px dashed #fdf8e2; margin: 5px 0;">
+                            <li>
+                                <strong style="color: #d19a22;">+20฿ ขึ้นไป</strong> : ปรับแต่ง/เขียนโค้ดเพิ่มจากต้นฉบับ<br>
+                                <span style="font-size: 12px; color: #b59f5b;">*(เช่น ต้องการเพิ่มกล่องใส่ข้อมูลประวัติ/ข้อมูลอดอปต์ คิดราคาตามความยากง่าย ประเมินราคาก่อนทำได้ค่ะ)</span>
+                            </li>
+                            <li><strong style="color: #d19a22;">+20฿</strong> : ใส่ Profile Warning (คำเตือนหน้าหลัก)</li>
+                            <li><strong style="color: #d19a22;">+10฿</strong> : ใส่ Character Warning (คำเตือนรายตัว)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. PACKAGES -->
+        <div class="mb-4">
+            <h5 style="color: #6a8f5d; font-weight: 700; border-bottom: 2px dashed #dce8d3; padding-bottom: 8px; margin-bottom: 15px;">
+                <i class="fas fa-box-open mr-2"></i> แพ็กเกจเหมาจัดบ้าน (Account Makeover)
+            </h5>
+            
+            <div class="accordion" id="packageAccordion">
+                
+                <!-- Tier 1: Fée -->
+                <div class="mb-2 rounded" style="background-color: #ffffff; border-left: 5px solid #cbe3b5; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden;">
+                    <a href="#collapseFee" data-toggle="collapse" class="d-block text-decoration-none" style="color: inherit;">
+                        <div class="p-3 d-flex align-items-center w-100" style="flex-direction: row;">
+                            <div style="flex: 0 0 85px; text-align: center;">
+                                <span class="badge" style="background-color: #e9f2e1; color: #5a7d4e; font-size: 14px; padding: 5px 10px; width: 100%; display: block;">Fée</span>
+                            </div>
+                            <div style="flex: 1; padding-left: 15px; line-height: 1.4;">
+                                <strong style="color: #6a8f5d; font-size: 16px; margin: 0; display: block;">1 - 10 ตัวละคร <span style="color: #8cb378;">(เริ่มต้น 50 - 80฿)</span></strong>
+                                <span style="color: #8fa886; font-size: 13px; margin-top: 3px; display: block;"><i class="fas fa-chevron-down mr-1"></i> คลิกเพื่อดูรายละเอียด</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div id="collapseFee" class="collapse" data-parent="#packageAccordion">
+                        <div class="p-3" style="background-color: #fafdf7; border-top: 1px dashed #e7f0e1;">
+                            <ul class="mb-0 pl-3" style="color: #729662; font-size: 14px; line-height: 1.8;">
+                                <li><strong style="color: #5a7d4e;">สร้างโฟลเดอร์:</strong> สูงสุด 3 โฟลเดอร์หลัก (ไม่สามารถสร้างซับโฟลเดอร์ได้)</li>
+                                <li><strong style="color: #5a7d4e;">จัดระเบียบ:</strong> ย้ายตัวละครเข้าโฟลเดอร์ให้เป็นระเบียบ</li>
+                                <li><strong style="color: #5a7d4e;">ติดแท็ก (Tag):</strong> สร้างระบบแท็กพื้นฐานเพื่อให้ค้นหาง่ายขึ้น</li>
+                                <li><strong style="color: #5a7d4e;">ลายน้ำ (Watermark):</strong> บริการตั้งค่าลายน้ำ Global ในระบบ</li>
+                                <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><i class="fas fa-clock mr-1" style="color: #8cb378;"></i> <em>ระยะเวลาดำเนินการ: 1-2 วัน</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 2: Nymphe -->
+                <div class="mb-2 rounded" style="background-color: #ffffff; border-left: 5px solid #a3c493; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden;">
+                    <a href="#collapseNymphe" data-toggle="collapse" class="d-block text-decoration-none" style="color: inherit;">
+                        <div class="p-3 d-flex align-items-center w-100" style="flex-direction: row;">
+                            <div style="flex: 0 0 85px; text-align: center;">
+                                <span class="badge" style="background-color: #e2efdb; color: #4f6b43; font-size: 14px; padding: 5px 10px; width: 100%; display: block;">Nymphe</span>
+                            </div>
+                            <div style="flex: 1; padding-left: 15px; line-height: 1.4;">
+                                <strong style="color: #4f6b43; font-size: 16px; margin: 0; display: block;">11 - 25 ตัวละคร <span style="color: #8cb378;">(100 - 150฿)</span></strong>
+                                <span style="color: #8fa886; font-size: 13px; margin-top: 3px; display: block;"><i class="fas fa-chevron-down mr-1"></i> คลิกเพื่อดูรายละเอียด</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div id="collapseNymphe" class="collapse" data-parent="#packageAccordion">
+                        <div class="p-3" style="background-color: #fafdf7; border-top: 1px dashed #e7f0e1;">
+                            <ul class="mb-0 pl-3" style="color: #729662; font-size: 14px; line-height: 1.8;">
+                                <li><strong style="color: #5a7d4e;">สร้างโฟลเดอร์:</strong> หลักและย่อยรวมกันสูงสุด 8 โฟลเดอร์</li>
+                                <li><strong style="color: #5a7d4e;">จัดระเบียบ:</strong> ย้ายตัวละครเข้าโฟลเดอร์ตามหมวดหมู่</li>
+                                <li><strong style="color: #5a7d4e;">ระบบแท็ก:</strong> ติดแท็กแบบละเอียด (เช่น สายพันธุ์, สถานะ Trade/Sell)</li>
+                                <li><strong style="color: #5a7d4e;">ลายน้ำ (Watermark):</strong> บริการตั้งค่าลายน้ำ Global ในระบบ</li>
+                                <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><i class="fas fa-clock mr-1" style="color: #8cb378;"></i> <em>ระยะเวลาดำเนินการ: 2-3 วัน</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 3: Clairière -->
+                <div class="mb-2 rounded" style="background-color: #ffffff; border-left: 5px solid #f7e6a1; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden;">
+                    <a href="#collapseClairiere" data-toggle="collapse" class="d-block text-decoration-none" style="color: inherit;">
+                        <div class="p-3 d-flex align-items-center w-100" style="flex-direction: row;">
+                            <div style="flex: 0 0 85px; text-align: center;">
+                                <span class="badge" style="background-color: #fdf8e2; color: #8a7329; font-size: 14px; padding: 5px 10px; width: 100%; display: block;">Clairière</span>
+                            </div>
+                            <div style="flex: 1; padding-left: 15px; line-height: 1.4;">
+                                <strong style="color: #d19a22; font-size: 16px; margin: 0; display: block;">26 - 50 ตัวละคร <span style="color: #e3bc4b;">(200 - 250฿)</span></strong>
+                                <span style="color: #b59f5b; font-size: 13px; margin-top: 3px; display: block;"><i class="fas fa-chevron-down mr-1"></i> คลิกเพื่อดูรายละเอียด</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div id="collapseClairiere" class="collapse" data-parent="#packageAccordion">
+                        <div class="p-3" style="background-color: #fffcf5; border-top: 1px dashed #fdf8e2;">
+                            <ul class="mb-0 pl-3" style="color: #a68a32; font-size: 14px; line-height: 1.8;">
+                                <li><strong style="color: #d19a22;">สร้างโฟลเดอร์:</strong> หลักและย่อยรวมกันสูงสุด 15 โฟลเดอร์</li>
+                                <li><strong style="color: #d19a22;">จัดระเบียบ:</strong> ย้ายตัวละคร + จัดระบบแท็กแบบเต็มรูปแบบ</li>
+                                <li><strong style="color: #d19a22;">ลายน้ำ (Watermark):</strong> บริการตั้งค่าลายน้ำ Global ในระบบ</li>
+                                <li><strong style="color: #d19a22;">แถมฟรี!</strong> ตกแต่งโค้ดหน้าแรก (User Profile) ด้วย HTML 1 หน้า</li>
+                                <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><i class="fas fa-clock mr-1" style="color: #e3bc4b;"></i> <em>ระยะเวลาดำเนินการ: 3-5 วัน</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 4: Forêt -->
+                <div class="mb-2 rounded" style="background-color: #ffffff; border-left: 5px solid #f2c76e; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden;">
+                    <a href="#collapseForet" data-toggle="collapse" class="d-block text-decoration-none" style="color: inherit;">
+                        <div class="p-3 d-flex align-items-center w-100" style="flex-direction: row;">
+                            <div style="flex: 0 0 85px; text-align: center;">
+                                <span class="badge" style="background-color: #faebcc; color: #b0811e; font-size: 14px; padding: 5px 10px; width: 100%; display: block;">Forêt</span>
+                            </div>
+                            <div style="flex: 1; padding-left: 15px; line-height: 1.4;">
+                                <strong style="color: #c49533; font-size: 16px; margin: 0; display: block;">51 - 100 ตัวละคร <span style="color: #dbad4f;">(350 - 450฿)</span></strong>
+                                <span style="color: #c2a053; font-size: 13px; margin-top: 3px; display: block;"><i class="fas fa-chevron-down mr-1"></i> คลิกเพื่อดูรายละเอียด</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div id="collapseForet" class="collapse" data-parent="#packageAccordion">
+                        <div class="p-3" style="background-color: #fdfaf2; border-top: 1px dashed #faebcc;">
+                            <ul class="mb-0 pl-3" style="color: #b0811e; font-size: 14px; line-height: 1.8;">
+                                <li><strong style="color: #c49533;">สร้างโฟลเดอร์:</strong> สร้างและจัดหมวดหมู่ได้แบบ <strong style="color: #c49533;">ไม่จำกัดจำนวน</strong></li>
+                                <li><strong style="color: #c49533;">จัดระเบียบครบวงจร:</strong> จัดการย้ายตัวละคร จัดหน้า Directory แท็ก และลายน้ำภาพรวม</li>
+                                <li><strong style="color: #c49533;">แถมฟรี!</strong> ตกแต่งหน้าแรก (User Profile) ด้วย HTML</li>
+                                <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><i class="fas fa-clock mr-1" style="color: #c49533;"></i> <em>ระยะเวลาดำเนินการ: 5-7 วัน</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 5: Royaume -->
+                <div class="mb-2 rounded" style="background-color: #ffffff; border-left: 5px solid #f0ad4e; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden;">
+                    <a href="#collapseRoyaume" data-toggle="collapse" class="d-block text-decoration-none" style="color: inherit;">
+                        <div class="p-3 d-flex align-items-center w-100" style="flex-direction: row;">
+                            <div style="flex: 0 0 85px; text-align: center;">
+                                <span class="badge" style="background-color: #fcf1e3; color: #b58133; font-size: 14px; padding: 5px 10px; width: 100%; display: block;">Royaume</span>
+                            </div>
+                            <div style="flex: 1; padding-left: 15px; line-height: 1.4;">
+                                <strong style="color: #d69431; font-size: 16px; margin: 0; display: block;">100+ ตัวละคร <span style="color: #f0ad4e;">(เริ่มต้น 500฿)</span></strong>
+                                <span style="color: #c29d63; font-size: 13px; margin-top: 3px; display: block;"><i class="fas fa-chevron-down mr-1"></i> คลิกเพื่อดูรายละเอียด</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div id="collapseRoyaume" class="collapse" data-parent="#packageAccordion">
+                        <div class="p-3" style="background-color: #fdfaf6; border-top: 1px dashed #fcf1e3;">
+                            <ul class="mb-0 pl-3" style="color: #b58133; font-size: 14px; line-height: 1.8;">
+                                <li><strong style="color: #d69431;">แพ็กเกจสเกลใหญ่สุด:</strong> บริการทุกอย่างเหมือนแพ็กเกจ Forêt (ไม่จำกัดโฟลเดอร์/จัดระเบียบ/ลายน้ำ/แถม HTML หน้าแรก)</li>
+                                <li><strong style="color: #d69431;">การคิดราคาเพิ่ม:</strong> กรณีมีตัวละครเกิน 100 ตัวแรก ขออนุญาตคิดบวกเพิ่มตัวละ 2-3 บาทค่ะ</li>
+                                <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><i class="fas fa-clock mr-1" style="color: #f0ad4e;"></i> <em>ระยะเวลาดำเนินการ: 7-10 วัน (ขึ้นอยู่กับจำนวนจริง)</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End Accordion -->
+            
+            <p class="small text-center mt-3 mb-0" style="color: #8cb378; font-weight: 700;">
+                ✨ พิเศษ! ลูกค้าแพ็กเกจเหมาทุกสเกล บริการ <u style="text-underline-offset: 3px;">รีไซส์ภาพให้ฟรีทุกรูป</u> ไม่คิดเงินเพิ่มค่ะ ✨
+            </p>
+        </div>
+
+        <!-- 3. TERMS & CONDITIONS -->
+        <div class="mb-4">
+            <h5 style="color: #a34e4e; font-weight: 700; border-bottom: 2px dashed rgba(235, 122, 122, 0.4); padding-bottom: 8px; margin-bottom: 15px;">
+                <i class="fas fa-exclamation-circle mr-2"></i> Terms & Conditions (ข้อตกลงและเงื่อนไข)
+            </h5>
+            
+            <div class="p-4 rounded" style="background-color: #fffaf0; border: 1px dashed #f0ad4e;">
+                <p class="small mb-3" style="color: #b58133; font-weight: 700; font-size: 14px;">
+                    ⚠️ รบกวนอ่านเงื่อนไขก่อนสั่งงานให้ครบถ้วนนะคะ เพื่อความสบายใจของทั้งสองฝ่ายน้า:
+                </p>
+                
+                <ul class="mb-0 pl-3" style="color: #967035; font-size: 14px; line-height: 1.8;">
+                    <li><strong>Blacklist & DNI:</strong> ขอสงวนสิทธิ์ <strong style="color: #d19a22;">งดรับงาน</strong> กรณีที่ในแอคเคาท์ของลูกค้ามีตัวละครจากนักวาดที่อยู่ในรายชื่อ Blacklist & DNI ของเค้านะคะ (รบกวนเช็กรายชื่อที่หน้า Wishlist ก่อนสั่งงานน้า เพื่อความสบายใจในการทำงานค่ะ)</li>
+                    <li><strong>การเข้าสู่ระบบ:</strong> ลูกค้าต้องแนบ <strong style="color: #d19a22;">Username / Password</strong> ของ Toyhouse พร้อมลิงก์ Google Drive ที่มีรูปและข้อมูลมาให้ครบถ้วน (รับประกันความปลอดภัยของแอคเคาท์ 100% ค่ะ)</li>
+                    <li><strong>แฝดและตัวละครคู่ (Twins/Couples):</strong> รบกวนแจ้งให้ชัดเจนว่าต้องการรวมไว้ในหน้าโปรไฟล์เดียวกัน หรือแยกหน้าโปรไฟล์คนละตัว (มีผลต่อการนับจำนวนตัวละครและการคิดราคาค่ะ)</li>
+                    <li><strong>โค้ดแบบเสียเงิน (P2U Codes):</strong> ทางเรา <strong style="color: #d19a22;">ไม่รับบริการเลือกหรือซื้อให้</strong> ลูกค้าต้องเป็นผู้ซื้อและเตรียมไฟล์โค้ดมาเอง และเพื่อเป็นการให้เกียรตินักโค้ดต้นทาง ทางเราจะ <u>ถ่ายคลิปวิดีโอตอนลบไฟล์โค้ดทิ้ง</u> ส่งให้ดูหลังจบงานค่ะ</li>
+                    <li><strong>จำกัดความยาวโค้ด (HTML):</strong> รับเฉพาะโค้ดความยาว <strong style="color: #d19a22;">ไม่เกิน 500 บรรทัด/ตัว</strong> และลูกค้าสามารถเลือกโค้ดมาได้แค่ 1-2 แพทเทิร์นเพื่อใช้ร่วมกันทั้งบัญชี (หากโค้ดยาวเกิน, มี Tab ซ้อนเยอะ, หรือสั่งแก้โค้ดเพิ่ม ขออนุญาตประเมินราคาบวกเพิ่มตามความยากง่ายค่ะ)</li>
+                    <li><strong>การนับระยะเวลาทำงาน:</strong> จะเริ่มนับระยะเวลาดำเนินการก็ต่อเมื่อ <strong style="color: #d19a22;">"ถึงคิวของลูกค้า"</strong> และ <strong style="color: #d19a22;">"ส่งไฟล์ข้อมูลครบถ้วนแล้ว"</strong> เท่านั้น <span style="color: #b58133; font-style: italic;">(ปล. ระยะเวลาอาจมีความยืดหยุ่นหรือล่าช้าได้ไม่เกิน 1 สัปดาห์ เนื่องจากเค้าอาจติดภาระงานที่มหาวิทยาลัย แต่จะคอยแจ้งอัปเดตตลอด ไม่หนีหายแน่นอนค่ะ!)</span></li>
+                    <li><strong>การนำงานไปใช้:</strong> ทางเราขออนุญาตนำภาพหน้าโปรไฟล์ที่จัดเสร็จเรียบร้อยแล้ว ไปใช้เป็นตัวอย่างงาน (Portfolio) นะคะ</li>
+                    <li><strong>การคืนเงิน (Refund):</strong> <strong><u>ขอสงวนสิทธิ์งดคืนเงิน (No Refund) ทุกกรณี</u></strong> ยกเว้นทางเราเป็นฝ่ายแจ้งขอยกเลิกคิวงานเองค่ะ</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. CONTACT & PAYMENT -->
+        <div class="mb-2">
+            <h5 style="color: #6a8f5d; font-weight: 700; border-bottom: 2px dashed #dce8d3; padding-bottom: 8px; margin-bottom: 15px;">
+                <i class="fas fa-wallet mr-2"></i> Contact & Payment
+            </h5>
+            
+            <div class="row">
+                <!-- ซ้าย: การชำระเงิน -->
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 rounded h-100" style="background-color: #fcfcfc; border: 1px solid #dce8d3; box-shadow: 0 2px 5px rgba(220,232,211,0.2);">
+                        <strong style="color: #5a7d4e; font-size: 16px;"><i class="fas fa-money-bill-wave mr-1" style="color: #8cb378;"></i> ช่องทางการชำระเงิน</strong>
+                        <hr style="border-top: 1px solid #e7f0e1; margin: 10px 0;">
+                        <ul class="mb-0 pl-3" style="color: #729662; font-size: 14px; line-height: 1.8;">
+                            <li><strong>KBank (กสิกรไทย)</strong></li>
+                            <li><strong>PromptPay (พร้อมเพย์)</strong></li>
+                            <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><strong style="color: #d19a22;">เงื่อนไขการจ่าย:</strong> ยอดไม่เกิน 100฿ รบกวนชำระเต็มจำนวน / ยอด 100฿ ขึ้นไป มัดจำ 50% ก่อนเริ่มงานได้ค่ะ</li>
+                            <li style="list-style-type: none; margin-left: -20px; margin-top: 5px;"><span style="color: #c46d6d; font-size: 13px;">* งดรับโอนเข้าแอป TrueMoney Wallet โดยตรงนะคะ (แต่สามารถใช้แอปทรูมันนี่โอนเข้าบัญชีธนาคารได้ตามปกติค่ะ)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- ขวา: ติดต่อ -->
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 rounded h-100" style="background-color: #fdfaf6; border: 1px solid #faebcc; box-shadow: 0 2px 5px rgba(250,235,204,0.2);">
+                        <strong style="color: #c49533; font-size: 16px;"><i class="fas fa-comments mr-1" style="color: #dbad4f;"></i> ช่องทางการติดต่อสั่งงาน</strong>
+                        <hr style="border-top: 1px solid #faebcc; margin: 10px 0;">
+                        
+                        <div class="d-flex flex-column">
+                            <a href="https://toyhou.se/41794748.toyhouse-makeover/comments" target="_blank" class="btn btn-block mb-2 rounded text-left" style="background-color: #fdf8e2; color: #b58133; border: 1px solid #faebcc; font-size: 14px; font-weight: 700;">
+                                <i class="fas fa-comment-dots fa-fw mr-1"></i> คอมเมนต์สั่งงานที่หน้านี้
+                            </a>
+                            <a href="https://www.facebook.com/sweetgirliegurl" target="_blank" class="btn btn-block mb-2 rounded text-left" style="background-color: #eaf4fb; color: #5b8fb9; border: 1px solid #d4e6f4; font-size: 14px; font-weight: 700;">
+                                <i class="fab fa-facebook fa-fw mr-1"></i> Facebook : Kya Kyanos
+                            </a>
+                            <a href="https://discord.gg/ZnnYHvAT" target="_blank" class="btn btn-block mb-0 rounded text-left" style="background-color: #f0eff8; color: #7e73b3; border: 1px solid #dfddec; font-size: 14px; font-weight: 700;">
+                                <i class="fab fa-discord fa-fw mr-1"></i> Discord : sweetprimaxgurl
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- โหลด Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    
+    <script>
+        // ฟังก์ชันสร้างหิมะสัญลักษณ์
+        function createSnowflakes() {
+            const container = document.getElementById('snow-container');
+            const symbols = ['♡', '⊹', '⟡', '★', '♬', '𝄞', '🌿', '✨']; // เพิ่มใบไม้กับดาวให้เข้าธีม
+            const numFlakes = 30; 
+
+            for (let i = 0; i < numFlakes; i++) {
+                let flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                flake.style.left = Math.random() * 100 + 'vw';
+                
+                let fallDuration = Math.random() * 5 + 7; // ตกช้าลงนิดนึง
+                flake.style.animationDuration = fallDuration + 's, ' + (fallDuration/2) + 's';
+                flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's';
+                flake.style.fontSize = (Math.random() * 1 + 0.5) + 'rem';
+                flake.style.opacity = Math.random() * 0.5 + 0.3; 
+
+                container.appendChild(flake);
+            }
+        }
+
+        // เรียกใช้งานตอนโหลดเว็บ
+        createSnowflakes();
+    </script>
+
+</body>
+</html>
