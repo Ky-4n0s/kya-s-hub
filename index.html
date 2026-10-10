@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- เพิ่มฟอนต์ Dancing Script สำหรับหน้า Intro -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -19,7 +18,7 @@
         #intro-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #f8fbfd 0%, #e1effa 100%); /* พื้นหลังขาว-ฟ้า */
+            background: linear-gradient(135deg, #f8fbfd 0%, #e1effa 100%); 
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -28,7 +27,6 @@
             overflow: hidden;
         }
 
-        /* Blob สีฟ้า-ขาว เฉพาะหน้า Intro */
         .intro-blob {
             position: absolute;
             filter: blur(60px);
@@ -48,7 +46,6 @@
             position: relative;
             z-index: 10000;
             text-align: center;
-            /* กรอบกระจกของหน้า Intro */
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -71,14 +68,13 @@
         .intro-text {
             font-family: 'Dancing Script', cursive;
             font-size: 3.5rem;
-            color: #5b8fb9; /* สีฟ้าละมุน */
+            color: #5b8fb9; 
             font-weight: 700;
             text-shadow: 2px 2px 5px rgba(255,255,255,0.9);
             margin: 0;
             line-height: 1.2;
         }
 
-        /* คลาสสำหรับเฟดหน้า Intro ออก */
         .intro-fade-out {
             opacity: 0;
             visibility: hidden;
@@ -97,61 +93,38 @@
            1. BASE STYLES & LIQUID BACKGROUND ENVIRONMENT
            ========================================================================== */
         body {
-            margin: 0;
-            padding: 3rem 1rem;
-            min-height: 100vh;
-            font-family: 'Krub', sans-serif;
-            color: #5c4b51;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow-x: hidden;
-            background-color: #f7f9fc;
+            margin: 0; padding: 3rem 1rem; min-height: 100vh;
+            font-family: 'Krub', sans-serif; color: #5c4b51;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; overflow-x: hidden; background-color: #f7f9fc;
         }
 
         .liquid-bg {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0; overflow: hidden; pointer-events: none;
             background: linear-gradient(135deg, #fdfbfb 0%, #f3e7e9 50%, #e3eeff 100%);
         }
 
         .liquid-blob {
-            position: absolute;
-            filter: blur(60px);
-            opacity: 0.7;
+            position: absolute; filter: blur(60px); opacity: 0.7;
             animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite;
         }
 
         .blob-pink {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            width: 450px; height: 450px;
-            top: -10%; left: -10%;
-            animation-delay: 0s;
+            width: 450px; height: 450px; top: -10%; left: -10%; animation-delay: 0s;
         }
-
         .blob-blue {
             background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-            width: 500px; height: 500px;
-            bottom: -20%; right: -10%;
-            animation-delay: -5s;
+            width: 500px; height: 500px; bottom: -20%; right: -10%; animation-delay: -5s;
         }
-
         .blob-green {
             background: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
-            width: 350px; height: 350px;
-            top: 40%; left: 60%;
-            animation-delay: -10s;
+            width: 350px; height: 350px; top: 40%; left: 60%; animation-delay: -10s;
         }
-
         .blob-purple {
             background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            width: 300px; height: 300px;
-            top: 20%; right: 20%;
-            animation-delay: -15s;
+            width: 300px; height: 300px; top: 20%; right: 20%; animation-delay: -15s;
         }
 
         @keyframes morphLiquid {
@@ -160,7 +133,6 @@
             67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
             100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
         }
-
         @keyframes floatLiquid {
             0% { transform: translate(0, 0) rotate(0deg); }
             33% { transform: translate(30px, -50px) rotate(120deg); }
@@ -174,305 +146,165 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(160, 155, 180, 0.9); }
 
         /* ==========================================================================
-           2. FOREGROUND PARTICLES (Falling symbols)
+           2. FOREGROUND PARTICLES
            ========================================================================== */
         .snow-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
         }
         .snowflake {
-            position: absolute; top: -10%;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            user-select: none;
-            animation-name: fall, sway;
-            animation-iteration-count: infinite;
+            position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); user-select: none;
+            animation-name: fall, sway; animation-iteration-count: infinite;
             animation-timing-function: linear, ease-in-out;
         }
-        @keyframes fall {
-            0% { top: -10%; }
-            100% { top: 110%; }
-        }
-        @keyframes sway {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(25px); }
-        }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } }
+        @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
 
         /* ==========================================================================
            3. MAIN LIQUID GLASS CONTAINER
            ========================================================================== */
         .glass-panel {
             background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-top: 2px solid rgba(255, 255, 255, 0.8);
             border-left: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 
-                0 25px 45px rgba(0, 0, 0, 0.05),
-                inset 0 0 30px rgba(255, 255, 255, 0.4);
-            border-radius: 40px;
-            padding: 3.5rem 2.5rem;
-            max-width: 700px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-            transition: all 0.5s ease;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.4);
+            border-radius: 40px; padding: 3.5rem 2.5rem; max-width: 700px; width: 100%;
+            position: relative; z-index: 2; transition: all 0.5s ease;
         }
 
         /* ==========================================================================
            4. PROFILE SECTION
            ========================================================================== */
-        .profile-section {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
+        .profile-section { text-align: center; margin-bottom: 2.5rem; position: relative; }
         
-        .avatar-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 1.25rem;
-        }
+        .avatar-wrapper { position: relative; display: inline-block; margin-bottom: 1.25rem; }
         .avatar-ring {
-            position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
-            z-index: -1;
-            animation: morphLiquid 8s ease-in-out infinite alternate;
+            z-index: -1; animation: morphLiquid 8s ease-in-out infinite alternate;
         }
         .profile-avatar {
-            width: 130px; height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 130px; height: 130px; border-radius: 50%; object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.9); box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #fff;
         }
-        .profile-avatar:hover {
-            transform: scale(1.08) rotate(5deg);
-        }
+        .profile-avatar:hover { transform: scale(1.08) rotate(5deg); }
         
         .profile-name {
-            font-family: 'Dancing Script', cursive;
-            font-weight: 700;
-            font-size: 2rem;
-            color: #3d3136;
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
+            font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 2.2rem;
+            color: #3d3136; margin-bottom: 0.5rem; letter-spacing: 1px;
             text-shadow: 0 2px 10px rgba(255,255,255,0.8);
         }
-        .profile-bio {
-            color: #6a5a61;
-            font-size: 1rem;
-            margin-bottom: 0;
-            line-height: 1.6;
-            font-weight: 500;
-        }
+        .profile-bio { color: #6a5a61; font-size: 1rem; margin-bottom: 0; line-height: 1.6; font-weight: 500; }
 
         /* ==========================================================================
            5. MAIN MENU (PRIMARY SERVICES)
            ========================================================================== */
-        .main-services {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            margin-bottom: 2.5rem;
-        }
+        .main-services { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2.5rem; }
 
         .glass-card {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.7);
-            border-top: 1px solid rgba(255, 255, 255, 0.9);
-            border-left: 1px solid rgba(255, 255, 255, 0.9);
-            padding: 1.5rem;
-            border-radius: 25px;
-            text-decoration: none !important;
-            color: #5c4b51;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-            position: relative;
-            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.9); border-left: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 1.5rem; border-radius: 25px; text-decoration: none !important;
+            color: #5c4b51; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04); position: relative; overflow: hidden;
         }
 
         .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -150%;
-            width: 100%; height: 100%;
+            content: ''; position: absolute; top: 0; left: -150%; width: 100%; height: 100%;
             background: linear-gradient(120deg, transparent, rgba(255,255,255,0.9), transparent);
-            transform: skewX(-25deg);
-            transition: all 0.6s ease;
+            transform: skewX(-25deg); transition: all 0.6s ease;
         }
 
         .glass-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.08), inset 0 0 15px rgba(255,255,255,0.6);
-            background: rgba(255, 255, 255, 0.7);
-            color: #5c4b51;
+            background: rgba(255, 255, 255, 0.7); color: #5c4b51;
         }
-        .glass-card:hover::before {
-            left: 150%;
-        }
+        .glass-card:hover::before { left: 150%; }
 
         .icon-liquid-wrap {
             width: 65px; height: 65px;
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.8rem;
-            margin-right: 1.5rem;
-            flex-shrink: 0;
+            display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
+            margin-right: 1.5rem; flex-shrink: 0;
             box-shadow: inset 0 0 15px rgba(255,255,255,0.8), 0 5px 15px rgba(0,0,0,0.05);
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px);
             transition: all 0.4s ease;
         }
         
-        .glass-card:hover .icon-liquid-wrap {
-            border-radius: 50%;
-            transform: scale(1.05);
-        }
+        .glass-card:hover .icon-liquid-wrap { border-radius: 50%; transform: scale(1.05); }
 
         .card-content { flex-grow: 1; }
-        .card-content h4 {
-            margin: 0 0 0.4rem 0;
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-        .card-content p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #726369;
-            line-height: 1.5;
-            font-weight: 500;
-        }
+        .card-content h4 { margin: 0 0 0.4rem 0; font-weight: 700; font-size: 1.25rem; }
+        .card-content p { margin: 0; font-size: 0.9rem; color: #726369; line-height: 1.5; font-weight: 500; }
 
-        .action-arrow {
-            font-size: 1.3rem;
-            color: #c9bbc2;
-            transition: all 0.4s ease;
-            margin-left: 10px;
-        }
-        .glass-card:hover .action-arrow {
-            transform: translateX(8px);
-            color: #5c4b51;
-        }
+        .action-arrow { font-size: 1.3rem; color: #c9bbc2; transition: all 0.4s ease; margin-left: 10px; }
+        .glass-card:hover .action-arrow { transform: translateX(8px); color: #5c4b51; }
 
+        /* THEMES */
         .theme-commission .icon-liquid-wrap { color: #5a8c42; background: linear-gradient(135deg, #e3f2dc, #cbe3b5); }
         .theme-commission h4 { color: #4e7a3a; }
         
         .theme-codes .icon-liquid-wrap { color: #d81b60; background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
         .theme-codes h4 { color: #b8144f; }
 
+        .theme-oc-canon .icon-liquid-wrap { color: #8e24aa; background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+        .theme-oc-canon h4 { color: #6a1b9a; }
+
+        .theme-oc-oc .icon-liquid-wrap { color: #5c6bc0; background: linear-gradient(135deg, #e8eaf6, #c5cae9); }
+        .theme-oc-oc h4 { color: #3f51b5; }
+
         /* ==========================================================================
            6. ADD-ONS / TOOLS SECTION 
            ========================================================================== */
-        .section-divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 1rem 0 2rem 0;
-            color: #887a80;
-        }
-        .section-divider::before, .section-divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 2px dashed rgba(255,255,255,0.8);
-        }
+        .section-divider { display: flex; align-items: center; text-align: center; margin: 1rem 0 2rem 0; color: #887a80; }
+        .section-divider::before, .section-divider::after { content: ''; flex: 1; border-bottom: 2px dashed rgba(255,255,255,0.8); }
         .section-divider span {
-            padding: 0 1rem;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-            color: #76636c;
-            background: rgba(255,255,255,0.4);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            margin: 0 15px;
-            padding: 5px 15px;
-            border: 1px solid rgba(255,255,255,0.6);
+            padding: 0 1rem; font-weight: 700; font-size: 1rem; letter-spacing: 0.5px;
+            color: #76636c; background: rgba(255,255,255,0.4); backdrop-filter: blur(5px);
+            border-radius: 20px; margin: 0 15px; padding: 5px 15px; border: 1px solid rgba(255,255,255,0.6);
         }
 
-        .addons-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-        }
+        .addons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 
         .addon-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.9);
-            border-left: 1px solid rgba(255, 255, 255, 0.9);
-            padding: 1.5rem 1rem;
-            border-radius: 20px;
-            text-decoration: none !important;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-            position: relative;
-            overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(255, 255, 255, 0.9); padding: 1.5rem 1rem; border-radius: 20px;
+            text-decoration: none !important; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            position: relative; overflow: hidden;
         }
         
         .addon-card::before {
-            content: '';
-            position: absolute;
-            top: -100%; left: -100%;
-            width: 300%; height: 300%;
+            content: ''; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%;
             background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            pointer-events: none;
+            opacity: 0; transition: opacity 0.4s ease; transform: translate(-50%, -50%);
+            z-index: 0; pointer-events: none;
         }
 
-        .addon-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-            background: rgba(255, 255, 255, 0.6);
-        }
+        .addon-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); background: rgba(255, 255, 255, 0.6); }
         .addon-card:hover::before { opacity: 0.5; }
-        
         .addon-card * { position: relative; z-index: 1; }
 
         .addon-icon {
-            width: 55px; height: 55px;
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: inset 0 0 10px rgba(255,255,255,0.9);
-            transition: all 0.4s ease;
+            width: 55px; height: 55px; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.5rem;
+            margin-bottom: 1rem; box-shadow: inset 0 0 10px rgba(255,255,255,0.9); transition: all 0.4s ease;
         }
-        .addon-card:hover .addon-icon {
-            border-radius: 50%;
-            transform: rotate(360deg);
-        }
+        .addon-card:hover .addon-icon { border-radius: 50%; transform: rotate(360deg); }
 
-        .addon-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            margin-bottom: 0.3rem;
-            color: #4a4046;
-        }
-        .addon-desc {
-            font-size: 0.8rem;
-            color: #7a6b71;
-            line-height: 1.4;
-            margin-bottom: 0;
-        }
+        .addon-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.3rem; color: #4a4046; }
+        .addon-desc { font-size: 0.8rem; color: #7a6b71; line-height: 1.4; margin-bottom: 0; }
 
         .theme-passport .addon-icon { background: linear-gradient(135deg, #fff3e0, #ffe082); color: #e65100; }
         .theme-signature .addon-icon { background: linear-gradient(135deg, #e1f5fe, #81d4fa); color: #01579b; }
@@ -480,30 +312,17 @@
         /* ==========================================================================
            7. SOCIAL MEDIA FOOTER
            ========================================================================== */
-        .social-wrapper {
-            margin-top: 3.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 1.25rem;
-        }
+        .social-wrapper { margin-top: 3.5rem; display: flex; justify-content: center; gap: 1.25rem; }
         .social-btn {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            color: #76636c;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.3rem;
-            text-decoration: none !important;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8);
+            color: #76636c; display: flex; justify-content: center; align-items: center; font-size: 1.3rem;
+            text-decoration: none !important; box-shadow: 0 8px 15px rgba(0,0,0,0.05);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .social-btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            color: #d81b60;
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 12px 20px rgba(216, 27, 96, 0.15);
+            background: rgba(255, 255, 255, 0.9); color: #d81b60;
+            transform: translateY(-5px) scale(1.1); box-shadow: 0 12px 20px rgba(216, 27, 96, 0.15);
         }
 
         /* ==========================================================================
@@ -528,11 +347,9 @@
          INTRO SPLASH SCREEN
     =========================================== -->
     <div id="intro-screen">
-        <!-- ลูกเล่น Blob พื้นหลังสำหรับ Intro -->
         <div class="intro-blob intro-blob-1"></div>
         <div class="intro-blob intro-blob-2"></div>
         
-        <!-- กล่องกระจกข้อความ -->
         <div class="intro-content">
             <div class="intro-icon">🦢</div>
             <h1 class="intro-text">Kyaneos Parádeisos</h1>
@@ -566,14 +383,14 @@
         <!-- Primary Services (Main Navigation) -->
         <div class="main-services">
             
-            <!-- Service 1: Commissions -->
+            <!-- Service 1: Commissions Hub -->
             <a href="commission.html" class="glass-card theme-commission">
                 <div class="icon-liquid-wrap">
                     <i class="fas fa-store"></i>
                 </div>
                 <div class="card-content">
-                    <h4>Toyhouse Services (Commission)</h4>
-                    <p>รับจัดระเบียบบ้าน ลงข้อมูลตัวละคร และตกแต่งโปรไฟล์ด้วย HTML/CSS ในราคาน่ารัก 🌿</p>
+                    <h4>My Commissions</h4>
+                    <p>รับจัดระเบียบบ้าน Toyhouse, วาดภาพประกอบ และรับออกแบบเว็บไซต์ 🌿</p>
                 </div>
                 <div class="action-arrow"><i class="fas fa-chevron-right"></i></div>
             </a>
@@ -585,7 +402,31 @@
                 </div>
                 <div class="card-content">
                     <h4>My Toyhouse Codes</h4>
-                    <p>แกลเลอรี่รวมโค้ดตกแต่งหน้าโปรไฟล์ (แจกฟรี & จำหน่าย) 🎀</p>
+                    <p>แกลเลอรี่รวมโค้ดตกแต่งหน้าโปรไฟล์ และตัวละคร (แจกฟรี & จำหน่าย) 🎀</p>
+                </div>
+                <div class="action-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+            <!-- Service 3: OC x Canon List -->
+            <a href="#" class="glass-card theme-oc-canon">
+                <div class="icon-liquid-wrap">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="card-content">
+                    <h4>OC x Canon List</h4>
+                    <p>คลังข้อมูลและเรื่องราวความสัมพันธ์ OC x Canon 💜</p>
+                </div>
+                <div class="action-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+            <!-- Service 4: OC x OC List (โทนฟ้าครามพาสเทล) -->
+            <a href="#" class="glass-card theme-oc-oc">
+                <div class="icon-liquid-wrap">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-content">
+                    <h4>OC x OC List</h4>
+                    <p>ข้อมูลคู่เด็ก ๆ ในบ้าน 🌠</p>
                 </div>
                 <div class="action-arrow"><i class="fas fa-chevron-right"></i></div>
             </a>
@@ -615,7 +456,7 @@
                     <i class="fas fa-feather-alt"></i>
                 </div>
                 <h5 class="addon-title">Signature Gen</h5>
-                <p class="addon-desc">เครื่องมือสร้างลายเซ็นสำหรับอดอป  สำหรับใช้คู่กับโค้ดพาสปอร์ต ❄️</p>
+                <p class="addon-desc">เครื่องมือสร้างลายเซ็นสำหรับอดอป สำหรับใช้คู่กับโค้ดพาสปอร์ต ❄️</p>
             </a>
 
         </div>
@@ -633,12 +474,10 @@
     <script>
         // ควบคุมระบบหน้า Intro
         window.addEventListener('load', () => {
-            // ตั้งเวลาให้หน้า Intro ค้างไว้ 1.2 วินาที
             setTimeout(() => {
                 const introScreen = document.getElementById('intro-screen');
                 introScreen.classList.add('intro-fade-out');
                 
-                // รอให้จังหวะเฟดเสร็จ (0.8 วินาทีตามที่ตั้งใน CSS) แล้วซ่อนถาวร
                 setTimeout(() => {
                     introScreen.style.display = 'none';
                 }, 800);
