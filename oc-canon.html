@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OC x Canon List 💜 | Liquid Glass</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* (ใส่ CSS เดิมทั้งหมดไว้ตรงนี้เหมือนเดิมเลยนะคะ เค้าขอข้ามเพื่อความกระชับค่ะ) */
+        body { margin: 0; padding: 3rem 1rem; min-height: 100vh; font-family: 'Krub', sans-serif; color: #4a3b52; background-color: #fbf7fc; position: relative; overflow-x: hidden; }
+        .liquid-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden; pointer-events: none; background: linear-gradient(135deg, #f3e5f5 0%, #f8bbd0 50%, #e1bee7 100%); }
+        .liquid-blob { position: absolute; filter: blur(60px); opacity: 0.65; animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite; }
+        .blob-purple { background: linear-gradient(120deg, #dce8ff 0%, #e0c3fc 100%); width: 500px; height: 500px; top: -10%; left: -5%; }
+        .blob-lavender { background: linear-gradient(120deg, #f3e5f5 0%, #d1c4e9 100%); width: 600px; height: 600px; bottom: -15%; right: -5%; animation-delay: -5s; }
+        .blob-pink { background: linear-gradient(120deg, #ffc3a0 0%, #ffafbd 100%); width: 350px; height: 350px; top: 30%; left: 50%; opacity: 0.5; animation-delay: -10s; }
+
+        @keyframes morphLiquid { 0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; } 34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } 100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; } }
+        @keyframes floatLiquid { 0% { transform: translate(0, 0) rotate(0deg); } 33% { transform: translate(30px, -50px) rotate(120deg); } 66% { transform: translate(-20px, 20px) rotate(240deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.3); } ::-webkit-scrollbar-thumb { background: #ce93d8; border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: #ba68c8; }
+        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .snowflake { position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9); text-shadow: 0 0 10px rgba(225, 190, 231, 0.8); user-select: none; animation-name: fall, sway; animation-iteration-count: infinite; animation-timing-function: linear, ease-in-out; }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } } @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
+
+        .glass-panel { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.6); border-top: 2px solid rgba(255, 255, 255, 0.9); border-left: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 25px 45px rgba(106, 27, 154, 0.08), inset 0 0 30px rgba(255, 255, 255, 0.5); border-radius: 40px; padding: 3rem 2.5rem; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .btn-back-home { display: inline-block; background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 20px; color: #8e24aa; font-weight: 600; padding: 8px 25px; margin-bottom: 20px; transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-back-home:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); color: #6a1b9a; text-decoration: none; }
+        .header-title { text-align: center; color: #7b1fa2; font-weight: 700; font-size: 2.5rem; margin-bottom: 5px; text-shadow: 0 2px 5px rgba(255,255,255,0.9); cursor: pointer; /* ทำให้รู้ว่ากดได้ */ }
+        .header-desc { text-align: center; color: #9c27b0; font-size: 1rem; margin-bottom: 1.5rem; font-weight: 600; }
+        .filter-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 3rem; flex-wrap: wrap; background: rgba(255, 255, 255, 0.4); padding: 15px 25px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.7); box-shadow: 0 4px 15px rgba(106, 27, 154, 0.03); }
+        .filter-dropdown { background: rgba(255, 255, 255, 0.8); border: 1px solid #f3e5f5; color: #7b1fa2; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-family: 'Krub', sans-serif; outline: none; cursor: pointer; transition: 0.3s; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(106, 27, 154, 0.05); }
+        .filter-dropdown:focus { border-color: #ce93d8; box-shadow: 0 0 10px rgba(206, 147, 216, 0.3); }
+        .total-badge { background: #e1bee7; color: #6a1b9a; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(106, 27, 154, 0.05); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .couple-card { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8); border-top: 1px solid rgba(255, 255, 255, 1); border-left: 1px solid rgba(255, 255, 255, 1); border-radius: 25px; padding: 1.25rem; padding-top: 2rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(106, 27, 154, 0.05); position: relative; overflow: visible; display: flex; flex-direction: column; }
+        .couple-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.75); box-shadow: 0 15px 30px rgba(106, 27, 154, 0.12), inset 0 0 15px rgba(255,255,255,0.7); }
+        @media (min-width: 768px) { .is-3p { grid-column: span 2; } .is-3p .img-container { width: 70%; margin-left: auto; margin-right: auto; } }
+        .whatif-badge { background: linear-gradient(135deg, #ce93d8, #f48fb1); color: white; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 5px; vertical-align: middle; box-shadow: 0 2px 5px rgba(244, 143, 177, 0.4); }
+        .img-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; margin-top: 10px; position: relative; }
+        .img-box { flex: 1; aspect-ratio: 1 / 1; border-radius: 15px; overflow: visible; border: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 5px 15px rgba(0,0,0,0.08); position: relative; background: #fff; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; border-radius: 13px; }
+        .img-box:hover img { transform: scale(1.05); }
+        .heart-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .heart-icon { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.85); width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #ec407a; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 5; }
+        .heart-2p { left: 50%; transform: translate(-50%, -50%); } .heart-3p-left { left: calc(33.33% - 2.5px); transform: translate(-50%, -50%); } .heart-3p-right { left: calc(66.66% + 2.5px); transform: translate(-50%, -50%); }
+        .canon-box { position: relative; } .badge-fandom { position: absolute; top: -12px; right: -10px; background: rgba(255, 255, 255, 0.95); color: #7b1fa2; font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; border: 1px solid #f3e5f5; white-space: nowrap; } .badge-position { position: absolute; bottom: 8px; left: 8px; background: rgba(255, 255, 255, 0.9); color: #6a1b9a; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 2; }
+        .info-section { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; } .names { font-size: 1.15rem; font-weight: 700; color: #4a3b52; margin-bottom: 5px; }
+        .details-grid { background: rgba(255, 255, 255, 0.5); border-radius: 15px; padding: 12px; font-size: 0.85rem; display: grid; grid-template-columns: 1fr; gap: 8px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.7); margin-top: auto; }
+        .d-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(206, 147, 216, 0.4); padding-bottom: 6px; } .d-row:last-child { border-bottom: none; padding-bottom: 0; } .d-label { font-weight: 700; color: #7b1fa2; } .d-value { font-weight: 600; color: #6a5a61; text-align: right; }
+        .share-no { background-color: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #ffcdd2; display: inline-block;} .share-sel { background-color: #fff3e0; color: #e65100; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #ffe0b2; display: inline-block;} .share-free { background-color: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #c8e6c9; display: inline-block;} .badge-gap { gap: 5px; display: flex; justify-content: flex-end; flex-wrap: wrap; }
+        @media (max-width: 768px) { .glass-panel { padding: 2rem 1rem; } .card-grid { grid-template-columns: 1fr; } .filter-controls { flex-direction: column; width: 100%; align-items: stretch; } .total-badge { text-align: center; } .is-3p { grid-column: 1 / -1; } .is-3p .img-container { width: 100%; } }
+
+        /* ==========================================================================
+           7. ADMIN MODAL STYLES (NEW)
+           ========================================================================== */
+        .admin-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); z-index: 9999;
+        }
+        .admin-content {
+            background: rgba(255, 255, 255, 0.85); border-radius: 30px; padding: 2.5rem;
+            width: 90%; max-width: 600px; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); border: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 25px 45px rgba(106, 27, 154, 0.2); max-height: 90vh; overflow-y: auto;
+        }
+        .admin-title { color: #7b1fa2; font-weight: 700; text-align: center; margin-bottom: 20px; font-size: 1.8rem; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.9rem; color: #6a1b9a; font-weight: 700; margin-bottom: 5px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #e1bee7;
+            background: rgba(255, 255, 255, 0.9); color: #4a3b52; font-family: 'Krub', sans-serif;
+            outline: none; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus { border-color: #ce93d8; box-shadow: 0 0 10px rgba(206, 147, 216, 0.3); }
+        .btn-generate {
+            background: linear-gradient(135deg, #ce93d8, #ba68c8); color: white; width: 100%;
+            padding: 12px; border: none; border-radius: 15px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(186, 104, 200, 0.4); }
+        .result-code {
+            width: 100%; height: 100px; margin-top: 15px; padding: 10px; border-radius: 12px;
+            border: 1px dashed #ba68c8; background: #f3e5f5; font-family: monospace; font-size: 0.8rem;
+            color: #4a148c; resize: none; outline: none;
+        }
+        .close-admin {
+            position: absolute; top: 20px; right: 25px; font-size: 1.5rem; color: #ba68c8;
+            cursor: pointer; transition: 0.3s;
+        }
+        .close-admin:hover { color: #7b1fa2; }
+    </style>
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-purple"></div>
+        <div class="liquid-blob blob-lavender"></div>
+        <div class="liquid-blob blob-pink"></div>
+    </div>
+
+    <div class="snow-container" id="snow-container"></div>
+
+    <div class="glass-panel">
+        
+        <div class="text-center">
+            <a href="index.html" class="btn-back-home"><i class="fas fa-arrow-left mr-2"></i> กลับหน้าหลัก (Hub)</a>
+        </div>
+
+        <!-- กดดับเบิ้ลคลิกที่ชื่อนี้ เพื่อเรียกหน้า Admin Panel -->
+        <h1 class="header-title" ondblclick="openAdminPrompt()">OC x Canon List 💜</h1>
+        <p class="header-desc">คลังเก็บความสัมพันธ์ของลูกๆ OC กับเมนคนโปรดค่ะ ✨</p>
+
+        <!-- Filters -->
+        <div class="filter-controls">
+            <select id="filterFandom" class="filter-dropdown" onchange="applyFilters()">
+                <option value="All">All Fandoms</option>
+            </select>
+            <select id="filterRelation" class="filter-dropdown" onchange="applyFilters()">
+                <option value="All">💞 All Relationships</option>
+                <option value="Romantic">Romantic</option>
+                <option value="Platonic">Platonic</option>
+                <option value="Familial">Familial</option>
+            </select>
+            <select id="filterSharing" class="filter-dropdown" onchange="applyFilters()">
+                <option value="All">🔒 All Sharing Status</option>
+                <option value="No Sharing">🚫 No Sharing</option>
+                <option value="Selective">⚠️ Selective</option>
+                <option value="Free">✅ Free</option>
+            </select>
+            <div class="total-badge" id="totalCount">Total: 0 Pairs</div>
+        </div>
+
+        <div class="card-grid" id="cardContainer"></div>
+    </div>
+
+    <!-- ==========================================
+         ADMIN MODAL (ฟอร์มสร้างโค้ดอัตโนมัติ)
+         ========================================== -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <i class="fas fa-times close-admin" onclick="closeAdmin()"></i>
+            <h2 class="admin-title"><i class="fas fa-magic"></i> Add New Pair</h2>
+            <p style="text-align:center; font-size:0.85rem; color:#8e24aa;">สร้างโค้ดข้อมูลเพื่อนำไปแปะใน GitHub ได้ง่ายๆ</p>
+            
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Fandom Name</label>
+                    <input type="text" id="addFandom" placeholder="e.g. Genshin Impact">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>OC Name</label>
+                    <input type="text" id="addOc" placeholder="e.g. Primax">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Canon Name <small>(หากเป็น 3P ให้ใส่ "&" คั่น เช่น "Samwell & Alysanne")</small></label>
+                <input type="text" id="addCanon" placeholder="e.g. Albedo">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Relationship Type</label>
+                    <select id="addRelation">
+                        <option value="Romantic">Romantic</option>
+                        <option value="Platonic">Platonic</option>
+                        <option value="Familial">Familial</option>
+                        <option value="-">-</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Sharing Status <small>(3P คั่นด้วยลูกน้ำได้)</small></label>
+                    <input type="text" id="addSharing" placeholder="e.g. Selective หรือ Free, Selective">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Position <small>(3P คั่นด้วยลูกน้ำได้)</small></label>
+                    <input type="text" id="addPosition" placeholder="e.g. Top หรือ Switches, Switches">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Hashtag</label>
+                    <input type="text" id="addHashtag" placeholder="e.g. #AlbedoOC">
+                </div>
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 20px; align-items: center; margin-top: 10px;">
+                <label style="margin: 0; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" id="addWhatIf" style="width: auto;"> What-If (AU)
+                </label>
+                <label style="margin: 0; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" id="addIs3P" style="width: auto;"> Is 3P (3 คน)
+                </label>
+            </div>
+
+            <button class="btn-generate" onclick="generatePairCode()">Generate Code ✨</button>
+
+            <textarea id="resultCode" class="result-code" readonly placeholder="โค้ดที่สร้างเสร็จแล้วจะมาโผล่ตรงนี้ ให้กด Copy ไปวางในไฟล์ HTML ได้เลยค่ะ"></textarea>
+            <button class="btn-back-home" style="width: 100%; margin-top: 10px; text-align: center; border-radius: 12px; font-size: 0.9rem;" onclick="copyResultCode()">📋 Copy Code</button>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 🌟 DATABASE (ใส่ข้อมูลจริงของคุณตรงนี้)
+        // =========================================================================
+        const relationships = [
+            // ================= HONKAI: STAR RAIL =================
+            { canon: "Aventurine", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Romantic", hashtag: "#AvenOC", position: "Top", whatIf: false },
+            { canon: "Blade", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Romantic", hashtag: "#BladeOC", position: "Top", whatIf: false },
+            { canon: "Dan Feng", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Romantic", hashtag: "#FengOC", position: "Top", whatIf: true },
+            { canon: "Dan Heng", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Platonic", hashtag: "#HengOC", position: "-", whatIf: false },
+            { canon: "Dr. Ratio", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Romantic", hashtag: "#RatioOC", position: "Top", whatIf: false },
+            { canon: "Gepard", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "No Sharing", relation: "Romantic", hashtag: "#GepardOC", position: "Top", whatIf: false },
+            { canon: "Jing Yuan", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "No Sharing", relation: "Romantic", hashtag: "#JingOC", position: "Top", whatIf: false },
+            { canon: "Sunday", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Romantic", hashtag: "#SundayOC", position: "Top", whatIf: false },
+            { canon: "Jiaoqiu", oc: "OC Name", fandom: "Honkai: Star Rail", sharing: "Selective", relation: "Romantic", hashtag: "#JiaoOC", position: "Top", whatIf: false },
+
+            // ================= GENSHIN IMPACT =================
+            { canon: "Albedo", oc: "OC Name", fandom: "Genshin Impact", sharing: "No Sharing", relation: "Romantic", hashtag: "#AlbedoOC", position: "Top", whatIf: false },
+            { canon: "Alhaitham", oc: "OC Name", fandom: "Genshin Impact", sharing: "Selective", relation: "Romantic", hashtag: "#HaithamOC", position: "Top", whatIf: false },
+            { canon: "Dainsleif", oc: "OC Name", fandom: "Genshin Impact", sharing: "Selective", relation: "Romantic", hashtag: "#DainOC", position: "Top", whatIf: false },
+            { canon: "Kaedehara Kazuha", oc: "OC Name", fandom: "Genshin Impact", sharing: "Selective", relation: "Romantic", hashtag: "#KazuhaOC", position: "Top", whatIf: false },
+            { canon: "Kaveh", oc: "OC Name", fandom: "Genshin Impact", sharing: "Selective", relation: "Romantic", hashtag: "#KavehOC", position: "Top", whatIf: false },
+            { canon: "Neuvillette", oc: "OC Name", fandom: "Genshin Impact", sharing: "Selective", relation: "Romantic", hashtag: "#NeuvOC", position: "Top", whatIf: false },
+            { canon: "Tartaglia", oc: "OC Name", fandom: "Genshin Impact", sharing: "No Sharing", relation: "Romantic", hashtag: "#ChildeOC", position: "Top", whatIf: false },
+            { canon: "Wanderer", oc: "OC Name", fandom: "Genshin Impact", sharing: "Selective", relation: "Romantic", hashtag: "#WandererOC", position: "Top", whatIf: false },
+            { canon: "Xiao", oc: "OC Name", fandom: "Genshin Impact", sharing: "No Sharing", relation: "Romantic", hashtag: "#XiaoOC", position: "Top", whatIf: false },
+
+            // ================= ZENLESS ZONE ZERO =================
+            { canon: "Wise", oc: "OC Name", fandom: "Zenless Zone Zero", sharing: "No Sharing", relation: "Romantic", hashtag: "#WiseOC", position: "-", whatIf: false },
+            { canon: "Lycaon", oc: "OC Name", fandom: "Zenless Zone Zero", sharing: "No Sharing", relation: "Platonic", hashtag: "#LycaonOC", position: "-", whatIf: false },
+
+            // ================= BLEACH =================
+            { canon: "Ishida Uryū", oc: "OC Name", fandom: "Bleach", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Hitsugaya Tōshirō", oc: "OC Name", fandom: "Bleach", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Ukitake Jūshirō", oc: "OC Name", fandom: "Bleach", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Kyōraku Shunsui", oc: "OC Name", fandom: "Bleach", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Kira Izuru", oc: "OC Name", fandom: "Bleach", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Aizen Sōsuke", oc: "OC Name", fandom: "Bleach", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Komamura Sajin", oc: "OC Name", fandom: "Bleach", sharing: "Selective", relation: "Platonic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= HAIKYU!! =================
+            { canon: "Kuroo Tetsuro", oc: "OC Name", fandom: "Haikyū!!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Oikawa Tooru", oc: "OC Name", fandom: "Haikyū!!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Akaashi Keiji", oc: "OC Name", fandom: "Haikyū!!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Ushijima Wakatoshi", oc: "OC Name", fandom: "Haikyū!!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Suna Rintaro", oc: "OC Name", fandom: "Haikyū!!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Kita Shintaro", oc: "OC Name", fandom: "Haikyū!!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Nishinoya Yu", oc: "OC Name", fandom: "Haikyū!!", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Tsukishima Kei", oc: "OC Name", fandom: "Haikyū!!", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Sawamura Daichi", oc: "OC Name", fandom: "Haikyū!!", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Miya Osamu", oc: "OC Name", fandom: "Haikyū!!", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Miya Atsumu", oc: "OC Name", fandom: "Haikyū!!", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= YUME 100 =================
+            { canon: "Iria", oc: "OC Name", fandom: "yume100", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Graysia", oc: "OC Name", fandom: "yume100", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Forma", oc: "OC Name", fandom: "yume100", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Ster", oc: "OC Name", fandom: "yume100", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Toya", oc: "OC Name", fandom: "yume100", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Shin", oc: "OC Name", fandom: "yume100", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Volker", oc: "OC Name", fandom: "yume100", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Koga", oc: "OC Name", fandom: "yume100", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Apis", oc: "OC Name", fandom: "yume100", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Seras", oc: "OC Name", fandom: "yume100", sharing: "Selective", relation: "Platonic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= KUROKO NO BASKET =================
+            { canon: "Shun Izuki", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Yukio Kasamatsu", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Yoshitaka Moriyama", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Shintarō Midorima", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Shoichi Imayoshi", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Tatsuya Himuro", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Seijūrō Akashi", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Chihiro Mayuzumi", oc: "OC Name", fandom: "Kuroko no Basket", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= FREE! =================
+            { canon: "Ryuugazaki Rei", oc: "OC Name", fandom: "Free!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Matsuoka Rin", oc: "OC Name", fandom: "Free!", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Tachibana Makoto", oc: "OC Name", fandom: "Free!", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= NARUTO =================
+            { canon: "Uchiha Sasuke", oc: "OC Name", fandom: "NARUTO", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Gaara", oc: "OC Name", fandom: "NARUTO", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Kakashi Hatake", oc: "OC Name", fandom: "NARUTO", sharing: "No Sharing", relation: "Platonic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Uchiha Itachi", oc: "OC Name", fandom: "NARUTO", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Sai", oc: "OC Name", fandom: "NARUTO", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= ASSASSINATION CLASSROOM =================
+            { canon: "Karma Akabane", oc: "OC Name", fandom: "Assassination Classroom", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Gakushu Asano", oc: "OC Name", fandom: "Assassination Classroom", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Gakuho Asano", oc: "OC Name", fandom: "Assassination Classroom", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+
+            // ================= A SONG OF ICE AND FIRE (HOTD / GOT) =================
+            { canon: "Jaehaerys I Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Aemon Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Baelon Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Jacaerys Velaryon", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Aegon III Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Lucerys Velaryon", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Daeron Targaryen (The Daring)", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Gwayne Hightower", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Aemond Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            
+            // เคส 3P พิเศษ - Canon 1 x OC x Canon 2 (สังเกตการใส่ sharing 2 อันคั่นด้วยลูกน้ำ)
+            { canon: "Samwell & Alysanne Blackwood", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Free, Selective", relation: "Romantic", hashtag: "#BlackwoodXOC", position: "Switches, Switches", whatIf: false, is3P: true },
+            
+            { canon: "Daemon Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Cregan Stark", oc: "OC Name", fandom: "A Song of Ice and Fire", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            
+            // ================= OTHER ANIME & GAMES =================
+            { canon: "Umemiya Hajime", oc: "OC Name", fandom: "Wind Breaker", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Suo Hayato", oc: "OC Name", fandom: "Wind Breaker", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Togame Jo", oc: "OC Name", fandom: "Wind Breaker", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Kaji Ren", oc: "OC Name", fandom: "Wind Breaker", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            
+            { canon: "Sanji Vinsmoke", oc: "OC Name", fandom: "One Piece", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Portgas D. Ace", oc: "OC Name", fandom: "One Piece", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Roronoa Zoro", oc: "OC Name", fandom: "One Piece", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            
+            { canon: "Simon 'Ghost' Riley", oc: "OC Name", fandom: "CALL OF DUTY", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "König", oc: "OC Name", fandom: "CALL OF DUTY", sharing: "No Sharing", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+
+            { canon: "Bruce Wayne", oc: "OC Name", fandom: "DC", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            { canon: "Jason Todd", oc: "OC Name", fandom: "DC", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false },
+            
+            { canon: "Maximus Decimus", oc: "OC Name", fandom: "Gladiator", sharing: "Selective", relation: "Romantic", hashtag: "-", position: "-", whatIf: false }
+            // วางข้อมูลอื่นๆ ต่อจากบรรทัดนี้...
+        ];
+
+        // =========================================================================
+        // ระบบ ADMIN PANEL (ซ่อนไว้สำหรับเจ้าของเว็บ)
+        // =========================================================================
+        const adminPassword = "primax"; // ✨ ตั้งรหัสผ่านของคุณตรงนี้ค่ะ ✨
+
+        function openAdminPrompt() {
+            let pwd = prompt("🔐 กรุณาใส่รหัสผ่านเพื่อเข้าสู่ Admin Panel:");
+            if (pwd === adminPassword) {
+                document.getElementById('adminModal').style.display = 'block';
+            } else if (pwd !== null) {
+                alert("รหัสผ่านไม่ถูกต้องค่ะ 🥺");
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function generatePairCode() {
+            let fandom = document.getElementById('addFandom').value || "Fandom Name";
+            let oc = document.getElementById('addOc').value || "OC Name";
+            let canon = document.getElementById('addCanon').value || "Canon Name";
+            let relation = document.getElementById('addRelation').value;
+            let sharing = document.getElementById('addSharing').value || "Selective";
+            let position = document.getElementById('addPosition').value || "-";
+            let hashtag = document.getElementById('addHashtag').value || "-";
+            let whatIf = document.getElementById('addWhatIf').checked;
+            let is3P = document.getElementById('addIs3P').checked;
+
+            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", sharing: "${sharing}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}`;
+            if(is3P) codeStr += `, is3P: true`;
+            codeStr += ` },`;
+
+            document.getElementById('resultCode').value = codeStr;
+        }
+
+        function copyResultCode() {
+            let codeBox = document.getElementById('resultCode');
+            if(codeBox.value === "") return;
+            codeBox.select();
+            navigator.clipboard.writeText(codeBox.value);
+            alert("✅ ก๊อปปี้โค้ดเรียบร้อยแล้ว! นำไปวางต่อท้ายใน `const relationships = [...]` ได้เลยค่ะ");
+        }
+
+        // =========================================================================
+        // สคริปต์สำหรับการแสดงผลและการจัดเรียง
+        // =========================================================================
+        const cardContainer = document.getElementById('cardContainer');
+        const filterFandom = document.getElementById('filterFandom');
+        const filterRelation = document.getElementById('filterRelation');
+        const filterSharing = document.getElementById('filterSharing');
+        const totalCount = document.getElementById('totalCount');
+
+        function populateDropdowns() {
+            const fandoms = [...new Set(relationships.map(item => item.fandom))].sort();
+            fandoms.forEach(f => {
+                const option = document.createElement('option'); option.value = f; option.textContent = f;
+                filterFandom.appendChild(option);
+            });
+        }
+
+        function getShareBadge(sharingStr) {
+            let badgeHtml = '';
+            if(sharingStr.includes("No Sharing")) badgeHtml = `<span class="share-no">🚫 No Sharing</span>`;
+            else if(sharingStr.includes("Selective")) badgeHtml = `<span class="share-sel">🔓 Selective</span>`;
+            else if(sharingStr.includes("Free")) badgeHtml = `<span class="share-free">✅ Free</span>`;
+            else badgeHtml = `<span class="share-sel">${sharingStr}</span>`;
+            return badgeHtml;
+        }
+
+        function applyFilters() {
+            const selectedFandom = filterFandom.value;
+            const selectedRelation = filterRelation.value;
+            const selectedSharing = filterSharing.value;
+
+            let filteredData = relationships.filter(item => {
+                const matchFandom = (selectedFandom === 'All') || (item.fandom === selectedFandom);
+                const matchRelation = (selectedRelation === 'All') || (item.relation === selectedRelation);
+                const matchSharing = (selectedSharing === 'All') || (item.sharing.includes(selectedSharing));
+                return matchFandom && matchRelation && matchSharing;
+            });
+
+            totalCount.innerText = `Total: ${filteredData.length} Pairs`;
+            cardContainer.innerHTML = '';
+            
+            filteredData.forEach(item => {
+                const whatIfBadge = item.whatIf ? `<span class="whatif-badge">What-If</span>` : '';
+                let imgBoxHtml = '', heartHtml = '', titleHtml = '';
+                
+                if(item.is3P) {
+                    let canonNames = item.canon.split('&');
+                    let positionArr = item.position.split(',');
+                    let pos1 = positionArr[0] ? positionArr[0].trim() : '-';
+                    let pos2 = positionArr[1] ? positionArr[1].trim() : pos1; 
+
+                    imgBoxHtml = `
+                        <div class="img-box canon-box"><img src="https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon+1" alt="Canon1"><div class="badge-fandom">${item.fandom}</div><div class="badge-position">${pos1}</div></div>
+                        <div class="img-box"><img src="https://via.placeholder.com/300x300/f3e5f5/9c27b0?text=OC" alt="OC"></div>
+                        <div class="img-box canon-box"><img src="https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon+2" alt="Canon2"><div class="badge-fandom">${item.fandom}</div><div class="badge-position">${pos2}</div></div>
+                    `;
+                    heartHtml = `<div class="heart-container"><div class="heart-icon heart-3p-left"><i class="fas fa-heart"></i></div><div class="heart-icon heart-3p-right"><i class="fas fa-heart"></i></div></div>`;
+                    titleHtml = `${canonNames[0].trim()} x ${item.oc} x ${canonNames[1].trim()} ${whatIfBadge}`;
+                } else {
+                    imgBoxHtml = `
+                        <div class="img-box"><img src="https://via.placeholder.com/300x300/f3e5f5/9c27b0?text=OC" alt="OC"></div>
+                        <div class="img-box canon-box"><img src="https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon" alt="Canon"><div class="badge-fandom">${item.fandom}</div><div class="badge-position">${item.position}</div></div>
+                    `;
+                    heartHtml = `<div class="heart-container"><div class="heart-icon heart-2p"><i class="fas fa-heart"></i></div></div>`;
+                    titleHtml = `${item.oc} x ${item.canon} ${whatIfBadge}`;
+                }
+
+                let sharingHtml = item.sharing.includes(',') ? `<div class="badge-gap">` + item.sharing.split(',').map(s => getShareBadge(s.trim())).join('') + `</div>` : getShareBadge(item.sharing);
+
+                const cardHtml = `
+                    <div class="couple-card ${item.is3P ? 'is-3p' : ''}">
+                        <div class="img-container">${imgBoxHtml}${heartHtml}</div>
+                        <div class="info-section">
+                            <div class="names mt-3">${titleHtml}</div>
+                            <div class="details-grid mt-3">
+                                <div class="d-row"><span class="d-label">Relationship</span><span class="d-value" style="color: #8e24aa;">${item.relation}</span></div>
+                                <div class="d-row"><span class="d-label">Sharing</span><span class="d-value">${sharingHtml}</span></div>
+                                <div class="d-row"><span class="d-label">Hashtag</span><span class="d-value" style="color: #c2185b;">${item.hashtag}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardContainer.innerHTML += cardHtml;
+            });
+
+            if (filteredData.length === 0) cardContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #8e24aa; padding: 2rem;">ไม่พบข้อมูลคู่ที่คุณค้นหาค่ะ 🥺</div>`;
+        }
+
+        function createParticles() { /* โค้ดสร้างหิมะ... ถูกบีบเพื่อประหยัดพื้นที่ */
+            const container = document.getElementById('snow-container'); const symbols = ['☁️', '✨', '💜', '🤍', '⭐', '🌸']; 
+            for (let i = 0; i < 25; i++) { let flake = document.createElement('div'); flake.className = 'snowflake'; flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)]; flake.style.left = Math.random() * 100 + 'vw'; let size = Math.random() * 1.5 + 0.8; flake.style.fontSize = size + 'rem'; flake.style.animationDuration = ((Math.random() * 5 + 8) / (size * 0.8)) + 's, ' + (((Math.random() * 5 + 8) / (size * 0.8))/1.5) + 's'; flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's'; flake.style.opacity = Math.random() * 0.4 + 0.3; flake.style.color = ['rgba(206, 147, 216, 0.8)', 'rgba(186, 104, 200, 0.8)', 'rgba(255, 255, 255, 0.9)'][Math.floor(Math.random() * 3)]; container.appendChild(flake); }
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            createParticles(); populateDropdowns(); applyFilters();
+            const blobs = document.querySelectorAll('.liquid-blob');
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth, y = e.clientY / window.innerHeight;
+                blobs.forEach((blob, index) => { const speed = (index + 1) * 12; blob.style.transform = `translate(${(0.5 - x) * speed}px, ${(0.5 - y) * speed}px)`; });
+            });
+        });
+    </script>
+</body>
+</html>
