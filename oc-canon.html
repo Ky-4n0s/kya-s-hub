@@ -94,7 +94,7 @@
            4. MODAL STYLES (Admin & Story)
            ========================================================================== */
         .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); z-index: 9999; }
-        .admin-content { background: rgba(255, 255, 255, 0.95); border-radius: 30px; padding: 2.5rem; width: 95%; max-width: 700px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid rgba(255, 255, 255, 1); box-shadow: 0 25px 45px rgba(106, 27, 154, 0.15); max-height: 90vh; overflow-y: auto; }
+        .admin-content { background: rgba(255, 255, 255, 0.95); border-radius: 30px; padding: 2.5rem; width: 95%; max-width: 750px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid rgba(255, 255, 255, 1); box-shadow: 0 25px 45px rgba(106, 27, 154, 0.15); max-height: 90vh; overflow-y: auto; }
         .admin-title { color: #7b1fa2; font-weight: 700; text-align: center; margin-bottom: 20px; font-size: 1.8rem; }
         .form-group { margin-bottom: 15px; } .form-group label { display: block; font-size: 0.9rem; color: #6a1b9a; font-weight: 700; margin-bottom: 5px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #e1bee7; background: #fff; color: #4a3b52; font-family: 'Krub', sans-serif; outline: none; transition: 0.3s; }
@@ -103,6 +103,9 @@
         .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(186, 104, 200, 0.3); }
         .result-code { width: 100%; height: 100px; margin-top: 15px; padding: 10px; border-radius: 12px; border: 1px dashed #ba68c8; background: #fdf5f9; font-family: monospace; font-size: 0.8rem; color: #4a148c; resize: none; outline: none; }
         .close-admin { position: absolute; top: 20px; right: 25px; font-size: 1.5rem; color: #ba68c8; cursor: pointer; transition: 0.3s; } .close-admin:hover { color: #7b1fa2; }
+
+        /* สไตล์กล่องแยกตัวละครในหน้าแอดมิน */
+        .char-box { background: #f3e5f5; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #e1bee7; }
 
         /* Pop-up Story Modal */
         .story-title { color: #c2185b; font-weight: 700; margin-bottom: 10px; font-size: 1.5rem; text-align: center; }
@@ -127,6 +130,11 @@
         .credit-box { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ce93d8; font-size: 0.85rem; color: #7b1fa2; text-align: center; }
         .credit-link { color: #d81b60; font-weight: 700; text-decoration: none; transition: 0.3s; }
         .credit-link:hover { color: #e91e63; text-decoration: underline; }
+
+        /* 3P Stats Grid */
+        .stats-grid-3p { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-col-title { font-size: 0.9rem; font-weight: 700; color: #c2185b; text-align: center; margin-bottom: 10px; border-bottom: 1px dashed #f8bbd0; padding-bottom: 5px; }
+        @media (max-width: 500px) { .stats-grid-3p { grid-template-columns: 1fr; gap: 15px; } }
     </style>
 </head>
 <body>
@@ -175,53 +183,82 @@
     <div id="hiddenPlayer" style="position: absolute; top: -9999px; left: -9999px; width: 300px; height: 300px; opacity: 0.0001; pointer-events: none; overflow: hidden;"></div>
 
     <!-- ==========================================
-         ADMIN MODAL 
+         ADMIN MODAL
          ========================================== -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-content">
             <i class="fas fa-times close-admin" onclick="closeAdmin()"></i>
             <h2 class="admin-title"><i class="fas fa-magic"></i> Add New Pair</h2>
-            <p style="text-align:center; font-size:0.85rem; color:#8e24aa;">สร้างโค้ดข้อมูลเพื่อนำไปแปะใน GitHub ได้ง่ายๆ</p>
             
             <div class="row">
-                <div class="col-md-4 form-group">
+                <div class="col-md-6 form-group">
                     <label>Fandom Name</label>
                     <input type="text" id="addFandom" placeholder="e.g. Genshin Impact">
                 </div>
-                <div class="col-md-4 form-group">
-                    <label>OC Name</label>
-                    <input type="text" id="addOc" placeholder="e.g. Primax">
-                </div>
-                <div class="col-md-4 form-group">
-                    <label>Canon Name <small>(& คั่นสำหรับ 3P)</small></label>
-                    <input type="text" id="addCanon" placeholder="e.g. Albedo">
+                <div class="col-md-6 form-group">
+                    <label>Hashtag</label>
+                    <input type="text" id="addHashtag" placeholder="e.g. #AlbedoOC">
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6 form-group">
-                    <label>OC Image URL</label>
-                    <input type="text" id="addImgOc" placeholder="https://...">
+                <!-- ข้อมูล OC -->
+                <div class="col-md-6 char-box">
+                    <h6 style="color: #7b1fa2; font-weight: 700;">OC (ลูกสาว)</h6>
+                    <div class="form-group"><input type="text" id="addOc" placeholder="OC Name"></div>
+                    <div class="form-group"><input type="text" id="addImgOc" placeholder="Image URL"></div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addOcLink" placeholder="Profile Link"></div>
+                        <div class="col-6 form-group"><input type="text" id="addOcHeight" placeholder="Height"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addCreditOc" placeholder="Artist Name"></div>
+                        <div class="col-6 form-group"><input type="text" id="addLinkCreditOc" placeholder="Artist Link"></div>
+                    </div>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label>Canon Image URL <small>(3P คั่นด้วยลูกน้ำ)</small></label>
-                    <input type="text" id="addImgCanon" placeholder="https://...">
+                
+                <!-- ข้อมูล Canon 1 -->
+                <div class="col-md-6 char-box">
+                    <h6 style="color: #7b1fa2; font-weight: 700;">Canon 1 (เมนคนโปรด)</h6>
+                    <div class="form-group"><input type="text" id="addCanon1" placeholder="Canon Name"></div>
+                    <div class="form-group"><input type="text" id="addImgCanon1" placeholder="Image URL"></div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <select id="addPosCanon1">
+                                <option value="-">Pos (-)</option>
+                                <option value="Top">Top</option>
+                                <option value="Bottom">Bottom</option>
+                                <option value="Switches">Switches</option>
+                            </select>
+                        </div>
+                        <div class="col-6 form-group"><input type="text" id="addHeightCanon1" placeholder="Height"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addCreditCanon1" placeholder="Artist Name"></div>
+                        <div class="col-6 form-group"><input type="text" id="addLinkCreditCanon1" placeholder="Artist Link"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>OC Profile Link <small>(ลิงก์ Toyhouse ของ OC)</small></label>
-                <input type="text" id="addOcLink" placeholder="https://toyhou.se/...">
-            </div>
-
-            <div class="row" style="background: rgba(243, 229, 245, 0.5); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
-                <div class="col-md-4 form-group mb-0">
-                    <label>OC Height</label>
-                    <input type="text" id="addOcHeight" placeholder="e.g. 160 cm">
+            <!-- ข้อมูล Canon 2 (ซ่อนไว้โชว์ตอนติ๊ก 3P) -->
+            <div class="char-box" id="box3P" style="display: none; background: #fdf5f9;">
+                <h6 style="color: #c2185b; font-weight: 700;">Canon 2 (ขวาสุด - โหมด 3P)</h6>
+                <div class="row">
+                    <div class="col-4 form-group"><input type="text" id="addCanon2" placeholder="Canon Name"></div>
+                    <div class="col-4 form-group"><input type="text" id="addImgCanon2" placeholder="Image URL"></div>
+                    <div class="col-4 form-group"><input type="text" id="addHeightCanon2" placeholder="Height"></div>
                 </div>
-                <div class="col-md-8 form-group mb-0">
-                    <label>Canon Height <small>(หากเป็น 3P คั่นด้วยลูกน้ำได้)</small></label>
-                    <input type="text" id="addCanonHeight" placeholder="e.g. 180 cm หรือ 180 cm, 185 cm">
+                <div class="row">
+                    <div class="col-4 form-group">
+                        <select id="addPosCanon2">
+                            <option value="-">Pos (-)</option>
+                            <option value="Top">Top</option>
+                            <option value="Bottom">Bottom</option>
+                            <option value="Switches">Switches</option>
+                        </select>
+                    </div>
+                    <div class="col-4 form-group"><input type="text" id="addCreditCanon2" placeholder="Artist Name"></div>
+                    <div class="col-4 form-group"><input type="text" id="addLinkCreditCanon2" placeholder="Artist Link"></div>
                 </div>
             </div>
 
@@ -236,22 +273,11 @@
                     </select>
                 </div>
                 <div class="col-md-4 form-group">
-                    <label>Position <small>(3P คั่นด้วยลูกน้ำได้)</small></label>
-                    <input type="text" id="addPosition" placeholder="e.g. Top">
-                </div>
-                <div class="col-md-4 form-group">
-                    <label>Hashtag</label>
-                    <input type="text" id="addHashtag" placeholder="e.g. #AlbedoOC">
-                </div>
-            </div>
-
-            <div class="row" style="background: rgba(206, 147, 216, 0.1); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
-                <div class="col-md-6 form-group mb-0">
-                    <label>Theme Song Title <small>(ชื่อเพลง)</small></label>
+                    <label>Theme Song Title</label>
                     <input type="text" id="addThemeSong" placeholder="e.g. Dandelions - Ruth B.">
                 </div>
-                <div class="col-md-6 form-group mb-0">
-                    <label>Song URL <small>(ลิงก์ YouTube)</small></label>
+                <div class="col-md-4 form-group">
+                    <label>Song URL <small>(YouTube)</small></label>
                     <input type="text" id="addSongLink" placeholder="https://youtu.be/...">
                 </div>
             </div>
@@ -261,38 +287,41 @@
                 <input type="text" id="addDetailRel" placeholder="e.g. คนรักที่ต่างฝ่ายต่างคลั่งรักกันมาก">
             </div>
 
-            <div class="row" style="background: rgba(24ce, 147, 216, 0.1); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
-                <div class="col-md-4 form-group mb-0">
-                    <label>💖 Love (%)</label>
-                    <input type="number" id="addLove" placeholder="0-100" min="0" max="100" value="100">
+            <div class="row" style="background: rgba(206, 147, 216, 0.1); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
+                <div class="col-12 mb-2"><strong style="color:#7b1fa2; font-size:0.9rem;">Relationship Gauges (%)</strong></div>
+                
+                <!-- ชุดที่ 1 (Canon 1 หรือคู่ปกติ) -->
+                <div class="col-md-4 form-group mb-2">
+                    <label>💖 Love <span class="badge-3p-label" style="display:none; color:#c2185b;">(Canon 1)</span></label>
+                    <input type="number" id="addLove1" placeholder="0-100" min="0" max="100" value="100">
                 </div>
-                <div class="col-md-4 form-group mb-0">
-                    <label>🔗 Bond (%)</label>
-                    <input type="number" id="addBond" placeholder="0-100" min="0" max="100" value="100">
+                <div class="col-md-4 form-group mb-2">
+                    <label>🔗 Bond <span class="badge-3p-label" style="display:none; color:#c2185b;">(Canon 1)</span></label>
+                    <input type="number" id="addBond1" placeholder="0-100" min="0" max="100" value="100">
                 </div>
-                <div class="col-md-4 form-group mb-0">
-                    <label>💔 Hate (%)</label>
-                    <input type="number" id="addHate" placeholder="0-100" min="0" max="100" value="0">
+                <div class="col-md-4 form-group mb-2">
+                    <label>💔 Hate <span class="badge-3p-label" style="display:none; color:#c2185b;">(Canon 1)</span></label>
+                    <input type="number" id="addHate1" placeholder="0-100" min="0" max="100" value="0">
+                </div>
+
+                <!-- ชุดที่ 2 (ซ่อนไว้สำหรับ 3P) -->
+                <div class="col-md-4 form-group mb-0 box-stat-3p" style="display:none;">
+                    <label>💖 Love <span style="color:#c2185b;">(Canon 2)</span></label>
+                    <input type="number" id="addLove2" placeholder="0-100" min="0" max="100" value="100">
+                </div>
+                <div class="col-md-4 form-group mb-0 box-stat-3p" style="display:none;">
+                    <label>🔗 Bond <span style="color:#c2185b;">(Canon 2)</span></label>
+                    <input type="number" id="addBond2" placeholder="0-100" min="0" max="100" value="100">
+                </div>
+                <div class="col-md-4 form-group mb-0 box-stat-3p" style="display:none;">
+                    <label>💔 Hate <span style="color:#c2185b;">(Canon 2)</span></label>
+                    <input type="number" id="addHate2" placeholder="0-100" min="0" max="100" value="0">
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Short Story <small>(ใช้แท็ก &lt;br&gt; เพื่อขึ้นบรรทัดใหม่ได้)</small></label>
                 <textarea id="addStory" rows="2" placeholder="พิมพ์เนื้อเรื่องสั้นๆ ตรงนี้..."></textarea>
-            </div>
-
-            <!-- ส่วนใหม่: Art Credits -->
-            <div class="row" style="background: rgba(225, 190, 231, 0.3); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
-                <div class="col-md-6 form-group mb-0">
-                    <label>🎨 OC Artist Name & Link <small>(เว้นว่างได้)</small></label>
-                    <input type="text" id="addCreditOc" placeholder="Artist Name" class="mb-2">
-                    <input type="text" id="addLinkCreditOc" placeholder="https://twitter.com/...">
-                </div>
-                <div class="col-md-6 form-group mb-0">
-                    <label>🎨 Canon Artist Name & Link <small>(เว้นว่างได้)</small></label>
-                    <input type="text" id="addCreditCanon" placeholder="Artist Name" class="mb-2">
-                    <input type="text" id="addLinkCreditCanon" placeholder="https://twitter.com/...">
-                </div>
             </div>
 
             <div class="form-group" style="display: flex; gap: 20px; align-items: center; margin-top: 10px; flex-wrap: wrap;">
@@ -303,7 +332,7 @@
                     <input type="checkbox" id="addWhatIf" style="width: auto;"> What-If (AU)
                 </label>
                 <label style="margin: 0; display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                    <input type="checkbox" id="addIs3P" style="width: auto;"> Is 3P (3 คน)
+                    <input type="checkbox" id="addIs3P" style="width: auto;" onchange="toggle3P(this)"> Is 3P (3 คน)
                 </label>
             </div>
 
@@ -328,18 +357,7 @@
             </div>
 
             <div class="story-stats" id="storyStats">
-                <div class="stat-group">
-                    <div class="stat-label"><span><i class="fas fa-heart"></i> ระดับความรัก</span> <span id="valLove">0%</span></div>
-                    <div class="stat-bar"><div class="stat-fill fill-love" id="barLove"></div></div>
-                </div>
-                <div class="stat-group">
-                    <div class="stat-label"><span><i class="fas fa-link"></i> ระดับความผูกพัน</span> <span id="valBond">0%</span></div>
-                    <div class="stat-bar"><div class="stat-fill fill-bond" id="barBond"></div></div>
-                </div>
-                <div class="stat-group">
-                    <div class="stat-label"><span><i class="fas fa-heart-broken"></i> ระดับความเกลียดชัง</span> <span id="valHate">0%</span></div>
-                    <div class="stat-bar"><div class="stat-fill fill-hate" id="barHate"></div></div>
-                </div>
+                <!-- ข้อมูลหลอดความสัมพันธ์จะถูกสร้างผ่าน JS ตรงนี้ -->
             </div>
 
             <div class="story-text-container">
@@ -354,65 +372,53 @@
     <script>
         // =========================================================================
         // 🌟 DATABASE
-        // เพิ่ม creditOc, linkCreditOc, creditCanon, linkCreditCanon
         // =========================================================================
         const relationships = [
             // ================= ELDEN RING =================
             { canon: "Messmer the Impaler", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "https://toyhou.se",
               themeSong: "", songLink: "",
-              ocHeight: "165 cm", canonHeight: "350 cm", detailRel: "",
-              loveLevel: 100, bondLevel: 95, hateLevel: 5, myBelove: true,
-              imgOc: "-", 
-              imgCanon: "https://i.pinimg.com/736x/01/5d/0e/015d0e92b4a3465ce6fa467859f247ca.jpg",
-              story: "",
-              creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+              ocHeight: "165 cm", canonHeight: "350 cm", detailRel: "", loveLevel: 100, bondLevel: 95, hateLevel: 5, myBelove: true,
+              imgOc: "-", imgCanon: "https://i.pinimg.com/736x/01/5d/0e/015d0e92b4a3465ce6fa467859f247ca.jpg",
+              story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
 
-            { canon: "Godwyn the Golden", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#",                                     
+            { canon: "Godwyn the Golden", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#",                                        
               themeSong: "Dark Paradise - Lana Del Rey", songLink: "https://www.youtube.com/watch?v=dvSZQ4oMHGM", 
-              ocHeight: "160", canonHeight: "500+", detailRel: "-", 
-              loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, 
-              imgOc: "-", 
-              imgCanon: "https://i.pinimg.com/1200x/82/54/81/8254816cd2869aa3febea7d99ad63cce.jpg", 
-              story: "", 
-              creditOc: "-", linkCreditOc: "-", creditCanon: "𝐠𝐫𝐚𝐯𝐢𝐭𝐲 ♱", linkCreditCanon: "https://x.com/gravitydusty" },
+              ocHeight: "160", canonHeight: "500+", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, 
+              imgOc: "-", imgCanon: "https://i.pinimg.com/1200x/82/54/81/8254816cd2869aa3febea7d99ad63cce.jpg", 
+              story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "𝐠𝐫𝐚𝐯𝐢𝐭𝐲 ♱", linkCreditCanon: "https://x.com/gravitydusty" },
 
             // ================= Dark Souls =================
-
             { canon: "Dark Sun Gwyndolin", oc: "OC Name", fandom: "Dark Souls", relation: "Romantic", hashtag: "#", position: "Mostly Top", whatIf: false, ocLink: "#",
-               themeSong: "Religion - Lana Del Rey", songLink: "https://www.youtube.com/watch?v=HUB63iL3icA", 
-              ocHeight: "185", canonHeight: "300+", detailRel: "-", 
-              loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, 
-              imgOc: "-", 
-              imgCanon: "https://i.pinimg.com/736x/53/9f/b2/539fb2c4b516e090d94114734e6a66a3.jpg", 
-              story: "", 
-              creditOc: "-", linkCreditOc: "-", creditCanon: "JLIEN-", linkCreditCanon: "https://x.com/JLIENnnn" },
+              themeSong: "Religion - Lana Del Rey", songLink: "https://www.youtube.com/watch?v=HUB63iL3icA", 
+              ocHeight: "185", canonHeight: "300+", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, 
+              imgOc: "-", imgCanon: "https://i.pinimg.com/736x/53/9f/b2/539fb2c4b516e090d94114734e6a66a3.jpg", 
+              story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "JLIEN-", linkCreditCanon: "https://x.com/JLIENnnn" },
 
             // ================= HONKAI: STAR RAIL =================
-            { canon: "Jing Yuan", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Nanook", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Lan", oc: "Lanling", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "Eternity - Alex Warren", songLink: "https://www.youtube.com/watch?v=jXqf3uqLkkU" },
-            { canon: "Aventurine", oc: "Pavonia", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "160 cm", canonHeight: "180 cm", detailRel: "", loveLevel: 90, bondLevel: 85, hateLevel: 0, myBelove: false, story: "" },
-            { canon: "Sugilite", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#", themeSong: "RUNRUNRUN - Dutch Melrose", songLink: "https://www.youtube.com/watch?v=g1BaGm7syr4", ocHeight: "160 cm", canonHeight: "180 cm", detailRel: "", loveLevel: 90, bondLevel: 85, hateLevel: 0, myBelove: true, story: "" },
-            { canon: "Yanqing", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Dan Feng & Dan Heng", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Platonic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
-            { canon: "Dr. Ratio", oc: "Calla", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
-            { canon: "Sunday", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jing Yuan", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "191 cm", detailRel: "-", loveLevel: 80, bondLevel: 86, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/b0/a1/8c/b0a18cbd03af57e9897792f1d35366b8.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Nanook", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "-", detailRel: "-", loveLevel: 0, bondLevel: 0, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/5e/f3/03/5ef303b3e27e59fc0dbaf1c0cbbc10e1.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Lan", oc: "Lanling", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37567279.tbn", themeSong: "Eternity - Alex Warren", songLink: "https://www.youtube.com/watch?v=jXqf3uqLkkU", ocHeight: "162cm", canonHeight: "-", detailRel: "-", loveLevel: 91, bondLevel: 100, hateLevel: 20, myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37567279?1770225850", imgCanon: "https://i.pinimg.com/1200x/fb/78/17/fb7817491bc0c116f91fcadab7577c03.jpg", story: "", creditOc: "Namwan Natthida", linkCreditOc: "https://www.facebook.com/nattida.namwan", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Aventurine", oc: "Pavonia", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37130601.pavonia", themeSong: "-", songLink: "-", ocHeight: "168 cm", canonHeight: "175 cm", detailRel: "-", loveLevel: 0, bondLevel: 0, hateLevel: 0, myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37130601?1768128822", imgCanon: "https://i.pinimg.com/736x/d9/94/4e/d9944e080a8f32ff208bfba9614bfed0.jpg", story: "", creditOc: "ค่ก ค้ก ค่ก ค้ก", linkCreditOc: "https://www.facebook.com/khk.khk.khk.khk.989132", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Sugilite", oc: "Beryllia", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/39164652.beryllia", themeSong: "RUNRUNRUN - Dutch Melrose", songLink: "https://www.youtube.com/watch?v=g1BaGm7syr4", ocHeight: "165 cm", canonHeight: "180 cm", detailRel: "-", loveLevel: 0, bondLevel: 0, hateLevel: 0, myBelove: true, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/39164652?1783248373", imgCanon: "https://i.pinimg.com/736x/44/a5/3d/44a53dff6878f7d5899465b597012b1a.jpg", story: "", creditOc: "Min Lilin", linkCreditOc: "https://web.facebook.com/min.lilin.2024", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Yanqing", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "154 cm", detailRel: "-", loveLevel: 0, bondLevel: 0, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/1200x/15/ed/52/15ed524cb586b31060734e17a2e4b669.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Dan Feng & Dan Heng", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Switches, Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "186 cm, 178 cm", detailRel: "-", loveLevel: "100, 100", bondLevel: "100, 100", hateLevel: "0, 0", myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/7e/1d/79/7e1d79bf729e66aa9bb2ef0afd6a5af9.jpg, https://i.pinimg.com/736x/e0/bb/5d/e0bb5d5b60674566a1441ab85ef9f02c.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art, Official Art", linkCreditCanon: "-, -", is3P: true },
+            { canon: "Dr. Ratio", oc: "Calla", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37147094.minette", themeSong: "-", songLink: "-", ocHeight: "158 cm", canonHeight: "185 cm", detailRel: "-", loveLevel: 100, bondLevel: 95, hateLevel: 1, myBelove: true, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37147094?1768193636", imgCanon: "https://i.pinimg.com/736x/4c/72/ca/4c72ca68862d42ad3b7d97b5cbc673c3.jpg", story: "", creditOc: "Popiriko", linkCreditOc: "https://www.facebook.com/felin.rizz", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Sunday", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "181 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/0f/54/2c/0f542cd788803c6d326720584f400d6e.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
 
             // ================= GENSHIN IMPACT =================
-            { canon: "Tighnari & Cyno", oc: "Suhail", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
-            { canon: "Il Capitano", oc: "Melenia", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Il Dottore", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Alhaitham", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
-            { canon: "Kaveh", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-"},
-            { canon: "Clorinde & Wriothesley", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
-            { canon: "Neuvillette", oc: "Mélisande", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
-            { canon: "Alyosha", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
-            { canon: "Lohen", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Freminet", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
+            { canon: "Tighnari & Cyno", oc: "Suhail", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top, Switches", whatIf: false, ocLink: "https://toyhou.se/37931729.suhail", themeSong: "-", songLink: "-", ocHeight: "163 cm / 170 cm (with ears) ", canonHeight: "167 cm / 175 cm (with ears) , 165 cm", detailRel: "-", loveLevel: "100, 100", bondLevel: "100, 100", hateLevel: "0, 0", myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37931729?1771921374", imgCanon: "https://i.pinimg.com/1200x/f5/5f/02/f55f02a436b42606791ae4c602d785fb.jpg, https://i.pinimg.com/736x/d4/62/0f/d4620f0a710c6f4dff08fb5279bf2043.jpg", story: "", creditOc: "Suika Starr", linkCreditOc: "https://www.facebook.com/suika.starr/?_rdc=1&_rdr#", creditCanon: "Official Art, Official Art", linkCreditCanon: "-, -", is3P: true },
+            { canon: "Il Capitano", oc: "Melenia", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37136050.melenia", themeSong: "-", songLink: "-", ocHeight: "152 cm", canonHeight: "203 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37136050?1768158002", imgCanon: "https://i.pinimg.com/1200x/de/21/78/de2178d8bd42ef31c87552bb5048bbeb.jpg", story: "", creditOc: " Aliens XI", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Il Dottore", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "190 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/1200x/28/31/24/283124fde7ef291ffc3673914c876237.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Alhaitham", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37964323.safiyah", themeSong: "-", songLink: "-", ocHeight: "152 cm", canonHeight: "191 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37964323?1772078390", imgCanon: "https://i.pinimg.com/736x/44/b0/33/44b0333f5b7bca76dc2ce7f7d3b4596d.jpg", story: "", creditOc: "แมว ตด", linkCreditOc: "https://www.facebook.com/m.w.td.322318", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Kaveh", oc: "Safiyah", fandom: "Genshin Impact", relation: "Platonic", hashtag: "-", position: "Switches", whatIf: false, ocLink: "https://toyhou.se/37964323.safiyah", themeSong: "-", songLink: "-", ocHeight: "152 cm", canonHeight: "185 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37964323?1772078390", imgCanon: "https://i.pinimg.com/736x/cd/1a/85/cd1a85fed6bb7078e1a779a06e428c22.jpg", story: "", creditOc: "แมว ตด", linkCreditOc: "https://www.facebook.com/m.w.td.322318", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Clorinde & Wriothesley", oc: "Pirouetta", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Switches, Top", whatIf: false, ocLink: "https://toyhou.se/39528760.pirouetta", themeSong: "-", songLink: "-", ocHeight: "167 cm", canonHeight: "179 cm, 193 cm", detailRel: "-", loveLevel: "100, 100", bondLevel: "100, 100", hateLevel: "0, 0", myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/39528760?1779814511", imgCanon: "https://i.pinimg.com/736x/a6/b4/dd/a6b4ddd94c22241c6afd1c567483f6b6.jpg, https://i.pinimg.com/736x/b9/fa/72/b9fa729577048b5be68e13603367095f.jpg", story: "", creditOc: "Shiippo Inu", linkCreditOc: "https://web.facebook.com/shiippo.inu", creditCanon: "Official Art, Official Art", linkCreditCanon: "-, -", is3P: true },
+            { canon: "Neuvillette", oc: "Mélisande", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37115329.melisande", themeSong: "-", songLink: "-", ocHeight: "168 cm", canonHeight: "195 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/37115329?1768069927", imgCanon: "https://i.pinimg.com/736x/28/ea/ee/28eaeeed94afa06b41a692f88ebf6f5f.jpg", story: "", creditOc: "La Cente", linkCreditOc: "https://web.facebook.com/shun.chun.465707", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Alyosha", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "169 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/bb/f3/16/bbf316484620c24b777171e812bfd922.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Lohen", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "166 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/25/da/24/25da24114605c582cf2358aeb7eed031.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+            { canon: "Freminet", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "168 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/b2/be/32/b2be327e743a157268f3448dea257931.jpg", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
 
             // ================= ZENLESS ZONE ZERO =================
-            { canon: "Wise", oc: "Charlotte", fandom: "Zenless Zone Zero", relation: "Romantic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Lycaon", oc: "Avelaine", fandom: "Genshin Impact", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/41733862.avelaine", themeSong: "-", songLink: "-", ocHeight: "162 cm", canonHeight: "198 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/characters/41733862?1791795373", imgCanon: "https://i.pinimg.com/736x/f0/ca/43/f0ca43c54ddcaceb2c20167abdf0fd21.jpg", story: "", creditOc: " Min Lilin", linkCreditOc: "https://www.facebook.com/min.lilin.2024", creditCanon: "Official Art", linkCreditCanon: "-" },
 
             // ================= Wuthering Waves =================
             { canon: "Xiangli Yao", oc: "OC Name", fandom: "Wuthering Waves", relation: "Romantic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
@@ -430,7 +436,7 @@
 
             // ================= HAIKYU!! =================
             { canon: "Kita Shinsuke", oc: "Himeno Kotone", fandom: "HAIKYU!!", relation: "Romantic", hashtag: "-", position: "Top", whatIf: false, ocLink: "https://toyhou.se/37419246.himeno-kotone", themeSong: "-", songLink: "-", ocHeight: "156.3 cm", canonHeight: "175.2 cm", detailRel: "-", loveLevel: 80, bondLevel: 86, hateLevel: 0, myBelove: true, imgOc: "https://f2.toyhou.se/file/f2-toyhou-se/images/114511861_dmZDT2rRdv0vhDB.jpg?1780937633", imgCanon: "https://i.pinimg.com/1200x/38/f9/d7/38f9d742b0e17522e02eb588d2ecfb05.jpg", story: "", creditOc: "Cha Rizz", linkCreditOc: "https://www.facebook.com/chalyaa", creditCanon: "Official Art", linkCreditCanon: "-" },
-            { canon: "Kozume Kenma & Kuroo Tetsuro", oc: "Yoichiro Mitsuki", fandom: "Haikyū!!", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "175.4 cm, 187.7 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, imgOc: "-", imgCanon: "-", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "-", linkCreditCanon: "-", is3P: true },
+            { canon: "Kozume Kenma & Kuroo Tetsuro", oc: "Yoichiro Mitsuki", fandom: "Haikyū!!", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "175.4 cm, 187.7 cm", detailRel: "-", loveLevel: "100, 100", bondLevel: "100, 100", hateLevel: "0, 0", myBelove: true, imgOc: "-", imgCanon: "-", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "-", linkCreditCanon: "-", is3P: true },
             { canon: "Akaashi Keiji", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
             { canon: "Suna Rintaro", oc: "Ayukawa Atsune", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "Jealous - Nick Jonas", songLink: "https://www.youtube.com/watch?v=yw04QD1LaB0" },
             { canon: "Goshiki Tsutomu", oc: "Ushijima", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
@@ -444,7 +450,6 @@
             { canon: "Ukai Keishin", oc: "Nanase Chiharu", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Tsukishima Kei", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Kageyama Tobio", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
 
             // ================= Wind Breaker =================
             { canon: "Umemiya Hajime", oc: "Himejima Tsukino", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
@@ -469,13 +474,13 @@
             { canon: "Toono Hiyori", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Ryuugazaki Rei", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Ryuugazaki Rei", oc: "OC Name", fandom: "Free!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Matsuoka Rin & Nanase Haruka", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-", is3P: true  },
+            { canon: "Matsuoka Rin & Nanase Haruka", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-", is3P: true },
             { canon: "Tachibana Makoto", oc: "OC Name", fandom: "Free!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
             // ================= ASSASSINATION CLASSROOM =================
             { canon: "Gakushu Asano", oc: "OC Name", fandom: "Assassination Classroom", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "NEVER EVER - Omido", songLink: "https://www.youtube.com/watch?v=BYMlJqGqH5I" },
 
-            // ================= A SONG OF ICE AND FIRE (HOTD / GOT) =================
+            // ================= A SONG OF ICE AND FIRE =================
             { canon: "Aemon The Dragonknight", oc: "(daughter of Aegon III)", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Maegor The Cruel", oc: "Daenys The Cherished", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Aemon Targaryen", oc: "Visenya Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
@@ -491,7 +496,7 @@
             { canon: "Aemond Targaryen", oc: "Sanesella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Daemon Targaryen", oc: "Alessella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: true, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Jacaerys Velaryon & Aegon III Targaryen", oc: "Visenyra Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
-            { canon: "Samwell & Alysanne Blackwood", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "#BlackwoodXOC", position: "Switches, Switches", whatIf: false, is3P: true, ocHeight: "162 cm", canonHeight: "185 cm, 168 cm", detailRel: "รักสามเส้าที่เราสามคนเข้าใจกันดี...", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Samwell & Alysanne Blackwood", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "#BlackwoodXOC", position: "Switches, Switches", whatIf: false, is3P: true, ocHeight: "162 cm", canonHeight: "185 cm, 168 cm", detailRel: "รักสามเส้าที่เราสามคนเข้าใจกันดี...", loveLevel: "100, 100", bondLevel: "100, 100", hateLevel: "0, 0", myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Cregan Stark", oc: "Vicesa Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             
             // ================= CALL OF DUTY =================
@@ -513,19 +518,17 @@
             { canon: "Clark Kent", oc: "Johannah Kent", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Bruce Wayne", oc: "Darlene Wayne", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
-
             // ================= Gladiator =================
             { canon: "Geta & Caracalla", oc: "OC Name", fandom: "Gladiator", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
-            { canon: "Marcus Acacius", oc: "OC Name", fandom: "Gladiator", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", },
-            { canon: "Marcus Acacius", oc: "OC Name", fandom: "Gladiator", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", },
-            { canon: "Lucius Verus", oc: "OC Name", fandom: "Gladiator", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", },
+            { canon: "Marcus Acacius", oc: "OC Name", fandom: "Gladiator", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Marcus Acacius", oc: "OC Name", fandom: "Gladiator", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Lucius Verus", oc: "OC Name", fandom: "Gladiator", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
-            // ================= OTHER ANIME & GAMES =================            
+            // ================= OTHER =================         
             { canon: "Thranduil", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Legolas", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Boromir", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Faramir", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
+            { canon: "Faramir", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" }
         ];
 
         // =========================================================================
@@ -728,12 +731,43 @@
             document.getElementById('storyHeights').innerHTML = heightsHtml;
             document.getElementById('storyDetailRel').innerHTML = `<strong>Relationship:</strong> ${item.detailRel || "ยังไม่ได้ระบุความสัมพันธ์แบบละเอียดค่ะ 🥺"}`;
 
-            let love = item.loveLevel !== undefined ? item.loveLevel : 0;
-            let bond = item.bondLevel !== undefined ? item.bondLevel : 0;
-            let hate = item.hateLevel !== undefined ? item.hateLevel : 0;
+            let loves = String(item.loveLevel !== undefined ? item.loveLevel : "0").split(',');
+            let bonds = String(item.bondLevel !== undefined ? item.bondLevel : "0").split(',');
+            let hates = String(item.hateLevel !== undefined ? item.hateLevel : "0").split(',');
 
-            document.getElementById('valLove').innerText = love + '%'; document.getElementById('valBond').innerText = bond + '%'; document.getElementById('valHate').innerText = hate + '%';
-            document.getElementById('barLove').style.width = '0%'; document.getElementById('barBond').style.width = '0%'; document.getElementById('barHate').style.width = '0%';
+            let l1 = loves[0] ? loves[0].trim() : 0; let l2 = loves[1] ? loves[1].trim() : l1;
+            let b1 = bonds[0] ? bonds[0].trim() : 0; let b2 = bonds[1] ? bonds[1].trim() : b1;
+            let h1 = hates[0] ? hates[0].trim() : 0; let h2 = hates[1] ? hates[1].trim() : h1;
+
+            let statsHtml = '';
+            
+            if (item.is3P) {
+                let cNames = item.canon.split('&');
+                statsHtml = `
+                    <div class="stats-grid-3p">
+                        <div>
+                            <div class="stat-col-title">${cNames[0] ? cNames[0].trim() : 'Canon 1'}</div>
+                            <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart"></i> รัก</span> <span id="valLove1">${l1}%</span></div><div class="stat-bar"><div class="stat-fill fill-love" id="barLove1" style="width:0%"></div></div></div>
+                            <div class="stat-group"><div class="stat-label"><span><i class="fas fa-link"></i> ผูกพัน</span> <span id="valBond1">${b1}%</span></div><div class="stat-bar"><div class="stat-fill fill-bond" id="barBond1" style="width:0%"></div></div></div>
+                            <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart-broken"></i> เกลียด</span> <span id="valHate1">${h1}%</span></div><div class="stat-bar"><div class="stat-fill fill-hate" id="barHate1" style="width:0%"></div></div></div>
+                        </div>
+                        <div>
+                            <div class="stat-col-title">${cNames[1] ? cNames[1].trim() : 'Canon 2'}</div>
+                            <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart"></i> รัก</span> <span id="valLove2">${l2}%</span></div><div class="stat-bar"><div class="stat-fill fill-love" id="barLove2" style="width:0%"></div></div></div>
+                            <div class="stat-group"><div class="stat-label"><span><i class="fas fa-link"></i> ผูกพัน</span> <span id="valBond2">${b2}%</span></div><div class="stat-bar"><div class="stat-fill fill-bond" id="barBond2" style="width:0%"></div></div></div>
+                            <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart-broken"></i> เกลียด</span> <span id="valHate2">${h2}%</span></div><div class="stat-bar"><div class="stat-fill fill-hate" id="barHate2" style="width:0%"></div></div></div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                statsHtml = `
+                    <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart"></i> ระดับความรัก</span> <span id="valLove1">${l1}%</span></div><div class="stat-bar"><div class="stat-fill fill-love" id="barLove1" style="width:0%"></div></div></div>
+                    <div class="stat-group"><div class="stat-label"><span><i class="fas fa-link"></i> ระดับความผูกพัน</span> <span id="valBond1">${b1}%</span></div><div class="stat-bar"><div class="stat-fill fill-bond" id="barBond1" style="width:0%"></div></div></div>
+                    <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart-broken"></i> ระดับความเกลียดชัง</span> <span id="valHate1">${h1}%</span></div><div class="stat-bar"><div class="stat-fill fill-hate" id="barHate1" style="width:0%"></div></div></div>
+                `;
+            }
+
+            document.getElementById('storyStats').innerHTML = statsHtml;
 
             const textElement = document.getElementById('storyText');
             if(item.story && item.story.trim() !== "") {
@@ -742,7 +776,7 @@
                 textElement.innerHTML = `<div style="text-align:center; padding: 20px 0;"><i class="fas fa-pen-nib mb-3" style="font-size:2.5rem; color:#e1bee7;"></i><br>ยังไม่ได้เขียนสตอรี่ของคู่นี้ค่ะ 🥺</div>`;
             }
             
-            // สร้างกล่องเครดิตนักวาด (Art Credits)
+            // Art Credits
             let creditHtml = '';
             let hasOcCredit = item.creditOc && item.creditOc !== "-";
             let hasCanonCredit = item.creditCanon && item.creditCanon !== "-";
@@ -767,7 +801,16 @@
             document.getElementById('storyCredits').innerHTML = creditHtml;
             
             document.getElementById('storyModal').style.display = 'block';
-            setTimeout(() => { document.getElementById('barLove').style.width = love + '%'; document.getElementById('barBond').style.width = bond + '%'; document.getElementById('barHate').style.width = hate + '%'; }, 100);
+            setTimeout(() => { 
+                document.getElementById('barLove1').style.width = l1 + '%'; 
+                document.getElementById('barBond1').style.width = b1 + '%'; 
+                document.getElementById('barHate1').style.width = h1 + '%'; 
+                if(item.is3P) {
+                    document.getElementById('barLove2').style.width = l2 + '%'; 
+                    document.getElementById('barBond2').style.width = b2 + '%'; 
+                    document.getElementById('barHate2').style.width = h2 + '%'; 
+                }
+            }, 100);
         }
 
         function closeStory() { document.getElementById('storyModal').style.display = 'none'; }
@@ -779,24 +822,85 @@
         function openAdminPrompt() { let pwd = prompt("🔐 กรุณาใส่รหัสผ่านเพื่อเข้าสู่ Admin Panel:"); if (pwd === adminPassword) document.getElementById('adminModal').style.display = 'block'; else if (pwd !== null) alert("รหัสผ่านไม่ถูกต้องค่ะ 🥺"); }
         function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
 
+        function toggle3P(checkbox) {
+            let isChecked = checkbox.checked;
+            document.getElementById('box3P').style.display = isChecked ? 'block' : 'none';
+            document.querySelectorAll('.box-stat-3p').forEach(el => el.style.display = isChecked ? 'block' : 'none');
+            document.querySelectorAll('.badge-3p-label').forEach(el => el.style.display = isChecked ? 'inline' : 'none');
+        }
+
         function generatePairCode() {
-            let fandom = document.getElementById('addFandom').value || "Fandom Name"; let oc = document.getElementById('addOc').value || "OC Name"; let canon = document.getElementById('addCanon').value || "Canon Name";
-            let imgOc = document.getElementById('addImgOc').value || "-"; let imgCanon = document.getElementById('addImgCanon').value || "-";
-            let ocLink = document.getElementById('addOcLink').value || "#"; let relation = document.getElementById('addRelation').value; let position = document.getElementById('addPosition').value || "-"; let hashtag = document.getElementById('addHashtag').value || "-";
-            let ocHeight = document.getElementById('addOcHeight').value || "-"; let canonHeight = document.getElementById('addCanonHeight').value || "-"; let detailRel = document.getElementById('addDetailRel').value || "-";
-            let themeSong = document.getElementById('addThemeSong').value || "-"; let songLink = document.getElementById('addSongLink').value || "-";
-            let loveLvl = document.getElementById('addLove').value || 0; let bondLvl = document.getElementById('addBond').value || 0; let hateLvl = document.getElementById('addHate').value || 0;
-            let myBelove = document.getElementById('addMyBelove').checked; let whatIf = document.getElementById('addWhatIf').checked; let is3P = document.getElementById('addIs3P').checked;
-            let story = document.getElementById('addStory').value; let formattedStory = story.replace(/\n/g, "<br>");
+            let fandom = document.getElementById('addFandom').value || "Fandom Name"; 
+            let hashtag = document.getElementById('addHashtag').value || "-";
             
-            // ข้อมูลเครดิตนักวาด
+            // OC Data
+            let oc = document.getElementById('addOc').value || "OC Name";
+            let imgOc = document.getElementById('addImgOc').value || "-";
+            let ocLink = document.getElementById('addOcLink').value || "#"; 
+            let ocHeight = document.getElementById('addOcHeight').value || "-"; 
             let creditOc = document.getElementById('addCreditOc').value || "-";
             let linkCreditOc = document.getElementById('addLinkCreditOc').value || "-";
-            let creditCanon = document.getElementById('addCreditCanon').value || "-";
-            let linkCreditCanon = document.getElementById('addLinkCreditCanon').value || "-";
 
-            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}, ocLink: "${ocLink}", themeSong: "${themeSong}", songLink: "${songLink}", ocHeight: "${ocHeight}", canonHeight: "${canonHeight}", detailRel: "${detailRel}", loveLevel: ${loveLvl}, bondLevel: ${bondLvl}, hateLevel: ${hateLvl}, myBelove: ${myBelove}, imgOc: "${imgOc}", imgCanon: "${imgCanon}", story: "${formattedStory}", creditOc: "${creditOc}", linkCreditOc: "${linkCreditOc}", creditCanon: "${creditCanon}", linkCreditCanon: "${linkCreditCanon}"`;
-            if(is3P) codeStr += `, is3P: true`; codeStr += ` },`;
+            // Canon 1 Data
+            let canon1 = document.getElementById('addCanon1').value || "Canon Name";
+            let imgCanon1 = document.getElementById('addImgCanon1').value || "-";
+            let posCanon1 = document.getElementById('addPosCanon1').value || "-";
+            let heightCanon1 = document.getElementById('addHeightCanon1').value || "-";
+            let creditCanon1 = document.getElementById('addCreditCanon1').value || "-";
+            let linkCreditCanon1 = document.getElementById('addLinkCreditCanon1').value || "-";
+
+            let is3P = document.getElementById('addIs3P').checked;
+            
+            // เตรียมตัวแปรหลัก
+            let canon = canon1;
+            let imgCanon = imgCanon1;
+            let position = posCanon1;
+            let canonHeight = heightCanon1;
+            let creditCanon = creditCanon1;
+            let linkCreditCanon = linkCreditCanon1;
+
+            let love1 = document.getElementById('addLove1').value || 0; 
+            let bond1 = document.getElementById('addBond1').value || 0; 
+            let hate1 = document.getElementById('addHate1').value || 0;
+            let finalLove = love1, finalBond = bond1, finalHate = hate1;
+
+            if (is3P) {
+                let canon2 = document.getElementById('addCanon2').value || "Canon 2 Name";
+                let imgCanon2 = document.getElementById('addImgCanon2').value || "-";
+                let posCanon2 = document.getElementById('addPosCanon2').value || "-";
+                let heightCanon2 = document.getElementById('addHeightCanon2').value || "-";
+                let creditCanon2 = document.getElementById('addCreditCanon2').value || "-";
+                let linkCreditCanon2 = document.getElementById('addLinkCreditCanon2').value || "-";
+
+                // ผูกข้อมูล 3P เข้าด้วยกันด้วยเครื่องหมายที่ระบบแสดงผลอ่านได้
+                canon = `${canon1} & ${canon2}`;
+                imgCanon = `${imgCanon1}, ${imgCanon2}`;
+                position = `${posCanon1}, ${posCanon2}`;
+                canonHeight = `${heightCanon1}, ${heightCanon2}`;
+                creditCanon = `${creditCanon1}, ${creditCanon2}`; 
+                linkCreditCanon = `${linkCreditCanon1}, ${linkCreditCanon2}`;
+
+                let love2 = document.getElementById('addLove2').value || 0;
+                let bond2 = document.getElementById('addBond2').value || 0;
+                let hate2 = document.getElementById('addHate2').value || 0;
+                finalLove = `"${love1}, ${love2}"`;
+                finalBond = `"${bond1}, ${bond2}"`;
+                finalHate = `"${hate1}, ${hate2}"`;
+            }
+
+            let relation = document.getElementById('addRelation').value; 
+            let detailRel = document.getElementById('addDetailRel').value || "-";
+            let themeSong = document.getElementById('addThemeSong').value || "-"; 
+            let songLink = document.getElementById('addSongLink').value || "-";
+            let myBelove = document.getElementById('addMyBelove').checked; 
+            let whatIf = document.getElementById('addWhatIf').checked; 
+            
+            let story = document.getElementById('addStory').value; 
+            let formattedStory = story.replace(/\n/g, "<br>");
+
+            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}, ocLink: "${ocLink}", themeSong: "${themeSong}", songLink: "${songLink}", ocHeight: "${ocHeight}", canonHeight: "${canonHeight}", detailRel: "${detailRel}", loveLevel: ${finalLove}, bondLevel: ${finalBond}, hateLevel: ${finalHate}, myBelove: ${myBelove}, imgOc: "${imgOc}", imgCanon: "${imgCanon}", story: "${formattedStory}", creditOc: "${creditOc}", linkCreditOc: "${linkCreditOc}", creditCanon: "${creditCanon}", linkCreditCanon: "${linkCreditCanon}"`;
+            if(is3P) codeStr += `, is3P: true`; 
+            codeStr += ` },`;
 
             document.getElementById('resultCode').value = codeStr;
         }
