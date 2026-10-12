@@ -13,23 +13,9 @@
         /* ==========================================================================
            1. BASE STYLES & LIQUID BACKGROUND
            ========================================================================== */
-        body {
-            margin: 0; padding: 3rem 1rem; min-height: 100vh;
-            font-family: 'Krub', sans-serif; color: #4a3b52;
-            background-color: #fffdfd; position: relative; overflow-x: hidden;
-        }
-
-        .liquid-bg {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 0; overflow: hidden; pointer-events: none;
-            background: linear-gradient(135deg, #fdf6fa 0%, #fcecf2 50%, #f6eff8 100%);
-        }
-
-        .liquid-blob {
-            position: absolute; filter: blur(60px); opacity: 0.55;
-            animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite;
-        }
-
+        body { margin: 0; padding: 3rem 1rem; min-height: 100vh; font-family: 'Krub', sans-serif; color: #4a3b52; background-color: #fffdfd; position: relative; overflow-x: hidden; }
+        .liquid-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden; pointer-events: none; background: linear-gradient(135deg, #fdf6fa 0%, #fcecf2 50%, #f6eff8 100%); }
+        .liquid-blob { position: absolute; filter: blur(60px); opacity: 0.55; animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite; }
         .blob-purple { background: linear-gradient(120deg, #edf2ff 0%, #e6d5fa 100%); width: 500px; height: 500px; top: -10%; left: -5%; }
         .blob-lavender { background: linear-gradient(120deg, #fdf6fa 0%, #e2d9ef 100%); width: 600px; height: 600px; bottom: -15%; right: -5%; animation-delay: -5s; }
         .blob-pink { background: linear-gradient(120deg, #fff0f5 0%, #fae1e7 100%); width: 350px; height: 350px; top: 30%; left: 50%; opacity: 0.4; animation-delay: -10s; }
@@ -42,6 +28,9 @@
         .snowflake { position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9); text-shadow: 0 0 10px rgba(225, 190, 231, 0.8); user-select: none; animation-name: fall, sway; animation-iteration-count: infinite; animation-timing-function: linear, ease-in-out; }
         @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } } @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
 
+        /* ==========================================================================
+           2. MAIN PANELS
+           ========================================================================== */
         .glass-panel { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.8); border-top: 2px solid rgba(255, 255, 255, 1); border-left: 2px solid rgba(255, 255, 255, 1); box-shadow: 0 25px 45px rgba(106, 27, 154, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.6); border-radius: 40px; padding: 3rem 2.5rem; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
         .btn-back-home { display: inline-block; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 1); border-radius: 20px; color: #8e24aa; font-weight: 600; padding: 8px 25px; margin-bottom: 20px; transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .btn-back-home:hover { background: rgba(255, 255, 255, 0.95); transform: translateY(-2px); color: #6a1b9a; text-decoration: none; }
@@ -58,7 +47,7 @@
         .total-badge { background: #f3e5f5; color: #6a1b9a; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; border: 1px solid #e1bee7; }
         
         /* ==========================================================================
-           2. CHARACTER CARDS
+           3. CHARACTER CARDS
            ========================================================================== */
         .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         .couple-card { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.9); border-top: 1px solid rgba(255, 255, 255, 1); border-left: 1px solid rgba(255, 255, 255, 1); border-radius: 25px; padding: 1.25rem; padding-top: 2.2rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(106, 27, 154, 0.04); position: relative; overflow: visible; display: flex; flex-direction: column; }
@@ -92,11 +81,7 @@
         /* --------------------------------------------------------------------------
            🎶 SONG SYSTEM (Marquee & Button) 
            -------------------------------------------------------------------------- */
-        .song-marquee {
-            max-width: 130px; display: inline-block; vertical-align: middle; 
-            color: #6a1b9a; white-space: nowrap; overflow: hidden;
-            text-shadow: 0 0 5px rgba(206, 147, 216, 0.4);
-        }
+        .song-marquee { max-width: 130px; display: inline-block; vertical-align: middle; color: #6a1b9a; white-space: nowrap; overflow: hidden; text-shadow: 0 0 5px rgba(206, 147, 216, 0.4); }
         .song-play-btn { color: #d81b60; margin-left: 8px; transition: 0.3s; font-size: 1.25rem; text-decoration: none !important; cursor: pointer; }
         .song-play-btn:hover { color: #e91e63; transform: scale(1.15); text-shadow: 0 0 8px rgba(233, 30, 99, 0.5); }
 
@@ -106,7 +91,7 @@
         @media (max-width: 768px) { .glass-panel { padding: 2rem 1rem; } .card-grid { grid-template-columns: 1fr; } .filter-controls { flex-direction: column; width: 100%; align-items: stretch; } .total-badge { text-align: center; } .is-3p { grid-column: 1 / -1; } .is-3p .img-container { width: 100%; } }
 
         /* ==========================================================================
-           3. MODAL STYLES (Admin & Story)
+           4. MODAL STYLES (Admin & Story)
            ========================================================================== */
         .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); z-index: 9999; }
         .admin-content { background: rgba(255, 255, 255, 0.95); border-radius: 30px; padding: 2.5rem; width: 95%; max-width: 700px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid rgba(255, 255, 255, 1); box-shadow: 0 25px 45px rgba(106, 27, 154, 0.15); max-height: 90vh; overflow-y: auto; }
@@ -181,8 +166,8 @@
         <div class="card-grid" id="cardContainer"></div>
     </div>
 
-    <!-- Hidden Player (ใช้สำหรับเล่นเพลง YouTube ซ่อนตัว) -->
-    <div id="hiddenPlayer" style="display:none; width:0; height:0; opacity:0; pointer-events:none;"></div>
+    <!-- Hidden Player (ถูกแอบไว้นอกจอเพื่อหลีกเลี่ยงกฎบราวเซอร์) -->
+    <div id="hiddenPlayer" style="position: absolute; top: -9999px; left: -9999px; width: 300px; height: 300px; opacity: 0.0001; pointer-events: none; overflow: hidden;"></div>
 
     <!-- ==========================================
          ADMIN MODAL 
@@ -208,7 +193,17 @@
                 </div>
             </div>
 
-            <!-- Profile Link สำหรับลูกสาว -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>OC Image URL</label>
+                    <input type="text" id="addImgOc" placeholder="https://...">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Canon Image URL <small>(3P คั่นด้วยลูกน้ำ)</small></label>
+                    <input type="text" id="addImgCanon" placeholder="https://...">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>OC Profile Link <small>(ลิงก์ Toyhouse ของ OC)</small></label>
                 <input type="text" id="addOcLink" placeholder="https://toyhou.se/...">
@@ -245,7 +240,6 @@
                 </div>
             </div>
 
-            <!-- เพลงประจำคู่ -->
             <div class="row" style="background: rgba(206, 147, 216, 0.1); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
                 <div class="col-md-6 form-group mb-0">
                     <label>Theme Song Title <small>(ชื่อเพลง)</small></label>
@@ -341,11 +335,11 @@
         // =========================================================================
         const relationships = [
             // ================= ELDEN RING =================
-            { canon: "Messmer the Impaler", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#MessmerOC", position: "Top", whatIf: false, ocLink: "https://toyhou.se",
-              themeSong: "Those Eyes - New West (Acoustic Cover)", songLink: "[https://www.youtube.com/watch?v=gbKdTJziC5w](https://www.youtube.com/watch?v=gbKdTJziC5w)",
-              ocHeight: "165 cm", canonHeight: "350 cm", detailRel: "บุตรแห่งไฟและคนรักผู้ภักดี ที่พร้อมจะแผดเผาทุกสิ่งไปด้วยกัน",
-              loveLevel: 100, bondLevel: 95, hateLevel: 5, myBelove: true,
-              story: "เรื่องราวของข้าและบุตรแห่งไฟ...<br>เขาเป็นดั่งไฟที่พร้อมแผดเผา แต่สำหรับฉัน เขาคือความอบอุ่นเดียวในดินแดนเงาแห่งนี้" },
+            { canon: "Messmer the Impaler", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "https://toyhou.se",
+              themeSong: "Those Eyes - New West", songLink: "https://www.youtube.com/watch?v=FpinWpTxo-g",
+              ocHeight: "165 cm", canonHeight: "350 cm", detailRel: "",
+              loveLevel: 100, bondLevel: 95, hateLevel: 5, myBelove: true, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/01/5d/0e/015d0e92b4a3465ce6fa467859f247ca.jpg",
+              story: "" },
 
             // ================= HONKAI: STAR RAIL =================
             { canon: "Aventurine", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#AvenOC", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "160 cm", canonHeight: "180 cm", detailRel: "เพื่อนร่วมงานที่เลื่อนขั้นมาเป็นคนรัก คอยดูแลกันเวลาอีกฝ่ายเหนื่อยล้า", loveLevel: 90, bondLevel: 85, hateLevel: 0, myBelove: false, story: "" },
@@ -470,7 +464,7 @@
         ];
 
         // =========================================================================
-        // สคริปต์สำหรับการแสดงผล
+        // สคริปต์สำหรับการแสดงผลและการจัดเรียง 
         // =========================================================================
         const cardContainer = document.getElementById('cardContainer');
         const filterFandom = document.getElementById('filterFandom');
@@ -518,6 +512,17 @@
                 const beloveBadge = item.myBelove ? `<span class="badge-belove" title="My belove 💖"><i class="fas fa-heart"></i></span>` : '';
                 let ocLinkAttr = (item.ocLink && item.ocLink !== "#" && item.ocLink !== "") ? `href="${item.ocLink}" target="_blank" title="ดูประวัติ ${item.oc}"` : `href="#" title="ยังไม่มีประวัติ"`;
 
+                let ocImg = (item.imgOc && item.imgOc !== "-") ? item.imgOc : "https://via.placeholder.com/300x300/fdf5f9/c2185b?text=OC";
+                let canonImg1 = "https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon";
+                let canonImg2 = "https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon+2";
+
+                if(item.imgCanon && item.imgCanon !== "-") {
+                    let cImgs = item.imgCanon.split(',');
+                    canonImg1 = cImgs[0] ? cImgs[0].trim() : canonImg1;
+                    if(cImgs[1]) canonImg2 = cImgs[1].trim();
+                    else canonImg2 = canonImg1; 
+                }
+
                 let imgBoxHtml = '';
                 let heartHtml = '';
                 
@@ -527,15 +532,31 @@
                     let pos2 = positionArr[1] ? positionArr[1].trim() : pos1; 
 
                     imgBoxHtml = `
-                        <div class="img-box canon-box"><img src="https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon+1" alt="Canon1"><div class="fandom-group"><span class="badge-fandom">${item.fandom}</span></div><div class="badge-position">${pos1}</div></div>
-                        <div class="img-box"><a ${ocLinkAttr} class="img-link"><img src="https://via.placeholder.com/300x300/f3e5f5/9c27b0?text=OC" alt="OC"></a></div>
-                        <div class="img-box canon-box"><img src="https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon+2" alt="Canon2"><div class="fandom-group"><span class="badge-fandom">${item.fandom}</span></div><div class="badge-position">${pos2}</div></div>
+                        <div class="img-box canon-box">
+                            <img src="${canonImg1}" alt="Canon1">
+                            <div class="fandom-group"><span class="badge-fandom">${item.fandom}</span></div>
+                            <div class="badge-position">${pos1}</div>
+                        </div>
+                        <div class="img-box">
+                            <a ${ocLinkAttr} class="img-link"><img src="${ocImg}" alt="OC"></a>
+                        </div>
+                        <div class="img-box canon-box">
+                            <img src="${canonImg2}" alt="Canon2">
+                            <div class="fandom-group"><span class="badge-fandom">${item.fandom}</span></div>
+                            <div class="badge-position">${pos2}</div>
+                        </div>
                     `;
                     heartHtml = `<div class="heart-container"><div class="heart-icon heart-3p-left"><i class="fas fa-heart"></i></div><div class="heart-icon heart-3p-right"><i class="fas fa-heart"></i></div></div>`;
                 } else {
                     imgBoxHtml = `
-                        <div class="img-box"><a ${ocLinkAttr} class="img-link"><img src="https://via.placeholder.com/300x300/fdf5f9/c2185b?text=OC" alt="OC"></a></div>
-                        <div class="img-box canon-box"><img src="https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=Canon" alt="Canon"><div class="fandom-group"><span class="badge-fandom">${item.fandom}</span></div><div class="badge-position">${item.position}</div></div>
+                        <div class="img-box">
+                            <a ${ocLinkAttr} class="img-link"><img src="${ocImg}" alt="OC"></a>
+                        </div>
+                        <div class="img-box canon-box">
+                            <img src="${canonImg1}" alt="Canon">
+                            <div class="fandom-group"><span class="badge-fandom">${item.fandom}</span></div>
+                            <div class="badge-position">${item.position}</div>
+                        </div>
                     `;
                     heartHtml = `<div class="heart-container"><div class="heart-icon heart-2p"><i class="fas fa-heart"></i></div></div>`;
                 }
@@ -557,9 +578,18 @@
                         <div class="info-section">
                             <div class="names mt-3">${titleHtml}</div>
                             <div class="details-grid mt-3">
-                                <div class="d-row"><span class="d-label">Relationship</span><span class="d-value" style="color: #8e24aa;">${beloveBadge}${item.relation}</span></div>
-                                <div class="d-row"><span class="d-label">Theme Song</span><span class="d-value" style="color: #6a1b9a;">${songHtml}</span></div>
-                                <div class="d-row"><span class="d-label">Hashtag</span><span class="d-value" style="color: #c2185b;">${item.hashtag}</span></div>
+                                <div class="d-row">
+                                    <span class="d-label">Relationship</span>
+                                    <span class="d-value" style="color: #8e24aa;">${beloveBadge}${item.relation}</span>
+                                </div>
+                                <div class="d-row">
+                                    <span class="d-label">Theme Song</span>
+                                    <span class="d-value" style="color: #6a1b9a;">${songHtml}</span>
+                                </div>
+                                <div class="d-row">
+                                    <span class="d-label">Hashtag</span>
+                                    <span class="d-value" style="color: #c2185b;">${item.hashtag}</span>
+                                </div>
                             </div>
                             <button class="btn-story" onclick="openStory(${index})"><i class="fas fa-book-open mr-1"></i> อ่านข้อมูลสั้นๆ</button>
                         </div>
@@ -580,7 +610,6 @@
             const player = document.getElementById('hiddenPlayer');
             const iconElement = document.getElementById(iconId);
 
-            // ถ้าเพลงที่กำลังเล่นอยู่ คือเพลงที่กด -> สั่งหยุดเพลง
             if (currentPlayingUrl === url) {
                 player.innerHTML = '';
                 currentPlayingUrl = null;
@@ -588,10 +617,8 @@
                 return;
             }
 
-            // ถ้าระบบกำลังเล่นเพลงอื่นอยู่ ให้หยุดเพลงนั้นก่อน (รีเซ็ตปุ่มทั้งหมด)
             document.querySelectorAll('.play-icon').forEach(btn => btn.className = 'fas fa-play-circle play-icon');
 
-            // ดึงรหัสวิดีโอจากลิงก์ YouTube
             let ytId = "";
             if (url.includes("youtu.be/")) {
                 ytId = url.split("youtu.be/")[1].split("?")[0];
@@ -601,13 +628,13 @@
                 ytId = url.split("embed/")[1].split("?")[0];
             }
 
-            // ถ้าเจอคลิป YouTube ให้สร้าง iframe หลังบ้านให้เปิดเพลงทันที
             if (ytId) {
-                player.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay" style="border:0;width:0;height:0;"></iframe>`;
+                // สร้าง iframe แบบมีขนาดจริง (300x300) เพื่อหลบระบบป้องกัน autoplay 
+                // แต่ซ่อนไว้นอกหน้าจอด้วย top: -9999px
+                player.innerHTML = `<iframe width="300" height="300" src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay" frameborder="0"></iframe>`;
                 currentPlayingUrl = url;
-                iconElement.className = 'fas fa-stop-circle play-icon'; // เปลี่ยนไอคอนเป็นรูป Stop
+                iconElement.className = 'fas fa-stop-circle play-icon';
             } else {
-                // ถ้าไม่ใช่ลิงก์ YouTube ที่ระบบรองรับ เปิดแท็บใหม่แทน
                 window.open(url, '_blank');
             }
         }
@@ -663,6 +690,7 @@
 
         function generatePairCode() {
             let fandom = document.getElementById('addFandom').value || "Fandom Name"; let oc = document.getElementById('addOc').value || "OC Name"; let canon = document.getElementById('addCanon').value || "Canon Name";
+            let imgOc = document.getElementById('addImgOc').value || "-"; let imgCanon = document.getElementById('addImgCanon').value || "-";
             let ocLink = document.getElementById('addOcLink').value || "#"; let relation = document.getElementById('addRelation').value; let position = document.getElementById('addPosition').value || "-"; let hashtag = document.getElementById('addHashtag').value || "-";
             let ocHeight = document.getElementById('addOcHeight').value || "-"; let canonHeight = document.getElementById('addCanonHeight').value || "-"; let detailRel = document.getElementById('addDetailRel').value || "-";
             let themeSong = document.getElementById('addThemeSong').value || "-"; let songLink = document.getElementById('addSongLink').value || "-";
@@ -670,7 +698,7 @@
             let myBelove = document.getElementById('addMyBelove').checked; let whatIf = document.getElementById('addWhatIf').checked; let is3P = document.getElementById('addIs3P').checked;
             let story = document.getElementById('addStory').value; let formattedStory = story.replace(/\n/g, "<br>");
 
-            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}, ocLink: "${ocLink}", themeSong: "${themeSong}", songLink: "${songLink}", ocHeight: "${ocHeight}", canonHeight: "${canonHeight}", detailRel: "${detailRel}", loveLevel: ${loveLvl}, bondLevel: ${bondLvl}, hateLevel: ${hateLvl}, myBelove: ${myBelove}, story: "${formattedStory}"`;
+            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}, ocLink: "${ocLink}", themeSong: "${themeSong}", songLink: "${songLink}", ocHeight: "${ocHeight}", canonHeight: "${canonHeight}", detailRel: "${detailRel}", loveLevel: ${loveLvl}, bondLevel: ${bondLvl}, hateLevel: ${hateLvl}, myBelove: ${myBelove}, imgOc: "${imgOc}", imgCanon: "${imgCanon}", story: "${formattedStory}"`;
             if(is3P) codeStr += `, is3P: true`; codeStr += ` },`;
 
             document.getElementById('resultCode').value = codeStr;
