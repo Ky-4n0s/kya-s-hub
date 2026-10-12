@@ -122,6 +122,11 @@
         
         .story-text-container { margin-top: 20px; border-top: 1px dashed #ce93d8; padding-top: 15px; }
         .story-text { color: #4a3b52; font-size: 0.95rem; line-height: 1.6; text-align: left; }
+
+        /* Art Credits (NEW) */
+        .credit-box { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ce93d8; font-size: 0.85rem; color: #7b1fa2; text-align: center; }
+        .credit-link { color: #d81b60; font-weight: 700; text-decoration: none; transition: 0.3s; }
+        .credit-link:hover { color: #e91e63; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -276,6 +281,20 @@
                 <textarea id="addStory" rows="2" placeholder="พิมพ์เนื้อเรื่องสั้นๆ ตรงนี้..."></textarea>
             </div>
 
+            <!-- ส่วนใหม่: Art Credits -->
+            <div class="row" style="background: rgba(225, 190, 231, 0.3); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
+                <div class="col-md-6 form-group mb-0">
+                    <label>🎨 OC Artist Name & Link <small>(เว้นว่างได้)</small></label>
+                    <input type="text" id="addCreditOc" placeholder="Artist Name" class="mb-2">
+                    <input type="text" id="addLinkCreditOc" placeholder="https://twitter.com/...">
+                </div>
+                <div class="col-md-6 form-group mb-0">
+                    <label>🎨 Canon Artist Name & Link <small>(เว้นว่างได้)</small></label>
+                    <input type="text" id="addCreditCanon" placeholder="Artist Name" class="mb-2">
+                    <input type="text" id="addLinkCreditCanon" placeholder="https://twitter.com/...">
+                </div>
+            </div>
+
             <div class="form-group" style="display: flex; gap: 20px; align-items: center; margin-top: 10px; flex-wrap: wrap;">
                 <label style="margin: 0; display: flex; align-items: center; gap: 5px; cursor: pointer; color: #d81b60;">
                     <input type="checkbox" id="addMyBelove" style="width: auto;"> 💖 My belove
@@ -325,6 +344,9 @@
 
             <div class="story-text-container">
                 <div class="story-text" id="storyText">เนื้อเรื่อง...</div>
+                
+                <!-- กล่องเครดิตจะถูกสร้างและใส่ตรงนี้อัตโนมัติ -->
+                <div id="storyCredits"></div>
             </div>
         </div>
     </div>
@@ -332,135 +354,178 @@
     <script>
         // =========================================================================
         // 🌟 DATABASE
+        // เพิ่ม creditOc, linkCreditOc, creditCanon, linkCreditCanon
         // =========================================================================
         const relationships = [
             // ================= ELDEN RING =================
             { canon: "Messmer the Impaler", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "https://toyhou.se",
-              themeSong: "Those Eyes - New West", songLink: "https://www.youtube.com/watch?v=FpinWpTxo-g",
-              ocHeight: "165 cm", canonHeight: "350 cm", detailRel: "",
-              loveLevel: 100, bondLevel: 95, hateLevel: 5, myBelove: true, imgOc: "-", imgCanon: "https://i.pinimg.com/736x/01/5d/0e/015d0e92b4a3465ce6fa467859f247ca.jpg",
-              story: "" },
+              themeSong: "Fourth of July - Sufjan Stevens", songLink: "https://youtu.be/Kxt1qD4nEok",
+              ocHeight: "165 cm", canonHeight: "350 cm", detailRel: "บุตรแห่งไฟและคนรักผู้ภักดี ที่พร้อมจะแผดเผาทุกสิ่งไปด้วยกัน",
+              loveLevel: 100, bondLevel: 95, hateLevel: 5, myBelove: true,
+              imgOc: "-", 
+              imgCanon: "https://i.pinimg.com/736x/01/5d/0e/015d0e92b4a3465ce6fa467859f247ca.jpg",
+              story: "เรื่องราวของข้าและบุตรแห่งไฟ...<br>เขาเป็นดั่งไฟที่พร้อมแผดเผา แต่สำหรับฉัน เขาคือความอบอุ่นเดียวในดินแดนเงาแห่งนี้",
+              creditOc: "-", linkCreditOc: "-", creditCanon: "Official Art", linkCreditCanon: "-" },
+
+            { canon: "Godwyn the Golden", oc: "OC Name", fandom: "Elden Ring", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#",                                     
+              themeSong: "Dark Paradise - Lana Del Rey", songLink: "https://www.youtube.com/watch?v=dvSZQ4oMHGM", 
+              ocHeight: "160", canonHeight: "500+", detailRel: "-", 
+              loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, 
+              imgOc: "-", 
+              imgCanon: "https://i.pinimg.com/1200x/82/54/81/8254816cd2869aa3febea7d99ad63cce.jpg", 
+              story: "", 
+              creditOc: "-", linkCreditOc: "-", creditCanon: "𝐠𝐫𝐚𝐯𝐢𝐭𝐲 ♱", linkCreditCanon: "https://x.com/gravitydusty" },
+
+            // ================= Dark Souls =================
+
+            { canon: "Dark Sun Gwyndolin", oc: "OC Name", fandom: "Dark Souls", relation: "Romantic", hashtag: "#", position: "Mostly Top", whatIf: false, ocLink: "#",
+               themeSong: "Religion - Lana Del Rey", songLink: "https://www.youtube.com/watch?v=HUB63iL3icA", 
+              ocHeight: "185", canonHeight: "300+", detailRel: "-", 
+              loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, 
+              imgOc: "-", 
+              imgCanon: "https://i.pinimg.com/736x/53/9f/b2/539fb2c4b516e090d94114734e6a66a3.jpg", 
+              story: "", 
+              creditOc: "-", linkCreditOc: "-", creditCanon: "JLIEN-", linkCreditCanon: "https://x.com/JLIENnnn" },
 
             // ================= HONKAI: STAR RAIL =================
-            { canon: "Aventurine", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#AvenOC", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "160 cm", canonHeight: "180 cm", detailRel: "เพื่อนร่วมงานที่เลื่อนขั้นมาเป็นคนรัก คอยดูแลกันเวลาอีกฝ่ายเหนื่อยล้า", loveLevel: 90, bondLevel: 85, hateLevel: 0, myBelove: false, story: "" },
-            { canon: "Blade", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#BladeOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Dan Feng", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#FengOC", position: "Top", whatIf: true, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Dan Heng", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Platonic", hashtag: "#HengOC", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Dr. Ratio", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#RatioOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Gepard", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#GepardOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Jing Yuan", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#JingOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Sunday", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#SundayOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Jiaoqiu", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#JiaoOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jing Yuan", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Nanook", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Lan", oc: "Lanling", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "Eternity - Alex Warren", songLink: "https://www.youtube.com/watch?v=jXqf3uqLkkU" },
+            { canon: "Aventurine", oc: "Pavonia", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "160 cm", canonHeight: "180 cm", detailRel: "", loveLevel: 90, bondLevel: 85, hateLevel: 0, myBelove: false, story: "" },
+            { canon: "Sugilite", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, ocLink: "#", themeSong: "RUNRUNRUN - Dutch Melrose", songLink: "https://www.youtube.com/watch?v=g1BaGm7syr4", ocHeight: "160 cm", canonHeight: "180 cm", detailRel: "", loveLevel: 90, bondLevel: 85, hateLevel: 0, myBelove: true, story: "" },
+            { canon: "Yanqing", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Dan Feng & Dan Heng", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Platonic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
+            { canon: "Dr. Ratio", oc: "Calla", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Sunday", oc: "OC Name", fandom: "Honkai: Star Rail", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
             // ================= GENSHIN IMPACT =================
-            { canon: "Albedo", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#AlbedoOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Alhaitham", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#HaithamOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Dainsleif", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#DainOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Kaedehara Kazuha", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#KazuhaOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Kaveh", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#KavehOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Neuvillette", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#NeuvOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Tartaglia", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#ChildeOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Wanderer", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#WandererOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Xiao", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#XiaoOC", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Tighnari & Cyno", oc: "Suhail", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
+            { canon: "Il Capitano", oc: "Melenia", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Il Dottore", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Alhaitham", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Kaveh", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-"},
+            { canon: "Clorinde & Wriothesley", oc: "Safiyah", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
+            { canon: "Neuvillette", oc: "Mélisande", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Alyosha", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Lohen", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Freminet", oc: "OC Name", fandom: "Genshin Impact", relation: "Romantic", hashtag: "#", position: "Top", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+
 
             // ================= ZENLESS ZONE ZERO =================
-            { canon: "Wise", oc: "OC Name", fandom: "Zenless Zone Zero", relation: "Romantic", hashtag: "#WiseOC", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Lycaon", oc: "OC Name", fandom: "Zenless Zone Zero", relation: "Platonic", hashtag: "#LycaonOC", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Wise", oc: "Charlotte", fandom: "Zenless Zone Zero", relation: "Romantic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+
+            // ================= Wuthering Waves =================
+            { canon: "Xiangli Yao", oc: "OC Name", fandom: "Wuthering Waves", relation: "Romantic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Luuk Herssen", oc: "OC Name", fandom: "Wuthering Waves", relation: "Romantic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jiyan", oc: "OC Name", fandom: "Wuthering Waves", relation: "Platonic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jingran", oc: "OC Name", fandom: "Wuthering Waves", relation: "Romantic", hashtag: "#", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
             // ================= BLEACH =================
             { canon: "Ishida Uryū", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Hitsugaya Tōshirō", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Ukitake Jūshirō", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Kyōraku Shunsui", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Kira Izuru", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Aizen Sōsuke", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Komamura Sajin", oc: "OC Name", fandom: "Bleach", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Komamura Sajin", oc: "OC Name", fandom: "Bleach", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
             // ================= HAIKYU!! =================
-            { canon: "Kuroo Tetsuro", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Oikawa Tooru", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Akaashi Keiji", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Ushijima Wakatoshi", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Suna Rintaro", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Kita Shintaro", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Nishinoya Yu", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Tsukishima Kei", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Sawamura Daichi", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Kita Shinsuke", oc: "Himeno Kotone", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Kozume Kenma & Kuroo Tetsuro", oc: "Yoichiro Mitsuki", fandom: "Haikyū!!", relation: "Romantic", hashtag: "#", position: "Top, Top", whatIf: false, ocLink: "#", themeSong: "-", songLink: "-", ocHeight: "-", canonHeight: "175.4 cm, 187.7 cm", detailRel: "-", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: true, imgOc: "-", imgCanon: "-", story: "", creditOc: "-", linkCreditOc: "-", creditCanon: "-", linkCreditCanon: "-", is3P: true },
+            { canon: "Akaashi Keiji", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Suna Rintaro", oc: "Ayukawa Atsune", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "Jealous - Nick Jonas", songLink: "https://www.youtube.com/watch?v=yw04QD1LaB0" },
+            { canon: "Goshiki Tsutomu", oc: "Ushijima", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ushijima Wakatoshi", oc: "Ushijima", fandom: "Haikyū!!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ushijima Wakatoshi", oc: "Hakusei Hirotaka", fandom: "Haikyū!!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ushijima Wakatoshi", oc: "Fuwa Himeri", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Bokuto Kotaro", oc: "Hakusei Hirotaka", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
             { canon: "Miya Osamu", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Miya Atsumu", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Miya Atsumu", oc: "OC Name", fandom: "Haikyū!!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Oikawa Tooru", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ukai Keishin", oc: "Nanase Chiharu", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Tsukishima Kei", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Kageyama Tobio", oc: "OC Name", fandom: "Haikyū!!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
-            // ================= YUME 100 =================
-            { canon: "Iria", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Graysia", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Forma", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Ster", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Toya", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Shin", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Volker", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Koga", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Apis", oc: "OC Name", fandom: "yume100", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Seras", oc: "OC Name", fandom: "yume100", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
-            // ================= KUROKO NO BASKET =================
-            { canon: "Shun Izuki", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Yukio Kasamatsu", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Yoshitaka Moriyama", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Shintarō Midorima", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Shoichi Imayoshi", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Tatsuya Himuro", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Seijūrō Akashi", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Chihiro Mayuzumi", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
-            // ================= FREE! =================
-            { canon: "Ryuugazaki Rei", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Matsuoka Rin", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Tachibana Makoto", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
-            // ================= NARUTO =================
-            { canon: "Uchiha Sasuke", oc: "OC Name", fandom: "NARUTO", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Gaara", oc: "OC Name", fandom: "NARUTO", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Kakashi Hatake", oc: "OC Name", fandom: "NARUTO", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Uchiha Itachi", oc: "OC Name", fandom: "NARUTO", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Sai", oc: "OC Name", fandom: "NARUTO", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
-            // ================= ASSASSINATION CLASSROOM =================
-            { canon: "Karma Akabane", oc: "OC Name", fandom: "Assassination Classroom", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Gakushu Asano", oc: "OC Name", fandom: "Assassination Classroom", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Gakuho Asano", oc: "OC Name", fandom: "Assassination Classroom", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-
-            // ================= A SONG OF ICE AND FIRE (HOTD / GOT) =================
-            { canon: "Jaehaerys I Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Aemon Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Baelon Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Jacaerys Velaryon", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Aegon III Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Lucerys Velaryon", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Daeron Targaryen (The Daring)", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Gwayne Hightower", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Aemond Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            
-            // เคส 3P พิเศษ
-            { canon: "Samwell & Alysanne Blackwood", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "#BlackwoodXOC", position: "Switches, Switches", whatIf: false, is3P: true, ocHeight: "162 cm", canonHeight: "185 cm, 168 cm", detailRel: "รักสามเส้าที่เราสามคนเข้าใจกันดี...", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, themeSong: "-", songLink: "-" },
-            
-            { canon: "Daemon Targaryen", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Cregan Stark", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            
-            // ================= OTHER ANIME & GAMES =================
-            { canon: "Umemiya Hajime", oc: "OC Name", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            // ================= Wind Breaker =================
+            { canon: "Umemiya Hajime", oc: "Himejima Tsukino", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
             { canon: "Suo Hayato", oc: "OC Name", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "Togame Jo", oc: "OC Name", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Kaji Ren", oc: "OC Name", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Kaji Ren", oc: "Shiranami Hasumi", fandom: "Wind Breaker", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+
+            // ================= KUROKO NO BASKET =================
+            { canon: "Izuki Shun", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Moriyama Yoshitaka", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Midorima Shintarō", oc: "Akashi", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Imayoshi Shoichi", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Tatsuya Himuro", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Akashi Seijūrō", oc: "OC Name", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "NEVER EVER - Omido", songLink: "https://www.youtube.com/watch?v=BYMlJqGqH5I" },
+            { canon: "Akashi Seijūrō", oc: "Akashi", fandom: "Kuroko no Basket", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "", songLink: "" },
+            { canon: "Mayuzumi Chihiro", oc: "Akashi", fandom: "Kuroko no Basket", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+
+            // ================= FREE! =================
+            { canon: "Sosuke Yamazaki", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ikuya Kirishima", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Albert Volandel", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Toono Hiyori", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ryuugazaki Rei", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Ryuugazaki Rei", oc: "OC Name", fandom: "Free!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Matsuoka Rin & Nanase Haruka", oc: "OC Name", fandom: "Free!", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-", is3P: true  },
+            { canon: "Tachibana Makoto", oc: "OC Name", fandom: "Free!", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+
+            // ================= ASSASSINATION CLASSROOM =================
+            { canon: "Gakushu Asano", oc: "OC Name", fandom: "Assassination Classroom", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "NEVER EVER - Omido", songLink: "https://www.youtube.com/watch?v=BYMlJqGqH5I" },
+
+            // ================= A SONG OF ICE AND FIRE (HOTD / GOT) =================
+            { canon: "Aemon The Dragonknight", oc: "(daughter of Aegon III)", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Maegor The Cruel", oc: "Daenys The Cherished", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Aemon Targaryen", oc: "Visenya Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Baelon Targaryen", oc: "Aenysanne Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Valarr Targaryen", oc: "Nymeria Dayne", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Daeron The Daring)", oc: "Vera Tyrell", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Vaegon Targaryen", oc: "Vaella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Maekar I Targaryen", oc: "Tyrell", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Gwayne Hightower", oc: "Reelella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jaehaerys I Targaryen", oc:  "Valerys Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Lucerys Velaryon", oc: "Haelela The Revered", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Daemon Targaryen", oc: "Sanesella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Aemond Targaryen", oc: "Sanesella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Daemon Targaryen", oc: "Alessella Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: true, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jacaerys Velaryon & Aegon III Targaryen", oc: "Visenyra Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
+            { canon: "Samwell & Alysanne Blackwood", oc: "OC Name", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "#BlackwoodXOC", position: "Switches, Switches", whatIf: false, is3P: true, ocHeight: "162 cm", canonHeight: "185 cm, 168 cm", detailRel: "รักสามเส้าที่เราสามคนเข้าใจกันดี...", loveLevel: 100, bondLevel: 100, hateLevel: 0, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Cregan Stark", oc: "Vicesa Targaryen", fandom: "A Song of Ice and Fire", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             
-            { canon: "Sanji Vinsmoke", oc: "OC Name", fandom: "One Piece", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Portgas D. Ace", oc: "OC Name", fandom: "One Piece", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Roronoa Zoro", oc: "OC Name", fandom: "One Piece", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            
-            { canon: "Simon 'Ghost' Riley", oc: "OC Name", fandom: "CALL OF DUTY", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            // ================= CALL OF DUTY =================
+            { canon: "Simon 'Ghost' Riley", oc: "OC Name", fandom: "CALL OF DUTY", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "Headlock - Imogen Heap", songLink: "https://www.youtube.com/watch?v=roPiy2JydwA" },
+            { canon: "Keegan P. Russ' Riley", oc: "Magdalena", fandom: "CALL OF DUTY", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
             { canon: "König", oc: "OC Name", fandom: "CALL OF DUTY", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
 
-            { canon: "Bruce Wayne", oc: "OC Name", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Jason Todd", oc: "OC Name", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
-            { canon: "Maximus Decimus", oc: "OC Name", fandom: "Gladiator", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" }
+            // ================= DC =================
+            { canon: "Timothy Drake", oc: "Victoria Moar", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Jason Todd", oc: "Quispe Wittelsbach", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Richard Grayson", oc: "Evara Octavia", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: true, themeSong: "-", songLink: "-" },
+            { canon: "Conner Kent", oc: "Alejandra ", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Conner Kent", oc: "Johannah Kent ", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Damian Wayne", oc: "Johannah Kent", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Damian Wayne", oc: "Darlene Wayne", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jonathan Kent", oc: "Johannah Kent", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Jonathan Kent", oc: "Darlene Wayne", fandom: "DC", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Conner Kent", oc: "Alejandra ", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Clark Kent", oc: "Johannah Kent", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Bruce Wayne", oc: "Darlene Wayne", fandom: "DC", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+
+
+            // ================= Gladiator =================
+            { canon: "Geta & Caracalla", oc: "OC Name", fandom: "Gladiator", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", is3P: true },
+            { canon: "Marcus Acacius", oc: "OC Name", fandom: "Gladiator", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", },
+            { canon: "Marcus Acacius", oc: "OC Name", fandom: "Gladiator", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", },
+            { canon: "Lucius Verus", oc: "OC Name", fandom: "Gladiator", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-", },
+
+            // ================= OTHER ANIME & GAMES =================            
+            { canon: "Thranduil", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Legolas", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Boromir", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Romantic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+            { canon: "Faramir", oc: "OC Name", fandom: "The Lord of the Rings", relation: "Platonic", hashtag: "-", position: "-", whatIf: false, myBelove: false, themeSong: "-", songLink: "-" },
+
         ];
 
         // =========================================================================
@@ -629,8 +694,6 @@
             }
 
             if (ytId) {
-                // สร้าง iframe แบบมีขนาดจริง (300x300) เพื่อหลบระบบป้องกัน autoplay 
-                // แต่ซ่อนไว้นอกหน้าจอด้วย top: -9999px
                 player.innerHTML = `<iframe width="300" height="300" src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay" frameborder="0"></iframe>`;
                 currentPlayingUrl = url;
                 iconElement.className = 'fas fa-stop-circle play-icon';
@@ -640,7 +703,7 @@
         }
 
         // =========================================================================
-        // STORY MODAL SCRIPTS
+        // STORY MODAL SCRIPTS (ระบบแสดงเครดิตนักวาดเพิ่ม)
         // =========================================================================
         function openStory(index) {
             const item = currentFilteredData[index];
@@ -649,14 +712,18 @@
             document.getElementById('storyTitle').innerText = titleText;
             
             let ocH = item.ocHeight || "N/A";
-            let heightsHtml = `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> OC: ${ocH}</span>`;
+            let heightsHtml = `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${item.oc}: ${ocH}</span>`;
             
             if(item.is3P) {
-                let cNames = item.canon.split('&'); let cHs = (item.canonHeight || "-,-").split(',');
-                heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${cNames[0].trim()}: ${cHs[0] ? cHs[0].trim() : "N/A"}</span>`;
-                heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${cNames[1].trim()}: ${cHs[1] ? cHs[1].trim() : "N/A"}</span>`;
+                let cNames = item.canon.split('&'); 
+                let cHs = (item.canonHeight || "-,-").split(',');
+                let h1 = cHs[0] ? cHs[0].trim() : "N/A";
+                let h2 = cHs[1] ? cHs[1].trim() : "N/A";
+                heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${cNames[0].trim()}: ${h1}</span>`;
+                heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${cNames[1].trim()}: ${h2}</span>`;
             } else {
-                heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> Canon: ${item.canonHeight || "N/A"}</span>`;
+                let cH = item.canonHeight || "N/A";
+                heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${item.canon}: ${cH}</span>`;
             }
             document.getElementById('storyHeights').innerHTML = heightsHtml;
             document.getElementById('storyDetailRel').innerHTML = `<strong>Relationship:</strong> ${item.detailRel || "ยังไม่ได้ระบุความสัมพันธ์แบบละเอียดค่ะ 🥺"}`;
@@ -674,6 +741,30 @@
             } else {
                 textElement.innerHTML = `<div style="text-align:center; padding: 20px 0;"><i class="fas fa-pen-nib mb-3" style="font-size:2.5rem; color:#e1bee7;"></i><br>ยังไม่ได้เขียนสตอรี่ของคู่นี้ค่ะ 🥺</div>`;
             }
+            
+            // สร้างกล่องเครดิตนักวาด (Art Credits)
+            let creditHtml = '';
+            let hasOcCredit = item.creditOc && item.creditOc !== "-";
+            let hasCanonCredit = item.creditCanon && item.creditCanon !== "-";
+
+            if (hasOcCredit || hasCanonCredit) {
+                creditHtml += `<div class="credit-box"><i class="fas fa-palette mr-1"></i> <strong>Art Credits:</strong><br>`;
+                
+                if (hasOcCredit) {
+                    let linkAttr = (item.linkCreditOc && item.linkCreditOc !== "-" && item.linkCreditOc !== "") ? `href="${item.linkCreditOc}" target="_blank"` : `href="javascript:void(0)"`;
+                    creditHtml += `OC: <a ${linkAttr} class="credit-link">${item.creditOc}</a>`;
+                }
+                
+                if (hasOcCredit && hasCanonCredit) creditHtml += ` &nbsp;|&nbsp; `;
+                
+                if (hasCanonCredit) {
+                    let linkAttr2 = (item.linkCreditCanon && item.linkCreditCanon !== "-" && item.linkCreditCanon !== "") ? `href="${item.linkCreditCanon}" target="_blank"` : `href="javascript:void(0)"`;
+                    creditHtml += `Canon: <a ${linkAttr2} class="credit-link">${item.creditCanon}</a>`;
+                }
+                
+                creditHtml += `</div>`;
+            }
+            document.getElementById('storyCredits').innerHTML = creditHtml;
             
             document.getElementById('storyModal').style.display = 'block';
             setTimeout(() => { document.getElementById('barLove').style.width = love + '%'; document.getElementById('barBond').style.width = bond + '%'; document.getElementById('barHate').style.width = hate + '%'; }, 100);
@@ -697,8 +788,14 @@
             let loveLvl = document.getElementById('addLove').value || 0; let bondLvl = document.getElementById('addBond').value || 0; let hateLvl = document.getElementById('addHate').value || 0;
             let myBelove = document.getElementById('addMyBelove').checked; let whatIf = document.getElementById('addWhatIf').checked; let is3P = document.getElementById('addIs3P').checked;
             let story = document.getElementById('addStory').value; let formattedStory = story.replace(/\n/g, "<br>");
+            
+            // ข้อมูลเครดิตนักวาด
+            let creditOc = document.getElementById('addCreditOc').value || "-";
+            let linkCreditOc = document.getElementById('addLinkCreditOc').value || "-";
+            let creditCanon = document.getElementById('addCreditCanon').value || "-";
+            let linkCreditCanon = document.getElementById('addLinkCreditCanon').value || "-";
 
-            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}, ocLink: "${ocLink}", themeSong: "${themeSong}", songLink: "${songLink}", ocHeight: "${ocHeight}", canonHeight: "${canonHeight}", detailRel: "${detailRel}", loveLevel: ${loveLvl}, bondLevel: ${bondLvl}, hateLevel: ${hateLvl}, myBelove: ${myBelove}, imgOc: "${imgOc}", imgCanon: "${imgCanon}", story: "${formattedStory}"`;
+            let codeStr = `{ canon: "${canon}", oc: "${oc}", fandom: "${fandom}", relation: "${relation}", hashtag: "${hashtag}", position: "${position}", whatIf: ${whatIf}, ocLink: "${ocLink}", themeSong: "${themeSong}", songLink: "${songLink}", ocHeight: "${ocHeight}", canonHeight: "${canonHeight}", detailRel: "${detailRel}", loveLevel: ${loveLvl}, bondLevel: ${bondLvl}, hateLevel: ${hateLvl}, myBelove: ${myBelove}, imgOc: "${imgOc}", imgCanon: "${imgCanon}", story: "${formattedStory}", creditOc: "${creditOc}", linkCreditOc: "${linkCreditOc}", creditCanon: "${creditCanon}", linkCreditCanon: "${linkCreditCanon}"`;
             if(is3P) codeStr += `, is3P: true`; codeStr += ` },`;
 
             document.getElementById('resultCode').value = codeStr;
