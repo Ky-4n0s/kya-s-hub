@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OC x OC List 🌠 | Liquid Glass</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. BASE STYLES & LIQUID BACKGROUND (โทนฟ้าครามพาสเทล)
+           ========================================================================== */
+        body { margin: 0; padding: 3rem 1rem; min-height: 100vh; font-family: 'Krub', sans-serif; color: #283593; background-color: #f8f9ff; position: relative; overflow-x: hidden; }
+        .liquid-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden; pointer-events: none; background: linear-gradient(135deg, #f0f4ff 0%, #e8eaf6 50%, #e1e2ff 100%); }
+        .liquid-blob { position: absolute; filter: blur(60px); opacity: 0.65; animation: morphLiquid 15s ease-in-out infinite alternate, floatLiquid 20s linear infinite; }
+        .blob-periwinkle { background: linear-gradient(120deg, #c5cae9 0%, #e8eaf6 100%); width: 500px; height: 500px; top: -10%; left: -5%; }
+        .blob-blue { background: linear-gradient(120deg, #bbdefb 0%, #e3f2fd 100%); width: 600px; height: 600px; bottom: -15%; right: -5%; animation-delay: -5s; }
+        .blob-purple { background: linear-gradient(120deg, #d1c4e9 0%, #ede7f6 100%); width: 350px; height: 350px; top: 30%; left: 50%; opacity: 0.5; animation-delay: -10s; }
+
+        @keyframes morphLiquid { 0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; } 34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } 100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; } }
+        @keyframes floatLiquid { 0% { transform: translate(0, 0) rotate(0deg); } 33% { transform: translate(30px, -50px) rotate(120deg); } 66% { transform: translate(-20px, 20px) rotate(240deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.3); } ::-webkit-scrollbar-thumb { background: #9fa8da; border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: #7986cb; }
+        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .snowflake { position: absolute; top: -10%; color: rgba(255, 255, 255, 0.9); text-shadow: 0 0 10px rgba(197, 202, 233, 0.8); user-select: none; animation-name: fall, sway; animation-iteration-count: infinite; animation-timing-function: linear, ease-in-out; }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 110%; } } @keyframes sway { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(25px); } }
+
+        /* ==========================================================================
+           2. MAIN PANELS & FILTERS
+           ========================================================================== */
+        .glass-panel { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.6); border-top: 2px solid rgba(255, 255, 255, 0.9); border-left: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 25px 45px rgba(40, 53, 147, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.5); border-radius: 40px; padding: 3rem 2.5rem; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .btn-back-home { display: inline-block; background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 20px; color: #5c6bc0; font-weight: 600; padding: 8px 25px; margin-bottom: 20px; transition: all 0.3s ease; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-back-home:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); color: #3f51b5; text-decoration: none; }
+        .header-title { text-align: center; color: #3f51b5; font-weight: 700; font-size: 2.5rem; margin-bottom: 5px; text-shadow: 0 2px 5px rgba(255,255,255,0.9); cursor: pointer; }
+        .header-desc { text-align: center; color: #5c6bc0; font-size: 1rem; margin-bottom: 1.5rem; font-weight: 600; line-height: 1.5; }
+        
+        .filter-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 3rem; flex-wrap: wrap; background: rgba(255, 255, 255, 0.4); padding: 15px 25px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.7); box-shadow: 0 4px 15px rgba(40, 53, 147, 0.03); }
+        .filter-dropdown { background: rgba(255, 255, 255, 0.8); border: 1px solid #e8eaf6; color: #3949ab; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-family: 'Krub', sans-serif; outline: none; cursor: pointer; transition: 0.3s; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(40, 53, 147, 0.05); }
+        .filter-dropdown:focus { border-color: #9fa8da; box-shadow: 0 0 10px rgba(159, 168, 218, 0.3); }
+        
+        .total-badge { background: #c5cae9; color: #283593; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(40, 53, 147, 0.05); }
+
+        /* ==========================================================================
+           3. CHARACTER CARDS
+           ========================================================================== */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .couple-card { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8); border-top: 1px solid rgba(255, 255, 255, 1); border-left: 1px solid rgba(255, 255, 255, 1); border-radius: 25px; padding: 1.25rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(40, 53, 147, 0.05); position: relative; overflow: visible; display: flex; flex-direction: column; }
+        .couple-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.8); box-shadow: 0 15px 30px rgba(40, 53, 147, 0.1), inset 0 0 15px rgba(255,255,255,0.7); }
+        @media (min-width: 768px) { .is-3p { grid-column: span 2; } .is-3p .img-container { width: 70%; margin-left: auto; margin-right: auto; } }
+
+        .whatif-badge { background: linear-gradient(135deg, #9fa8da, #7986cb); color: white; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 5px; vertical-align: middle; box-shadow: 0 2px 5px rgba(121, 134, 203, 0.4); }
+        
+        .img-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; margin-top: 5px; position: relative; }
+        .img-box { flex: 1; aspect-ratio: 1 / 1; border-radius: 15px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 5px 15px rgba(0,0,0,0.08); position: relative; background: #fff; }
+        .img-link { display: block; width: 100%; height: 100%; cursor: pointer; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .img-box:hover img { transform: scale(1.05); }
+        
+        .heart-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .heart-icon { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.9); width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #ff1744; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.08); z-index: 5; }
+        .heart-2p { left: 50%; transform: translate(-50%, -50%); } .heart-3p-left { left: calc(33.33% - 2.5px); transform: translate(-50%, -50%); } .heart-3p-right { left: calc(66.66% + 2.5px); transform: translate(-50%, -50%); }
+
+        /* ป้ายเพศและ Position */
+        .pos-group { position: absolute; bottom: 8px; left: 8px; display: flex; align-items: center; z-index: 10; pointer-events: none; }
+        .badge-gender { display: inline-flex; justify-content: center; align-items: center; width: 18px; height: 18px; border-radius: 50%; font-size: 0.55rem; color: #fff; margin-right: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.8); }
+        .bg-pink { background: #f48fb1; } .bg-blue { background: #90caf9; } .bg-purple { background: #ce93d8; }
+        .badge-position { background: rgba(255, 255, 255, 0.95); color: #3949ab; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        .info-section { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; } 
+        .names { font-size: 1.15rem; font-weight: 700; color: #283593; margin-bottom: 5px; }
+        .details-grid { background: rgba(255, 255, 255, 0.5); border-radius: 15px; padding: 12px; font-size: 0.85rem; display: grid; grid-template-columns: 1fr; gap: 8px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.7); margin-top: auto; }
+        .d-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(197, 202, 233, 0.6); padding-bottom: 6px; } .d-row:last-child { border-bottom: none; padding-bottom: 0; } 
+        .d-label { font-weight: 700; color: #3f51b5; } .d-value { font-weight: 600; color: #5c6bc0; text-align: right; display: flex; align-items: center; justify-content: flex-end; width: 60%;}
+
+        /* Co-Story Badges */
+        .costory-in { background-color: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #c8e6c9; display: inline-block;}
+        .costory-out { background-color: #fff3e0; color: #e65100; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #ffe0b2; display: inline-block;}
+        .costory-none { background-color: #f5f5f5; color: #616161; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #e0e0e0; display: inline-block;}
+        .badge-gap { gap: 5px; display: flex; justify-content: flex-end; flex-wrap: wrap; }
+
+        /* SONG SYSTEM (คุมโทนปุ่มเป็นสีฟ้าคราม) */
+        .song-marquee { max-width: 130px; display: inline-block; vertical-align: middle; color: #3949ab; white-space: nowrap; overflow: hidden; text-shadow: 0 0 5px rgba(159, 168, 218, 0.4); }
+        .song-play-btn { color: #5c6bc0; margin-left: 8px; transition: 0.3s; font-size: 1.25rem; text-decoration: none !important; cursor: pointer; }
+        .song-play-btn:hover { color: #3949ab; transform: scale(1.15); text-shadow: 0 0 8px rgba(63, 81, 181, 0.5); }
+
+        .btn-story { width: 100%; background: linear-gradient(135deg, #e8eaf6, #c5cae9); border: 1px solid #9fa8da; color: #3949ab; padding: 8px; border-radius: 12px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; margin-top: 10px; text-decoration: none; display: block; }
+        .btn-story:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(63, 81, 181, 0.2); color: white; background: linear-gradient(135deg, #9fa8da, #7986cb); }
+
+        @media (max-width: 768px) { .glass-panel { padding: 2rem 1rem; } .card-grid { grid-template-columns: 1fr; } .filter-controls { flex-direction: column; width: 100%; align-items: stretch; } .total-badge { text-align: center; } .is-3p { grid-column: 1 / -1; } .is-3p .img-container { width: 100%; } }
+
+        /* ==========================================================================
+           4. MODAL STYLES (Admin & Story)
+           ========================================================================== */
+        .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); z-index: 9999; }
+        .admin-content { background: rgba(255, 255, 255, 0.95); border-radius: 30px; padding: 2rem; width: 95%; max-width: 750px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid rgba(255, 255, 255, 1); box-shadow: 0 25px 45px rgba(40, 53, 147, 0.2); max-height: 90vh; overflow-y: auto; }
+        .admin-title { color: #3f51b5; font-weight: 700; text-align: center; margin-bottom: 15px; font-size: 1.8rem; }
+        .form-group { margin-bottom: 10px; } .form-group label { display: block; font-size: 0.85rem; color: #5c6bc0; font-weight: 700; margin-bottom: 3px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #c5cae9; background: rgba(255, 255, 255, 0.9); color: #283593; font-family: 'Krub', sans-serif; outline: none; transition: 0.3s; font-size: 0.9rem; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #7986cb; box-shadow: 0 0 8px rgba(121, 134, 203, 0.3); }
+        .char-box { background: #f0f4ff; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #e8eaf6; }
+        .btn-generate { background: linear-gradient(135deg, #7986cb, #5c6bc0); color: white; width: 100%; padding: 12px; border: none; border-radius: 15px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(92, 107, 192, 0.4); }
+        .result-code { width: 100%; height: 100px; margin-top: 15px; padding: 10px; border-radius: 12px; border: 1px dashed #7986cb; background: #e8eaf6; font-family: monospace; font-size: 0.8rem; color: #283593; resize: none; outline: none; }
+        .close-admin { position: absolute; top: 20px; right: 25px; font-size: 1.5rem; color: #7986cb; cursor: pointer; transition: 0.3s; } .close-admin:hover { color: #3f51b5; }
+
+        /* Pop-up Story Modal */
+        .story-title { color: #3f51b5; font-weight: 700; margin-bottom: 10px; font-size: 1.5rem; text-align: center; }
+        .story-info-box { background: rgba(255,255,255,0.7); border-radius: 15px; padding: 15px; border: 1px solid #e8eaf6; margin-bottom: 15px; }
+        .story-heights { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        .height-tag { background: #e8eaf6; color: #3949ab; font-size: 0.8rem; font-weight: 700; padding: 4px 12px; border-radius: 15px; }
+        .story-detail-rel { color: #3f51b5; font-size: 0.9rem; font-weight: 600; text-align: center; line-height: 1.5; }
+        
+        .stat-group { margin-bottom: 12px; }
+        .stat-label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; color: #3949ab; }
+        .stat-bar { background: #e8eaf6; border-radius: 10px; height: 12px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        .stat-fill { height: 100%; border-radius: 10px; transition: width 1.2s cubic-bezier(0.25, 0.8, 0.25, 1); width: 0%; }
+        
+        .fill-love { background: linear-gradient(90deg, #ff80ab, #f50057); } 
+        .fill-bond { background: linear-gradient(90deg, #b388ff, #651fff); } 
+        .fill-hate { background: linear-gradient(90deg, #ef9a9a, #d32f2f); } 
+        
+        .story-text-container { margin-top: 20px; border-top: 1px dashed #9fa8da; padding-top: 15px; }
+        .story-text { color: #283593; font-size: 0.95rem; line-height: 1.6; text-align: left; }
+
+        /* Art Credits */
+        .credit-box { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #9fa8da; font-size: 0.85rem; color: #5c6bc0; text-align: center; }
+        .credit-link { color: #3949ab; font-weight: 700; text-decoration: none; transition: 0.3s; }
+        .credit-link:hover { color: #283593; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-purple"></div>
+        <div class="liquid-blob blob-lavender"></div>
+        <div class="liquid-blob blob-blue"></div>
+    </div>
+
+    <div class="snow-container" id="snow-container"></div>
+
+    <div class="glass-panel">
+        
+        <div class="text-center">
+            <a href="index.html" class="btn-back-home"><i class="fas fa-arrow-left mr-2"></i> กลับหน้าหลัก (Hub)</a>
+        </div>
+
+        <!-- กดดับเบิ้ลคลิกเพื่อเรียกหน้า Admin Panel -->
+        <h1 class="header-title" ondblclick="openAdminPrompt()">OC x OC List 🌠</h1>
+        <p class="header-desc">
+            คลังเก็บความสัมพันธ์และเรื่องราวของเด็กๆ ออริจินัล (OC) ค่ะ ✨<br>
+            <span class="click-notice" style="font-size: 0.85rem; opacity: 0.9; color: #7986cb;">(สามารถกดที่รูปภาพเพื่อดูประวัติของแต่ละคนได้เลยนะคะ 🌠)</span>
+        </p>
+
+        <!-- ตัวกรอง (Filter Controls) -->
+        <div class="filter-controls">
+            <!-- Relationship Filter -->
+            <select id="filterRelation" class="filter-dropdown" onchange="applyFilters()">
+                <option value="All">💞 All Relationships</option>
+                <option value="Romantic">Romantic</option>
+                <option value="Platonic">Platonic</option>
+                <option value="Familial">Familial</option>
+                <option value="Enemy">⚔️ Enemy (ศัตรู)</option>
+            </select>
+
+            <!-- Co-Story Filter -->
+            <select id="filterCostory" class="filter-dropdown" onchange="applyFilters()">
+                <option value="All">📖 All Co-Story Status</option>
+                <option value="In-house">🏡 ในบ้าน (In-house)</option>
+                <option value="Out-house">🤝 นอกบ้าน (Out-house)</option>
+            </select>
+
+            <!-- Total Badge -->
+            <div class="total-badge" id="totalCount">Total: 0 Pairs</div>
+        </div>
+
+        <div class="card-grid" id="cardContainer"></div>
+
+    </div>
+
+    <!-- Hidden Player -->
+    <div id="hiddenPlayer" style="position: absolute; top: -9999px; left: -9999px; width: 300px; height: 300px; opacity: 0.0001; pointer-events: none; overflow: hidden;"></div>
+
+    <!-- ==========================================
+         ADMIN MODAL (ฟอร์มสร้างโค้ด OCxOC)
+         ========================================== -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <i class="fas fa-times close-admin" onclick="closeAdmin()"></i>
+            <h2 class="admin-title"><i class="fas fa-magic"></i> Add OC x OC Pair</h2>
+            
+            <div class="row">
+                <!-- ข้อมูลตัวละคร 1 -->
+                <div class="col-md-6 char-box">
+                    <h6 style="color: #3f51b5; font-weight: 700;">Character 1 (ซ้าย)</h6>
+                    <div class="form-group"><input type="text" id="addOc1" placeholder="Name"></div>
+                    <div class="form-group"><input type="text" id="addImg1" placeholder="Image URL"></div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addLink1" placeholder="Profile Link"></div>
+                        <div class="col-6 form-group"><input type="text" id="addHeight1" placeholder="Height"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <select id="addGen1">
+                                <option value="F">F (ชมพู)</option>
+                                <option value="M">M (ฟ้า)</option>
+                                <option value="N">N (ม่วง)</option>
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <select id="addPos1">
+                                <option value="-">Pos (-)</option>
+                                <option value="Top">Top</option>
+                                <option value="Bottom">Bottom</option>
+                                <option value="Switches">Switches</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addCredit1" placeholder="Artist Name"></div>
+                        <div class="col-6 form-group"><input type="text" id="addLinkCredit1" placeholder="Artist Link"></div>
+                    </div>
+                </div>
+                
+                <!-- ข้อมูลตัวละคร 2 -->
+                <div class="col-md-6 char-box">
+                    <h6 style="color: #3f51b5; font-weight: 700;">Character 2 (ขวา)</h6>
+                    <div class="form-group"><input type="text" id="addOc2" placeholder="Name"></div>
+                    <div class="form-group"><input type="text" id="addImg2" placeholder="Image URL"></div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addLink2" placeholder="Profile Link"></div>
+                        <div class="col-6 form-group"><input type="text" id="addHeight2" placeholder="Height"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <select id="addGen2">
+                                <option value="M">M (ฟ้า)</option>
+                                <option value="F">F (ชมพู)</option>
+                                <option value="N">N (ม่วง)</option>
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <select id="addPos2">
+                                <option value="-">Pos (-)</option>
+                                <option value="Top">Top</option>
+                                <option value="Bottom">Bottom</option>
+                                <option value="Switches">Switches</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group"><input type="text" id="addCredit2" placeholder="Artist Name"></div>
+                        <div class="col-6 form-group"><input type="text" id="addLinkCredit2" placeholder="Artist Link"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ข้อมูลตัวละคร 3 (ซ่อนไว้โชว์ตอนติ๊ก 3P) -->
+            <div class="char-box" id="box3P" style="display: none; background: #e8eaf6;">
+                <h6 style="color: #3949ab; font-weight: 700;">Character 3 (ขวาสุด - โหมด 3P)</h6>
+                <div class="row">
+                    <div class="col-4 form-group"><input type="text" id="addOc3" placeholder="Name"></div>
+                    <div class="col-4 form-group"><input type="text" id="addImg3" placeholder="Image URL"></div>
+                    <div class="col-4 form-group"><input type="text" id="addHeight3" placeholder="Height"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4 form-group"><input type="text" id="addLink3" placeholder="Profile Link"></div>
+                    <div class="col-4 form-group">
+                        <select id="addGen3">
+                            <option value="N">N (ม่วง)</option><option value="M">M (ฟ้า)</option><option value="F">F (ชมพู)</option>
+                        </select>
+                    </div>
+                    <div class="col-4 form-group">
+                        <select id="addPos3">
+                            <option value="-">Pos (-)</option><option value="Top">Top</option><option value="Bottom">Bottom</option><option value="Switches">Switches</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group"><input type="text" id="addCredit3" placeholder="Artist Name"></div>
+                    <div class="col-6 form-group"><input type="text" id="addLinkCredit3" placeholder="Artist Link"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label>Relationship Type</label>
+                    <select id="addRelation">
+                        <option value="Romantic">Romantic</option>
+                        <option value="Platonic">Platonic</option>
+                        <option value="Familial">Familial</option>
+                        <option value="Enemy">Enemy (ศัตรู)</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label>Co-Story <small>(3P คั่นด้วย , )</small></label>
+                    <input type="text" id="addCostory" placeholder="e.g. In-house">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label>Hashtag</label>
+                    <input type="text" id="addHashtag" placeholder="e.g. #NiveSera">
+                </div>
+            </div>
+
+            <div class="row" style="background: rgba(197, 202, 233, 0.3); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
+                <div class="col-md-6 form-group mb-0">
+                    <label>Theme Song Title</label>
+                    <input type="text" id="addThemeSong" placeholder="e.g. Dandelions - Ruth B.">
+                </div>
+                <div class="col-md-6 form-group mb-0">
+                    <label>Song URL <small>(YouTube)</small></label>
+                    <input type="text" id="addSongLink" placeholder="https://youtu.be/...">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Detailed Relationship</label>
+                <input type="text" id="addDetailRel" placeholder="e.g. คนรักที่ต่างฝ่ายต่างคลั่งรักกันมาก">
+            </div>
+
+            <div class="row" style="background: rgba(159, 168, 218, 0.1); padding: 10px; border-radius: 15px; margin-bottom: 15px;">
+                <div class="col-md-4 form-group mb-0"><label>💖 Love (%)</label><input type="number" id="addLove" placeholder="0-100" min="0" max="100" value="100"></div>
+                <div class="col-md-4 form-group mb-0"><label>🔗 Bond (%)</label><input type="number" id="addBond" placeholder="0-100" min="0" max="100" value="100"></div>
+                <div class="col-md-4 form-group mb-0"><label>💔 Hate (%)</label><input type="number" id="addHate" placeholder="0-100" min="0" max="100" value="0"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Short Story</label>
+                <textarea id="addStory" rows="2" placeholder="พิมพ์เนื้อเรื่องสั้นๆ ตรงนี้..."></textarea>
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 20px; align-items: center; margin-top: 10px; flex-wrap: wrap;">
+                <label style="margin: 0; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" id="addWhatIf" style="width: auto;"> What-If (AU)
+                </label>
+                <label style="margin: 0; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" id="addIs3P" style="width: auto;" onchange="toggle3P(this)"> Is 3P (3 คน)
+                </label>
+            </div>
+
+            <button class="btn-generate" onclick="generatePairCode()">Generate Code ✨</button>
+            <textarea id="resultCode" class="result-code" readonly placeholder="โค้ดที่สร้างเสร็จแล้วจะมาโผล่ตรงนี้..."></textarea>
+            <button class="btn-back-home" style="width: 100%; margin-top: 10px; text-align: center; border-radius: 12px; font-size: 0.9rem;" onclick="copyResultCode()">📋 Copy Code</button>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         STORY MODAL
+         ========================================== -->
+    <div class="admin-modal" id="storyModal">
+        <div class="admin-content" style="max-width: 550px; padding: 2.5rem;">
+            <i class="fas fa-times close-admin" onclick="closeStory()"></i>
+            <h2 class="story-title" id="storyTitle">OC x OC</h2>
+            
+            <div class="story-info-box">
+                <div class="story-heights" id="storyHeights"></div>
+                <div class="story-detail-rel" id="storyDetailRel"></div>
+            </div>
+
+            <div class="story-stats" id="storyStats">
+                <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart"></i> ระดับความรัก</span> <span id="valLove">0%</span></div><div class="stat-bar"><div class="stat-fill fill-love" id="barLove"></div></div></div>
+                <div class="stat-group"><div class="stat-label"><span><i class="fas fa-link"></i> ระดับความผูกพัน</span> <span id="valBond">0%</span></div><div class="stat-bar"><div class="stat-fill fill-bond" id="barBond"></div></div></div>
+                <div class="stat-group"><div class="stat-label"><span><i class="fas fa-heart-broken"></i> ระดับความเกลียดชัง</span> <span id="valHate">0%</span></div><div class="stat-bar"><div class="stat-fill fill-hate" id="barHate"></div></div></div>
+            </div>
+
+            <div class="story-text-container">
+                <div class="story-text" id="storyText">เนื้อเรื่อง...</div>
+                <div id="storyCredits"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 🌟 DATABASE
+        // ลบ myBelove ออกทั้งหมดเรียบร้อยแล้วค่ะ
+        // =========================================================================
+        const ocRelationships = [
+            {
+                oc1: "Nivelle", img1: "https://via.placeholder.com/300/e8eaf6/3f51b5?text=Nivelle", gen1: "M", pos1: "Top", link1: "https://toyhou.se", height1: "185 cm", credit1: "ArtistA", linkCredit1: "https://twitter.com/",
+                oc2: "Seralia", img2: "https://via.placeholder.com/300/fce4ec/d81b60?text=Seralia", gen2: "F", pos2: "Bottom", link2: "https://toyhou.se", height2: "160 cm", credit2: "ArtistB", linkCredit2: "https://twitter.com/",
+                oc3: "", img3: "", gen3: "", pos3: "", link3: "", height3: "", credit3: "", linkCredit3: "",
+                costory: "In-house", relation: "Romantic", hashtag: "#NiveSera",
+                themeSong: "Perfect - Ed Sheeran", songLink: "https://youtu.be/2Vv-BfVoq4g",
+                detailRel: "รักแรกพบและรักเดียวตลอดไป", loveLevel: 100, bondLevel: 90, hateLevel: 0, story: "เรื่องราวของเขาและเธอ...",
+                whatIf: false, is3P: false
+            },
+            {
+                oc1: "Lafilore", img1: "https://via.placeholder.com/300/e8eaf6/3f51b5?text=Lafilore", gen1: "M", pos1: "Switches", link1: "#", height1: "175 cm", credit1: "-", linkCredit1: "-",
+                oc2: "Arcanehl", img2: "https://via.placeholder.com/300/f3e5f5/8e24aa?text=Arcanehl", gen2: "M", pos2: "Switches", link2: "#", height2: "178 cm", credit2: "-", linkCredit2: "-",
+                oc3: "", img3: "", gen3: "", pos3: "", link3: "", height3: "", credit3: "", linkCredit3: "",
+                costory: "Out-house", relation: "Enemy", hashtag: "#LafiArc",
+                themeSong: "-", songLink: "-", detailRel: "ศัตรูคู่อาฆาตที่เจอหน้ากันต้องมีเรื่อง", loveLevel: 5, bondLevel: 40, hateLevel: 95, story: "",
+                whatIf: true, is3P: false
+            },
+            {
+                oc1: "Verdilys", img1: "https://via.placeholder.com/300/e8f5e9/2e7d32?text=Verdilys", gen1: "M", pos1: "Top", link1: "#", height1: "182 cm", credit1: "-", linkCredit1: "-",
+                oc2: "Psychelia", img2: "https://via.placeholder.com/300/fce4ec/d81b60?text=Psychelia", gen2: "F", pos2: "Switches", link2: "#", height2: "165 cm", credit2: "-", linkCredit2: "-",
+                oc3: "Papilysse", img3: "https://via.placeholder.com/300/fff3e0/e65100?text=Papilysse", gen3: "N", pos3: "Bottom", link3: "#", height3: "155 cm", credit3: "-", linkCredit3: "-",
+                costory: "In-house, Out-house", relation: "Platonic", hashtag: "#VerPsyPapi",
+                themeSong: "-", songLink: "-", detailRel: "กลุ่มเพื่อนสนิทที่ขาดใครไปไม่ได้", loveLevel: 80, bondLevel: 100, hateLevel: 0, story: "",
+                whatIf: false, is3P: true
+            }
+        ];
+
+        // =========================================================================
+        // สคริปต์สำหรับการแสดงผล
+        // =========================================================================
+        const cardContainer = document.getElementById('cardContainer');
+        const filterRelation = document.getElementById('filterRelation');
+        const filterCostory = document.getElementById('filterCostory');
+        const totalCount = document.getElementById('totalCount');
+        
+        let currentFilteredData = [];
+        let currentPlayingUrl = null;
+
+        function getGenderBadge(g) {
+            if(g === 'F') return `<span class="badge-gender bg-pink"><i class="fas fa-heart"></i></span>`;
+            if(g === 'M') return `<span class="badge-gender bg-blue"><i class="fas fa-heart"></i></span>`;
+            return `<span class="badge-gender bg-purple"><i class="fas fa-heart"></i></span>`; 
+        }
+
+        function getCostoryBadge(costoryStr) {
+            let badgeHtml = ''; let s = costoryStr.trim();
+            if(s.includes("In-house")) badgeHtml = `<span class="costory-in">🏡 In-house</span>`;
+            else if(s.includes("Out-house")) badgeHtml = `<span class="costory-out">🤝 Out-house</span>`;
+            else badgeHtml = `<span class="costory-none">${s}</span>`;
+            return badgeHtml;
+        }
+
+        function buildImgBox(imgUrl, ocName, gender, position, link) {
+            let linkAttr = (link && link !== "#" && link !== "") ? `href="${link}" target="_blank" title="ดูประวัติ ${ocName}"` : `href="#" title="ยังไม่มีประวัติ"`;
+            let displayImg = (imgUrl && imgUrl !== "-") ? imgUrl : `https://via.placeholder.com/300x300/e8eaf6/3f51b5?text=${ocName}`;
+            return `
+                <div class="img-box">
+                    <a ${linkAttr} class="img-link"><img src="${displayImg}" alt="${ocName}"></a>
+                    <div class="pos-group">${getGenderBadge(gender)}<span class="badge-position">${position}</span></div>
+                </div>
+            `;
+        }
+
+        function applyFilters() {
+            const selectedRelation = filterRelation.value;
+            const selectedCostory = filterCostory.value;
+
+            currentFilteredData = ocRelationships.filter(item => {
+                const matchRelation = (selectedRelation === 'All') || (item.relation === selectedRelation);
+                const matchCostory = (selectedCostory === 'All') || (item.costory.includes(selectedCostory));
+                return matchRelation && matchCostory;
+            });
+
+            totalCount.innerText = `Total: ${currentFilteredData.length} Pairs`;
+            cardContainer.innerHTML = '';
+            
+            currentFilteredData.forEach((item, index) => {
+                const whatIfBadge = item.whatIf ? `<span class="whatif-badge">What-If</span>` : '';
+                
+                let imgBoxHtml = '', heartHtml = '', titleHtml = '';
+                
+                if(item.is3P) {
+                    imgBoxHtml = buildImgBox(item.img1, item.oc1, item.gen1, item.pos1, item.link1) + 
+                                 buildImgBox(item.img2, item.oc2, item.gen2, item.pos2, item.link2) + 
+                                 buildImgBox(item.img3, item.oc3, item.gen3, item.pos3, item.link3);
+                    
+                    heartHtml = `<div class="heart-container"><div class="heart-icon heart-3p-left"><i class="fas fa-heart"></i></div><div class="heart-icon heart-3p-right"><i class="fas fa-heart"></i></div></div>`;
+                    titleHtml = `${item.oc1} x ${item.oc2} x ${item.oc3} ${whatIfBadge}`;
+                } else {
+                    imgBoxHtml = buildImgBox(item.img1, item.oc1, item.gen1, item.pos1, item.link1) + 
+                                 buildImgBox(item.img2, item.oc2, item.gen2, item.pos2, item.link2);
+                                 
+                    heartHtml = `<div class="heart-container"><div class="heart-icon heart-2p"><i class="fas fa-heart"></i></div></div>`;
+                    titleHtml = `${item.oc1} x ${item.oc2} ${whatIfBadge}`;
+                }
+
+                let costoryHtml = item.costory.includes(',') ? `<div class="badge-gap">` + item.costory.split(',').map(s => getCostoryBadge(s)).join('') + `</div>` : getCostoryBadge(item.costory);
+
+                let songHtml = '-';
+                if (item.themeSong && item.themeSong !== '-') {
+                    let playIconId = `play-btn-${index}`;
+                    let linkHtml = (item.songLink && item.songLink !== '#' && item.songLink !== '') ? `<a href="javascript:void(0)" onclick="toggleSong('${item.songLink}', '${playIconId}')" class="song-play-btn" title="เล่น/หยุดเพลง"><i id="${playIconId}" class="fas fa-play-circle play-icon"></i></a>` : '';
+                    songHtml = `<marquee scrollamount="3" behavior="scroll" onmouseover="this.stop();" onmouseout="this.start();" class="song-marquee">${item.themeSong}</marquee>${linkHtml}`;
+                }
+
+                const cardHtml = `
+                    <div class="couple-card ${item.is3P ? 'is-3p' : ''}">
+                        <div class="img-container">${imgBoxHtml}${heartHtml}</div>
+                        <div class="info-section">
+                            <div class="names mt-3">${titleHtml}</div>
+                            <div class="details-grid mt-3">
+                                <div class="d-row"><span class="d-label">Relationship</span><span class="d-value" style="color: #5c6bc0;">${item.relation}</span></div>
+                                <div class="d-row"><span class="d-label">Co-Story</span><span class="d-value">${costoryHtml}</span></div>
+                                <div class="d-row"><span class="d-label">Theme Song</span><span class="d-value" style="color: #3949ab;">${songHtml}</span></div>
+                                <div class="d-row"><span class="d-label">Hashtag</span><span class="d-value" style="color: #3f51b5;">${item.hashtag}</span></div>
+                            </div>
+                            <button class="btn-story" onclick="openStory(${index})"><i class="fas fa-book-open mr-1"></i> อ่านข้อมูลสั้นๆ</button>
+                        </div>
+                    </div>
+                `;
+                cardContainer.innerHTML += cardHtml;
+            });
+
+            if (currentFilteredData.length === 0) cardContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #3f51b5; padding: 2rem;">ไม่พบข้อมูลคู่ที่คุณค้นหาค่ะ 🥺</div>`;
+        }
+
+        function toggleSong(url, iconId) {
+            const player = document.getElementById('hiddenPlayer'); const iconElement = document.getElementById(iconId);
+            if (currentPlayingUrl === url) { player.innerHTML = ''; currentPlayingUrl = null; iconElement.className = 'fas fa-play-circle play-icon'; return; }
+            document.querySelectorAll('.play-icon').forEach(btn => btn.className = 'fas fa-play-circle play-icon');
+
+            let ytId = "";
+            if (url.includes("youtu.be/")) ytId = url.split("youtu.be/")[1].split("?")[0];
+            else if (url.includes("youtube.com/watch?v=")) ytId = url.split("v=")[1].split("&")[0];
+
+            if (ytId) {
+                player.innerHTML = `<iframe width="300" height="300" src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay" frameborder="0"></iframe>`;
+                currentPlayingUrl = url; iconElement.className = 'fas fa-stop-circle play-icon';
+            } else { window.open(url, '_blank'); }
+        }
+
+        // =========================================================================
+        // STORY MODAL SCRIPTS
+        // =========================================================================
+        function openStory(index) {
+            const item = currentFilteredData[index];
+            
+            let titleText = item.is3P ? `${item.oc1} x ${item.oc2} x ${item.oc3}` : `${item.oc1} x ${item.oc2}`;
+            document.getElementById('storyTitle').innerText = titleText;
+            
+            let heightsHtml = `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${item.oc1}: ${item.height1 || "N/A"}</span>`;
+            heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${item.oc2}: ${item.height2 || "N/A"}</span>`;
+            if(item.is3P) heightsHtml += `<span class="height-tag"><i class="fas fa-ruler-vertical"></i> ${item.oc3}: ${item.height3 || "N/A"}</span>`;
+            document.getElementById('storyHeights').innerHTML = heightsHtml;
+
+            document.getElementById('storyDetailRel').innerHTML = `<strong>Relationship:</strong> ${item.detailRel || "ยังไม่ได้ระบุความสัมพันธ์แบบละเอียดค่ะ 🥺"}`;
+
+            let love = item.loveLevel !== undefined ? item.loveLevel : 0; let bond = item.bondLevel !== undefined ? item.bondLevel : 0; let hate = item.hateLevel !== undefined ? item.hateLevel : 0;
+            document.getElementById('valLove').innerText = love + '%'; document.getElementById('valBond').innerText = bond + '%'; document.getElementById('valHate').innerText = hate + '%';
+            document.getElementById('barLove').style.width = '0%'; document.getElementById('barBond').style.width = '0%'; document.getElementById('barHate').style.width = '0%';
+
+            const textElement = document.getElementById('storyText');
+            if(item.story && item.story.trim() !== "") { textElement.innerHTML = item.story; textElement.style.textAlign = "left"; } 
+            else { textElement.innerHTML = `<div style="text-align:center; padding: 20px 0;"><i class="fas fa-pen-nib mb-3" style="font-size:2.5rem; color:#c5cae9;"></i><br>ยังไม่ได้เขียนสตอรี่ของคู่นี้ค่ะ 🥺</div>`; }
+            
+            // Art Credits
+            let creditHtml = '';
+            let hasC1 = item.credit1 && item.credit1 !== "-"; let hasC2 = item.credit2 && item.credit2 !== "-"; let hasC3 = item.is3P && item.credit3 && item.credit3 !== "-";
+            if (hasC1 || hasC2 || hasC3) {
+                creditHtml += `<div class="credit-box"><i class="fas fa-palette mr-1"></i> <strong>Art Credits:</strong><br>`;
+                if (hasC1) { let linkAttr = (item.linkCredit1 && item.linkCredit1 !== "-" && item.linkCredit1 !== "") ? `href="${item.linkCredit1}" target="_blank"` : `href="javascript:void(0)"`; creditHtml += `${item.oc1}: <a ${linkAttr} class="credit-link">${item.credit1}</a>`; }
+                if (hasC1 && (hasC2 || hasC3)) creditHtml += ` &nbsp;|&nbsp; `;
+                if (hasC2) { let linkAttr2 = (item.linkCredit2 && item.linkCredit2 !== "-" && item.linkCredit2 !== "") ? `href="${item.linkCredit2}" target="_blank"` : `href="javascript:void(0)"`; creditHtml += `${item.oc2}: <a ${linkAttr2} class="credit-link">${item.credit2}</a>`; }
+                if (hasC2 && hasC3) creditHtml += ` &nbsp;|&nbsp; `;
+                if (hasC3) { let linkAttr3 = (item.linkCredit3 && item.linkCredit3 !== "-" && item.linkCredit3 !== "") ? `href="${item.linkCredit3}" target="_blank"` : `href="javascript:void(0)"`; creditHtml += `${item.oc3}: <a ${linkAttr3} class="credit-link">${item.credit3}</a>`; }
+                creditHtml += `</div>`;
+            }
+            document.getElementById('storyCredits').innerHTML = creditHtml;
+
+            document.getElementById('storyModal').style.display = 'block';
+            setTimeout(() => { document.getElementById('barLove').style.width = love + '%'; document.getElementById('barBond').style.width = bond + '%'; document.getElementById('barHate').style.width = hate + '%'; }, 100);
+        }
+
+        function closeStory() { document.getElementById('storyModal').style.display = 'none'; }
+
+        // =========================================================================
+        // ADMIN PANEL SCRIPTS
+        // =========================================================================
+        const adminPassword = "primax"; 
+        function openAdminPrompt() { let pwd = prompt("🔐 กรุณาใส่รหัสผ่านเพื่อเข้าสู่ Admin Panel (OCxOC):"); if (pwd === adminPassword) document.getElementById('adminModal').style.display = 'block'; else if (pwd !== null) alert("รหัสผ่านไม่ถูกต้องค่ะ 🥺"); }
+        function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+        function toggle3P(checkbox) { document.getElementById('box3P').style.display = checkbox.checked ? 'block' : 'none'; }
+
+        function generatePairCode() {
+            let oc1 = document.getElementById('addOc1').value || "OC1"; let img1 = document.getElementById('addImg1').value || "-"; let gen1 = document.getElementById('addGen1').value; let pos1 = document.getElementById('addPos1').value || "-"; let link1 = document.getElementById('addLink1').value || "#"; let height1 = document.getElementById('addHeight1').value || "-"; let credit1 = document.getElementById('addCredit1').value || "-"; let linkCredit1 = document.getElementById('addLinkCredit1').value || "-";
+            let oc2 = document.getElementById('addOc2').value || "OC2"; let img2 = document.getElementById('addImg2').value || "-"; let gen2 = document.getElementById('addGen2').value; let pos2 = document.getElementById('addPos2').value || "-"; let link2 = document.getElementById('addLink2').value || "#"; let height2 = document.getElementById('addHeight2').value || "-"; let credit2 = document.getElementById('addCredit2').value || "-"; let linkCredit2 = document.getElementById('addLinkCredit2').value || "-";
+            let is3P = document.getElementById('addIs3P').checked;
+            
+            let oc3 = "", img3 = "", gen3 = "", pos3 = "", link3 = "", height3 = "", credit3 = "", linkCredit3 = "";
+            if(is3P) {
+                oc3 = document.getElementById('addOc3').value || "OC3"; img3 = document.getElementById('addImg3').value || "-"; gen3 = document.getElementById('addGen3').value; pos3 = document.getElementById('addPos3').value || "-"; link3 = document.getElementById('addLink3').value || "#"; height3 = document.getElementById('addHeight3').value || "-"; credit3 = document.getElementById('addCredit3').value || "-"; linkCredit3 = document.getElementById('addLinkCredit3').value || "-";
+            }
+
+            let relation = document.getElementById('addRelation').value; let costory = document.getElementById('addCostory').value || "In-house"; let hashtag = document.getElementById('addHashtag').value || "-";
+            let themeSong = document.getElementById('addThemeSong').value || "-"; let songLink = document.getElementById('addSongLink').value || "-";
+            let detailRel = document.getElementById('addDetailRel').value || "-";
+            let loveLvl = document.getElementById('addLove').value || 0; let bondLvl = document.getElementById('addBond').value || 0; let hateLvl = document.getElementById('addHate').value || 0;
+
+            let whatIf = document.getElementById('addWhatIf').checked;
+            let story = document.getElementById('addStory').value; let formattedStory = story.replace(/\n/g, "<br>");
+
+            let codeStr = `{
+                oc1: "${oc1}", img1: "${img1}", gen1: "${gen1}", pos1: "${pos1}", link1: "${link1}", height1: "${height1}", credit1: "${credit1}", linkCredit1: "${linkCredit1}",
+                oc2: "${oc2}", img2: "${img2}", gen2: "${gen2}", pos2: "${pos2}", link2: "${link2}", height2: "${height2}", credit2: "${credit2}", linkCredit2: "${linkCredit2}",
+                oc3: "${oc3}", img3: "${img3}", gen3: "${gen3}", pos3: "${pos3}", link3: "${link3}", height3: "${height3}", credit3: "${credit3}", linkCredit3: "${linkCredit3}",
+                costory: "${costory}", relation: "${relation}", hashtag: "${hashtag}", themeSong: "${themeSong}", songLink: "${songLink}",
+                detailRel: "${detailRel}", loveLevel: ${loveLvl}, bondLevel: ${bondLvl}, hateLevel: ${hateLvl},
+                whatIf: ${whatIf}, is3P: ${is3P}, story: "${formattedStory}"
+            },`;
+
+            document.getElementById('resultCode').value = codeStr;
+        }
+
+        function copyResultCode() {
+            let codeBox = document.getElementById('resultCode'); if(codeBox.value === "") return;
+            codeBox.select(); navigator.clipboard.writeText(codeBox.value); alert("✅ ก๊อปปี้โค้ดเรียบร้อยแล้ว!");
+        }
+
+        function createParticles() {
+            const container = document.getElementById('snow-container'); const symbols = ['☁️', '✨', '💙', '🤍', '🌠', '🔮']; 
+            for (let i = 0; i < 25; i++) { 
+                let flake = document.createElement('div'); flake.className = 'snowflake'; flake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)]; 
+                flake.style.left = Math.random() * 100 + 'vw'; let size = Math.random() * 1.5 + 0.8; flake.style.fontSize = size + 'rem'; 
+                flake.style.animationDuration = ((Math.random() * 5 + 8) / (size * 0.8)) + 's, ' + (((Math.random() * 5 + 8) / (size * 0.8))/1.5) + 's'; 
+                flake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 5 + 's'; flake.style.opacity = Math.random() * 0.4 + 0.3; 
+                flake.style.color = ['rgba(159, 168, 218, 0.8)', 'rgba(121, 134, 203, 0.8)', 'rgba(255, 255, 255, 0.9)'][Math.floor(Math.random() * 3)]; 
+                container.appendChild(flake); 
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            createParticles(); applyFilters();
+            const blobs = document.querySelectorAll('.liquid-blob');
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth, y = e.clientY / window.innerHeight;
+                blobs.forEach((blob, index) => { const speed = (index + 1) * 12; blob.style.transform = `translate(${(0.5 - x) * speed}px, ${(0.5 - y) * speed}px)`; });
+            });
+        });
+    </script>
+</body>
+</html>
